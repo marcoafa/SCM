@@ -1,109 +1,105 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SCM</title>
-
+    <link href="~/css/Menu.css" rel="stylesheet" />
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+
+  
+        <link href="~/bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet" />
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link href="~/bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet" />
     </environment>
+    <script src="https://kit.fontawesome.com/5e83a4e86e.js"></script>
+
 </head>
 <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">
-                    <img class="Logo d-inline-block align-top" src="~/images/logo.png" alt="">
-                </a>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SCM</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="nav-item active">
 
-                        <a class="nav-link" asp-action="Index" asp-controller="Home">Inicio<span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="Sales" asp-controller="Status">Status</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="Sales" asp-controller="Records">Historial</a>
-                    </li>
 
-                
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        @*<a class="navbar-brand" href="#">
+            <img class="Logo d-inline-block align-top" src="~/images/logo.png" alt="">
+        </a>*@
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Configuraciones
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                    <a class="nav-link" asp-action="Home" asp-controller="Home">Inicio<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Status" asp-controller="Home">Status</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="History" asp-controller="Home">Historial</a>
+                </li>
 
-                            <a class="dropdown-item" asp-action="Customer" asp-controller="Customer">Agregar Usuario</a>
-                            <a class="dropdown-item" asp-action="Product" asp-controller="Configuration">Agregar Producto</a>
-                        
-                         
 
-                        </div>
-                    </li>
 
-                </ul>
-                @*@{if (@Context.Session.GetString("UserS") == "User")
-                        {
-                            <span class="navbar-text username">
-                                Ningun Usuario en linea
-                            </span>
-                        }
-                        else
-                        {
-                            <span class="navbar-text username" style="margin-right:20px; color:white; font-weight:bold;">
-                                @Context.Session.GetString("UserS")
-                            </span>
-                            <button id="BtnLogout" class="btn btn-primary">Salir</button>
-                        }
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Configuraciones
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
 
-                    }*@
-            </div>
+                        <a class="dropdown-item" asp-action="Customer" asp-controller="Customer">Agregar Usuario</a>
+                        <a class="dropdown-item" asp-action="Product" asp-controller="Configuration">Agregar Producto</a>
+
+
+
+                    </div>
+                </li>
+
+            </ul>
+            @{if (@Context.Session.GetString("UserS") == "User")
+                {
+
+                    <form class="form-inline" asp-controller="Home" asp-action="Login" method="post">
+                        <button class="btn btn-outline-primary" type="submit">Iniciar Session</button>
+                    </form>
+
+
+                }
+                else
+                {
+                    <span class="navbar-text username" style="margin-right:20px; font-weight:bold;">
+                        @Context.Session.GetString("UserS")
+                    </span>
+                    <form class="form-inline" asp-controller="Home" asp-action="Index" method="post">
+                        <button class="btn btn-outline-primary">Salir</button>
+                    </form>
+                 
+                }
+
+            }
         </div>
     </nav>
-
-   
-
-    <div class="container body-content">
+    <main class="body-content main_content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2019 - SCM</p>
-        </footer>
-    </div>
+
+
+
+    </main>
+    <nav class="navbar fixed-bottom navbar-light bg-light">
+       
+        <p style="text-align:center;">&copy; 2019 - Sistema de Gestion de Manifiestos</p>
+    </nav>
 
     <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.js"></script>
+        <script src="~/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+
+
     </environment>
     <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.js"></script>
+        <script src="~/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+
     </environment>
 
     @RenderSection("Scripts", required: false)

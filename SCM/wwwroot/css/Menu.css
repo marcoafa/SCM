@@ -1,0 +1,167 @@
+﻿@import url(https://fonts.googleapis.com/css?family=Open+Sans);btn-menu
+@import url(https://fonts.googleapis.com/css?family=Oswald);
+
+/* Variables + Mixins */
+
+
+html {
+    padding: 3em;
+    background: #f1f1f1;
+}
+
+#btns * {
+    transition: all .3s ease-in-out;
+}
+
+#btns {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+    flex-flow: row wrap;
+}
+
+.btn-menu {
+    padding: 10px 0;
+    width: 24%;
+    font-size: 1em;
+    font-family: open sans;
+   
+    text-align: center;
+}
+
+    .btn-menu .btn-menu-top h4:before,
+    .btn-inner,
+    .btn-inner:hover .btn-bottom {
+        background-color: #B0D235;
+    }
+
+    .btn-menu .btn-inner {
+        position: relative;
+        min-height: 280px;
+        border: 1px solid #ddd;
+        overflow: hidden;
+    }
+
+    .btn-menu .btn-menu-top {
+        width: 100%;
+        padding: 55px 0;
+        position: absolute;
+        top: 0px;
+        background-color: #fff;
+        transition: all .3s ease-in-out;
+    }
+
+    .btn-menu  .btn-bottom {
+        width: 100%;
+        position: absolute;
+        bottom: -310px;
+        height: 100%;
+        padding: 20px 15px 20px 15px;
+        transition: all .3s ease-in-out;
+        box-sizing: border-box;
+    }
+
+    .btn-menu .btn-menu-top h4 {
+        margin-top: 25px;
+        position: relative;
+        font-size: 1.3em;
+        font-family: oswald;
+        font-weight: 500;
+        color: #333y;
+    }
+
+    .btn-menu .btn-bottom h4 {
+        font-family: oswald;
+        font-weight: 400;
+        color: #fff;
+    }
+
+    .btn-menu .btn-menu-top h4:before {
+        content: "";
+        margin: -2px auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -18px;
+        display: block;
+        height: 2px;
+        width: 40px;
+        background-color: #333y;
+    }
+
+    .btn-menu a {
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 1em;
+    }
+
+    /* FA Icon */
+
+    .btn-menu .fas {
+        font-size: 3.5em;
+        line-height: 1.3em;
+        color: #333y;
+    }
+
+    .btn-menu .fab {
+        font-size: 3.5em;
+        line-height: 1.3em;
+        color: #333y;
+    }
+    .btn-menu .btn-bottom .fas {
+        font-size: 38px;
+        line-height: 50px;
+    }
+    .btn-menu .btn-bottom .fab {
+        font-size: 38px;
+        line-height: 50px;
+    }
+
+    .btn-menu .btn-bottom h4 {
+        margin: 15px 0px 17px;
+        color: #fff;
+    }
+
+    .btn-menu .btn-bottom p {
+        padding: 0px 5px;
+        font-size: 14px;
+        line-height: 1.5em;
+        color: #fff;
+    }
+
+    /* Hover Styles */
+
+    .btn-menu .btn-inner:hover .btn-bottom {
+        bottom: 0;
+        transition: all .3s ease-in-out;
+    }
+
+    .btn-menu .btn-inner:hover .btn-menu-top {
+        top: -200px;
+        transition: all .3s ease-in-out;
+    }
+
+/* Media Queries */
+
+@media all and (max-width: 951px) and (min-width: 701px) {
+    .btn-menu {
+        width: 48%;
+    }
+
+        .btn-menu:nth-child(-n+2) {
+            margin-bottom: 10px;
+        }
+}
+
+@media all and (max-width: 700px) and (min-width: 0px) {
+    .btn-menu {
+        width: 100%;
+    }
+
+        .btn-menu:nth-child(-n+3) {
+            margin-bottom: 10px;
+        }
+}

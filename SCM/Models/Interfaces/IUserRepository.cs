@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace SCM.Models.Interfaces
 {
-    public interface IUsers: IRepository<User>
+    public interface IUserRepository: IRepository<User>
     {
+
+        string GetUserType(string Username);
     }
 }

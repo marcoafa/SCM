@@ -4,5 +4,114 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Home</h2>
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 style="text-align:center;">Seleccione la opcion que necesita</h2>
+
+
+<section class="Home_Menu">
+    <!-- Button Container -->
+    <div id="btns">
+        <!-- Start Button 1 -->
+        <div class="btn-menu">
+            <div class="btn-inner">
+                <div class="btn-menu-top">
+                    <!-- Icon -->
+                    <i class="fas fa-file"></i>
+                    <!-- Title -->
+                    <h4>Nuevo Manifiesto</h4>
+                </div>
+                <!-- End ButtonTop -->
+                <div class="btn-bottom">
+                    <!-- Icon -->
+                    <i class="fas fa-file"></i>
+                    <!-- Title -->
+                    <h4>Nuevo Manifiesto</h4>
+                    <!-- Text -->
+                    <p>Esta seccion es para asignar o crear un manifiesto nuevo en el sistema.</p>
+                    <a asp-action="Document" asp-controller="Home">Click Aqui para continuar</a>
+                    <!-- End Button Bottom -->
+                </div>
+                <!-- End Button Inner -->
+            </div>
+            <!-- End Button 1 -->
+        </div>
+        <!-- Start Button 2 -->
+        <div class="btn-menu">
+            <div class="btn-inner">
+                <div class="btn-menu-top">
+                    <!-- Icon -->
+                    <i class="fas fa-tasks"></i>
+                    <!-- Title -->
+                    <h4>Gestion de Manifiesto</h4>
+                </div>
+                <!-- End ButtonTop -->
+                <div class="btn-bottom">
+                    <!-- Icon -->
+                    <i class="fas fa-tasks"></i>
+                    <!-- Title -->
+                    <h4>Gestion de Manifiesto</h4>
+                    <!-- Text -->
+                    <p>Esta seccion es para modificar,eliminar y ver los manifiestos.</p>
+                    <a asp-action="Status" asp-controller="Home">Click Aqui para continuar</a>
+                    <!-- End Button Bottom -->
+                </div>
+                <!-- End Button Inner -->
+            </div>
+            <!-- End Button 2 -->
+        </div>
+        <!-- Start Button 3 -->
+        <div class="btn-menu">
+            <div class="btn-inner">
+                <div class="btn-menu-top">
+                    <!-- Icon -->
+                    <i class="fas fa-history"></i>
+                    <!-- Title -->
+                    <h4>Busqueda e Historial de los manifiestos</h4>
+                </div>
+                <!-- End ButtonTop -->
+                <div class="btn-bottom">
+                    <!-- Icon -->
+                    <i class="fas fa-history"></i>
+                    <!-- Title -->
+                    <h4>Busqueda e Historial de los manifiestos</h4>
+                    <!-- Text -->
+                    <p>Esta seccion es para buscar por diferentes filtros todos los manifiestos que se han creado en el sistema.</p>
+                    <a asp-action="History" asp-controller="Home">Click Aqui para continuar</a>
+                    <!-- End Button Bottom -->
+                </div>
+                <!-- End Button Inner -->
+            </div>
+            <!-- End Button 3 -->
+        </div>
+        <!-- Start Button 4 -->
+        <div class="btn-menu">
+            <div class="btn-inner">
+                <div class="btn-menu-top">
+                    <!-- Icon -->
+                    <i class="fab fa-whmcs"></i>
+                    <!-- Title -->
+                    <h4>Configuraciones</h4>
+                </div>
+                <!-- End ButtonTop -->
+                <div class="btn-bottom">
+                    <!-- Icon -->
+                    <i class="fab fa-whmcs"></i>
+                    <!-- Title -->
+                    <h4>Configuraciones</h4>
+                    <!-- Text -->
+                    <p>Esta seccion es para manipular todas las configuraciones del sistema: Agregar Usuarios, Agregar Catalogos, etc.</p>
+                    <a asp-action="Configurations" asp-controller="Home">Click Aqui para continuar</a>
+                    <!-- End Button Bottom -->
+                </div>
+                <!-- End Button Inner -->
+            </div>
+            <!-- End Button 4 -->
+        </div>
+        <!-- End Button Container -->
+    </div>
+
+</section>
 

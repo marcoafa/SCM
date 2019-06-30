@@ -8,32 +8,83 @@
 
 <section class="Login">
     <div class="row">
-        <div class="col-md-5 col-md-offset-3">
+        <div class="col-md-5 offset-md-3">
             <h2 class="text-center">Login</h2>
         </div>
 
     </div>
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-8 offset-md-2">
             <div class="form-group">
                 <label for="UserInput">Usuario</label>
-                <input id="UserInput" type="text" class="form-control" placeholder="Introdusca su usuario">
+                <input id="UserInput" type="text" class="form-control" placeholder="Introduzca su usuario">
                 <small id="UserHelp" class="form-text text-muted">Introduzca el usuario correcto para ingresar al sistema</small>
             </div>
         </div>
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-8 offset-md-2">
             <div class="form-group">
                 <label for="PasswordInput">Contraseña</label>
-                <input id="PasswordInput" type="text" class="form-control" placeholder="Introduzca su contraseña">
+                <input id="PasswordInput" type="password" class="form-control" placeholder="Introduzca su contraseña">
                 <small id="PasswordHelp" class="form-text text-muted">Introduzca el usuario correcto para ingresar al sistema</small>
             </div>
         </div>
-        <div class="col-md-8 col-md-offset-2">
-            <button style="width:100%;" class="btn btn-primary btn_big BtnLogin">Ingresar</button>
+        <div class="col-md-8 offset-md-2">
+            <button id="BtnLogin" style="width:100%;" class="btn btn-primary btn_big">Ingresar</button>
         </div>
-        <div style="margin-top:40px;" class="col-md-8 col-md-offset-2">
-            <p class="text-center">Sistema de Gestion de Manifiestos</p>
-        </div>
+        
     </div>
 </section>
 
+@section Scripts
+    {
+    <script>
+            $("#BtnLogin").on("click", function (e) {
+               // e.preventDefault();
+                // e.stopPropagation();
+                debugger;
+                var UsertInput = $("#UserInput").val();
+                var PasswordInput = $("#PasswordInput").val();
+
+                var data = new FormData();
+                data.append("UserInput", UsertInput);
+                data.append("PasswordInput", PasswordInput);
+                debugger;
+                var url = '@Url.Action("ValidateUser", "Home")';
+                var urlR = '@Url.Action("Home", "Home")';
+                $.ajax({
+                    url: url,
+                    data: data,
+
+                    //dataType: "JSON",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    assign: false,
+                    method: "post",
+                    success: function (r) {
+                        debugger;
+                        if (r == 'false') {
+                            alert('El usuario o password no coinciden con ningun registro en la base de datos');
+                        }
+                        else {
+                            if (r == 'NoUser') {
+                                alert('El usuario o password no coinciden con ningun registro en la base de datos, Verificar si existe en la base de datos');
+                            }
+                            else {
+
+                                window.location.href = urlR;
+
+                            }
+
+                        }
+
+                    },
+                    error: function () {
+
+                        alert("Error intentalo mas tarde");
+                    }
+                });
+            });
+    </script>
+
+}

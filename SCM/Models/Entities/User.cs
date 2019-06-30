@@ -14,6 +14,7 @@ namespace SCM.Models.Entities
         public string UserName { get; set; }
         public string Name { get; set; }
         public byte? UserTypeId { get; set; }
+        public string Password { get; set; }
 
         public UserType UserType { get; set; }
         public ICollection<Document> Document { get; set; }
