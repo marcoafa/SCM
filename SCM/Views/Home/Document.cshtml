@@ -7,166 +7,166 @@
 
 <section class="Document">
 
-        <div class="row">
-            <div class="col-md-5 offset-md-3">
-                <h2 class="text-center">Alta de Manifiesto</h2>
-            </div>
-
+    <div class="row">
+        <div class="col-md-5 offset-md-3">
+            <h2 class="text-center">Alta de Manifiesto</h2>
         </div>
 
-        <!--NUMBER OF THE DOCUMENT-->
+    </div>
+
+    <!--NUMBER OF THE DOCUMENT-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="CustomerVal">No. Manifiesto:</label>
+        <div class="col-sm-6 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+            </div>
+            <input type="text" class="form-control" id="ManifiestoVal" placeholder="Agregar el numero del Manifiesto">
+        </div>
+    </div>
+    <!--CUSTOMER-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="CustomerVal">Cliente:</label>
+        <div class="col-sm-6 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+            </div>
+
+            <select class="form-control" id="CustomerVal">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+    </div>
+
+    <!--EMPLOYEE-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="CustomerVal">Empleado:</label>
+        <div class="col-sm-6 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+            </div>
+
+            <select class="form-control" id="EmployeeVal">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+    </div>
+
+
+
+    <!--OPTION TO GET FULL INFORMATION FOR THE DOCUMENT-->
+    <div class="form-group row">
+        <div class="col-md-6 offset-md-4">
+            <div class="form-check" style="padding:0;">
+
+                <label style="margin-top:7px; margin-right: 25px;" class="form-check-label" for="OpfullDocument">
+                    Selecciona el cuadro si requieres guardaer todo el manifiesto
+                </label>
+                <input style="width:2rem; height:2rem;" class="form-check-input" type="checkbox" id="OpfullDocument">
+            </div>
+        </div>
+    </div>
+
+
+    <section class="DocumentFormOptional" style="display:none; margin-top:10px;">
+
+        <!--ADD PRODUCTS-->
         <div class="form-group row">
-            <label class="control-label col-sm-2 offset-md-2" for="CustomerVal">No. Manifiesto:</label>
-            <div class="col-sm-6 input-group">
+            <label for="EmployeeVal" class="col-sm-2 offset-md-2 col-form-label">Agregar Productos</label>
 
-                <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                </div>
-                <input type="number" class="form-control" id="ManifiestoVal" placeholder="Agregar el numero del Manifiesto">
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary btn_big AddProduct">Agregar</button>
+
             </div>
         </div>
-        <!--CUSTOMER-->
+
+
+
+        <!--PRODUCTS WITH THEIR ATRIBUTES-->
         <div class="form-group row">
-            <label class="control-label col-sm-2 offset-md-2" for="CustomerVal">Cliente:</label>
-            <div class="col-sm-6 input-group">
+            <table class="table table-striped table-dark col-md-8 offset-md-2" id="Producttable">
+                <thead>
+                    <tr>
+                        <th scope="col">Descripcion del Producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Capacidad</th>
+                        <th scope="col">Tipo de Contenedor</th>
 
-                <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                </div>
-
-                <select class="form-control" id="CustomerVal">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </div>
-        </div>
-
-        <!--EMPLOYEE-->
-        <div class="form-group row">
-            <label class="control-label col-sm-2 offset-md-2" for="CustomerVal">Empleado:</label>
-            <div class="col-sm-6 input-group">
-
-                <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                </div>
-
-                <select class="form-control" id="EmployeeVal">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </div>
-        </div>
-
-
-
-        <!--OPTION TO GET FULL INFORMATION FOR THE DOCUMENT-->
-        <div class="form-group row">
-            <div class="col-md-6 offset-md-4">
-                <div class="form-check" style="padding:0;">
-
-                    <label style="margin-top:7px; margin-right: 25px;" class="form-check-label" for="OpfullDocument">
-                        Selecciona el cuadro si requieres guardaer todo el manifiesto
-                    </label>
-                    <input style="width:2rem; height:2rem;" class="form-check-input" type="checkbox" id="OpfullDocument">
-                </div>
-            </div>
-        </div>
-
-
-        <section class="DocumentFormOptional" style="display:none; margin-top:10px;">
-
-            <!--ADD PRODUCTS-->
-            <div class="form-group row">
-                <label for="EmployeeVal" class="col-sm-2 offset-md-2 col-form-label">Agregar Productos</label>
-
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-primary btn_big AddProduct">Agregar</button>
-
-                </div>
-            </div>
-
-
-
-            <!--PRODUCTS WITH THEIR ATRIBUTES-->
-            <div class="form-group row">
-                <table class="table table-striped table-dark col-md-8 offset-md-2" id="Producttable">
-                    <thead>
-                        <tr>
-                            <th scope="col">Descripcion del Producto</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Capacidad</th>
-                            <th scope="col">Tipo de Contenedor</th>
-
-                            <th scope="col">Manejo del Producto</th>
-                        </tr>
-                    </thead>
-                    <tr class="participantRow">
-
-                        <td>
-                            <select class="form-control" id="ProductVal">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="number" class="form-control" id="ProductQuantityVal" placeholder="Agregar la cantidad del Producto">
-                        </td>
-
-                        <td>
-                            <input type="text" class="form-control" id="UnitVal" placeholder="Agregar la capacidad para el Contenedor">
-                        </td>
-                        <td>
-                            <select class="form-control" id="ContainerVal">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select class="form-control" id="ManagementVal">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                        </td>
-                        
-
-                        <td>
-                            <button class="btn btn-danger remove" type="button">Remove</button>
-                        </td>
+                        <th scope="col">Manejo del Producto</th>
                     </tr>
-                </table>
-            </div>
+                </thead>
+                <tr class="participantRow">
 
-            <!--BUTTON TO SAVE THE DOCUMENT-->
-            <div class="row">
-                <div class="col-md-2 offset-md-2">
-                    <button  class="btn btn-danger DeleteProductsT">Eliminar Productos</button>
-                </div>
-            </div>
+                    <td>
+                        <select class="form-control" id="ProductVal">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" id="ProductQuantityVal" placeholder="Agregar la cantidad del Producto">
+                    </td>
 
-        </section>
+                    <td>
+                        <input type="text" class="form-control" id="UnitVal" placeholder="Agregar la capacidad para el Contenedor">
+                    </td>
+                    <td>
+                        <select class="form-control" id="ContainerVal">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control" id="ManagementVal">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </td>
 
+
+                    <td>
+                        <button class="btn btn-danger remove" type="button">Remove</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
         <!--BUTTON TO SAVE THE DOCUMENT-->
-        <div class="form-group row">
-            <div class="col-md-2 offset-md-8">
-                <button style="text-align:right" class="btn btn-primary SaveDocument">Guardar Manifiesto</button>
+        <div class="row">
+            <div class="col-md-2 offset-md-2">
+                <button class="btn btn-danger DeleteProductsT">Eliminar Productos</button>
             </div>
         </div>
+
+    </section>
+
+
+    <!--BUTTON TO SAVE THE DOCUMENT-->
+    <div class="form-group row">
+        <div class="col-md-2 offset-md-8">
+            <button style="text-align:right" class="btn btn-primary SaveDocument">Guardar Manifiesto</button>
+        </div>
+    </div>
 </section>
 
 
@@ -175,6 +175,7 @@
 @section Scripts
     {
     <script>
+
         class ProductRow {
             constructor(ProductID, ContainerID, ManagementID, Quantity, Unit) {
                 this.ProductID = ProductID;
@@ -196,16 +197,16 @@
         }
 
         $('.AddProduct').on("click", function () {
-          
-           
+
+
 
             if ($("#Producttable tr").length < 17) {
                 addRow();
-                var i = Number(p) + 1;
+
             }
             $(this).closest("tr").appendTo("#Producttable");
 
-        
+
 
         });
         $("#Producttable").on('click', '.remove', function () {
@@ -227,50 +228,102 @@
         }
         $('.SaveDocument').on("click", function () {
 
-           
-            var obj = $('.ProductRows').find("tr");
-            var list = [];
-            $(".ProductRows tbody tr").each(function (index) {
-                var campo1, campo2;
-                debugger;
-                $(this).children("td").each(function (index2) {
+            var DocumentOption = $('#OpfullDocument').prop('checked');
+
+            var DocumentID = $('#ManifiestoVal').val();
+            var DocumentCustomerID = $('#CustomerVal').val();
+            var DocumentEmployeeID = $('#EmployeeVal').val();
+
+            var ListProducts = [];
+
+            var data = new FormData();
+            data.append("DocumentID", DocumentID);
+            data.append("DocumentCustomerID", DocumentCustomerID);
+            data.append("DocumentEmployeeID", DocumentEmployeeID);
+
+
+            if (DocumentOption == true) {
+                $("#Producttable tbody tr").each(function (index) {
+
+
+                    var product = $($(this).children("td")[0]).children().val();
+                    var quantityProduct = $($(this).children("td")[1]).children().val();
+                    var capacity = $($(this).children("td")[2]).children().val();
+                    var typecontainer = $($(this).children("td")[3]).children().val();
+                    var productmag = $($(this).children("td")[4]).children().val();
+
+                    var Prod = new ProductRow(product, typecontainer, productmag, quantityProduct, capacity);
+                    ListProducts.push(Prod);
+
+
+                });
+            }
+            var index = 0;
+            for (var product of ListProducts) {
+
+                data.append("ListProducts[" + index + "].ProductID", product.ProductID);
+                data.append("ListProducts[" + index + "].ContainerID", product.ContainerID);
+                data.append("ListProducts[" + index + "].ManagementID", product.ManagementID);
+                data.append("ListProducts[" + index + "].Quantity", product.Quantity);
+                data.append("ListProducts[" + index + "].Unit", product.Unit);
+                index++;
+            }
+
+            //data.append("ListProducts", ListProducts);
+            debugger;
+            var url = '@Url.Action("AddDocument", "Document")';
+
+            $.ajax({
+                url: url,
+                data: data,
+                //dataType: "JSON",
+                cache: false,
+                contentType: false,
+                processData: false,
+                assign: false,
+                method: "post",
+                success: function (r) {
                     debugger;
-                    alert(index2)
-                  
-                        
-                    campo2 = $(this).children(index2).val();
-                       
-                      
-                    
-                    alert('Campo:' + campo2 /*+ ' - ' + campo3*/);
-                })
-               
+                    if (r == "true") {
+                        var urlR = '@Url.Action("Warehouse", "Warehouse")';
+                        alert("Se agrego el producto al inventario");
+                        window.location.href = urlR;
+                    }
+                    else {
+                        if (r == "NoProduct") {
+                            alert("El producto no existe favor de verificarlo");
+                        }
+                    }
+
+
+                },
+                error: function () {
+
+                    alert("Error intente mas tarde");
+                }
             });
-            
-            
-            var Product = $('#ProductVal').val();
-            var ProductQuantity = $('#ProductQuantityVal').val();
-            var Unit = $('#UnitVal').val();
-            var Container = $('#ContainerVal').val();
-            var Management = $('#ManagementVal').val();
+
+            debugger;
+
+
 
 
         });
-        
+
         $('.DeleteProductsT').on("click", function () {
 
             $('.ProductRows').empty();
-            
+
 
 
         });
 
 
 
-        
+
 
         $('#OpfullDocument').on('click', function () {
-            debugger;
+
 
 
             if ($(this).prop('checked') == true) {
@@ -293,9 +346,9 @@
                             "<td>" + Container + "</td>" +
                             "<td>" + Management + "</td>" +
                         "<tr>";
-                
-            
-                
+
+
+
             debugger;
             $(".ProductRows").append(table);
 

@@ -24,7 +24,7 @@ namespace SCM.Controllers
         public IActionResult Home()
         {
             var sessionU = HttpContext.Session.GetString("UserS");
-            
+
             //GET THE TYPE OF USER
             if (sessionU == "User")
             {
@@ -37,7 +37,7 @@ namespace SCM.Controllers
         }
         public IActionResult Login()
         {
-           
+
             return View();
 
 
@@ -71,7 +71,7 @@ namespace SCM.Controllers
             else
             {
                 return RedirectToAction("Index", "Home");
-            } 
+            }
 
         }
         public IActionResult Status()
@@ -86,7 +86,7 @@ namespace SCM.Controllers
             else
             {
                 return RedirectToAction("Index", "Home");
-               
+
             }
 
         }
@@ -130,7 +130,7 @@ namespace SCM.Controllers
                 {
                     return Json("NoUser");
                 }
-                
+
             }
             else
             {
