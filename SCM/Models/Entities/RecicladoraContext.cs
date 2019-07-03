@@ -113,12 +113,6 @@ namespace SCM.Models.Entities
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Document_User");
-
-                entity.HasOne(d => d.Waste)
-                    .WithMany(p => p.Document)
-                    .HasForeignKey(d => d.WasteId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK_Document_Waste");
             });
 
             modelBuilder.Entity<DocumentStatus>(entity =>
@@ -183,6 +177,8 @@ namespace SCM.Models.Entities
 
                 entity.Property(e => e.Name).HasMaxLength(300);
 
+                entity.Property(e => e.Password).HasMaxLength(50);
+
                 entity.Property(e => e.UserName).HasMaxLength(50);
 
                 entity.Property(e => e.UserTypeId).HasColumnName("UserTypeID");
@@ -211,6 +207,8 @@ namespace SCM.Models.Entities
 
                 entity.Property(e => e.ContainerId).HasColumnName("ContainerID");
 
+                entity.Property(e => e.DocumentId).HasColumnName("DocumentID");
+
                 entity.Property(e => e.ManagementId).HasColumnName("ManagementID");
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
@@ -222,6 +220,12 @@ namespace SCM.Models.Entities
                     .HasForeignKey(d => d.ContainerId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Waste_Container");
+
+                entity.HasOne(d => d.Document)
+                    .WithMany(p => p.Waste)
+                    .HasForeignKey(d => d.DocumentId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_Waste_Document");
 
                 entity.HasOne(d => d.Management)
                     .WithMany(p => p.Waste)

@@ -5,6 +5,11 @@ namespace SCM.Models.Entities
 {
     public partial class Document
     {
+        public Document()
+        {
+            Waste = new HashSet<Waste>();
+        }
+
         public int DocumentId { get; set; }
         public short? CustomerId { get; set; }
         public int? WasteId { get; set; }
@@ -17,6 +22,6 @@ namespace SCM.Models.Entities
         public Customer Customer { get; set; }
         public DocumentStatus DocumentStatus { get; set; }
         public User User { get; set; }
-        public Waste Waste { get; set; }
+        public ICollection<Waste> Waste { get; set; }
     }
 }
