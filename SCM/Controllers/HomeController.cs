@@ -4,16 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SCM.Models.Entities;
 using SCM.Models.Interfaces;
+using SCM.ViewModel;
 
 namespace SCM.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IUserRepository _userRepository;
-        public HomeController(IUserRepository userRepository)
+        private readonly IDocumentRepository _documentRepository;
+        public HomeController(IUserRepository userRepository, IDocumentRepository documentRepository)
         {
             _userRepository = userRepository;
+            _documentRepository = documentRepository;
         }
         public IActionResult Index()
         {
@@ -66,7 +70,9 @@ namespace SCM.Controllers
             //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && (sessionA == "Allocator" || sessionA == "Administrator")
             if (sessionU != "User")
             {
-                return View();
+                var DataForDocument = new DataDocumentVM();
+                DataForDocument = _documentRepository.GetDatatoFillDocument();
+                return View(DataForDocument);
             }
             else
             {
@@ -76,12 +82,16 @@ namespace SCM.Controllers
         }
         public IActionResult Status()
         {
+            var ListDocuments = new List<DocumentsVM>();
             var sessionU = HttpContext.Session.GetString("UserS");
             var sessionA = HttpContext.Session.GetString("Access");
-            //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && (sessionA == "Allocator" || sessionA == "Administrator")
+
+            ListDocuments = _documentRepository.GetFullDocuments();
+
+            
             if (sessionU != "User")
             {
-                return View();
+                return View(ListDocuments);
             }
             else
             {

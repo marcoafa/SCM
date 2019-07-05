@@ -1,4 +1,5 @@
-﻿
+﻿@using SCM.ViewModel;
+@model List<DocumentsVM>;
 @{
     ViewData["Title"] = "Status";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,7 +11,7 @@
 <section class="StatusPage">
     <div class="sales_actions row">
         <!--FILTER FOR THE STATUS OF THE DOCUMENT-->
-        
+
         <label class="control-label col-sm-2 offset-md-2" for="StateFilterVal">Estado del manifiesto:</label>
         <div class="col-sm-6 input-group">
 
@@ -21,9 +22,9 @@
             <select class="form-control" id="StateFilterVal">
                 <option>Pendientes por capturar</option>
                 <option>Finalizadas</option>
-                
+
             </select>
-            
+
         </div>
     </div>
     <div class="sales_table row">
@@ -35,37 +36,41 @@
                         <th scope="col">Manifiesto</th>
                         <th scope="col">Cliente</th>
                         <th scope="col">Estado</th>
-                        <th scope="col">Detalle</th>
+                        <th scope="col">Empleado</th>
+                        <th scope="col">Fecha</th>
                         <th scope="col">Editar</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @*@foreach (var item in Model.TicketProducts)
-                {*@
+                    @foreach (var item in Model)
+                    {
                     <tr>
 
-                        <td>123</td>
-                        <td>Marcp</td>
-                        <td>Pendiente</td>
-                        <td>ver datalle</td>
+                        <td>@item.DocumentID</td>
+                        <td>@item.Customer</td>
+                        <td>@item.Status</td>
+                        <td>@item.UserName</td>
+                        <td>@item.CreationDate.Date</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn_big AddProduct" data-toggle="modal" data-target="#AddProduct">Agregar Producto</button>
-                            <button type="button" class="btn btn-danger btn_big DeleteProduct" data-toggle="modal" data-target=".ModalDeleteProduct">Eliminar Producto</button>
-                            <button type="button" class="btn btn-success btn_big ConfirmSale" data-toggle="modal" data-target="#ConfirmSale">Completar Venta</button>
+                            <button data-documentID="@item.DocumentID" type="button" class="btn btn-primary btn_big AddProduct" data-toggle="modal" data-target="#AddProduct">Finalizar Manifiesto</button>
+                            <button data-documentID="@item.DocumentID" type="button" class="btn btn-primary btn_big AddProduct" data-toggle="modal" data-target="">Editar Manifiesto</button>
 
                         </td>
                     </tr>
+
+                    }
+
 
 
 
                 </tbody>
                 <tfoot style="text-align: center;">
-                <td colspan="5">@DateTime.Now.Date</td>
+                <td colspan="6">Manifiesto de la ultima semana: @DateTime.Now.Date.AddDays(-7)</td>
                 </tfoot>
             </table>
 
         </div>
-      
+
 
     </div>
 </section>

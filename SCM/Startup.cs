@@ -42,6 +42,8 @@ namespace SCM
              );
 
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IDocumentRepository, DocumentRepository>();
+          
 
             services.AddDistributedMemoryCache();
             services.AddSession(options =>

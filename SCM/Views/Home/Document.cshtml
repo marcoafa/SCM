@@ -1,4 +1,6 @@
-﻿
+﻿@using SCM.ViewModel;
+@model DataDocumentVM;
+
 @{
     ViewData["Title"] = "Document";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,7 +24,7 @@
             <div class="input-group-append">
                 <span class="input-group-text"><i class="fa fa-calendar"></i></span>
             </div>
-            <input type="text" class="form-control" id="ManifiestoVal" placeholder="Agregar el numero del Manifiesto">
+            <input type="number" min="0" class="form-control" id="ManifiestoVal" placeholder="Agregar el numero del Manifiesto">
         </div>
     </div>
     <!--CUSTOMER-->
@@ -35,11 +37,15 @@
             </div>
 
             <select class="form-control" id="CustomerVal">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
+                <option value="0">Por favor selecciona un Cliente</option>
+                @{foreach (var item in Model.Customers)
+                    {
+                        <option value="@item.CustomerID">@item.CustomerName</option>
+                    }
+                }
+
+
+
             </select>
         </div>
     </div>
@@ -54,11 +60,12 @@
             </div>
 
             <select class="form-control" id="EmployeeVal">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
+                <option value="0">Por favor selecciona un Empleado</option>
+                @{foreach (var item in Model.Users)
+                    {
+                        <option value="@item.UsersID">@item.UsersName</option>
+                    }
+                }
             </select>
         </div>
     </div>
@@ -110,15 +117,17 @@
 
                     <td>
                         <select class="form-control" id="ProductVal">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
+                            <option value="0">Por favor selecciona un Producto</option>
+
+                            @{foreach (var item in Model.Products)
+                                {
+                                    <option value="@item.ProductID">@item.ProductName</option>
+                                }
+                            }
                         </select>
                     </td>
                     <td>
-                        <input type="number" class="form-control" id="ProductQuantityVal" placeholder="Agregar la cantidad del Producto">
+                        <input type="number" min="0" class="form-control" id="ProductQuantityVal" placeholder="Agregar la cantidad del Producto">
                     </td>
 
                     <td>
@@ -126,20 +135,24 @@
                     </td>
                     <td>
                         <select class="form-control" id="ContainerVal">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
+                            <option value="0">Por favor selecciona un Contenedor</option>
+
+                            @{foreach (var item in Model.Containers)
+                                {
+                                    <option value="@item.ContainerID">@item.ContainerName</option>
+                                }
+                            }
                         </select>
                     </td>
                     <td>
                         <select class="form-control" id="ManagementVal">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
+                            <option value="0">Por favor selecciona el manejo para el material</option>
+
+                            @{foreach (var item in Model.ManagementsTypes)
+                                {
+                                    <option value="@item.ManagementID">@item.ManagementName</option>
+                                }
+                            }
                         </select>
                     </td>
 
@@ -234,8 +247,35 @@
             var DocumentCustomerID = $('#CustomerVal').val();
             var DocumentEmployeeID = $('#EmployeeVal').val();
 
-            var ListProducts = [];
+            if (DocumentID == 0) {
+                alert('Por favor de agregar un Manifiesto');
+            }
+            else {
+                if (DocumentCustomerID == 0) {
+                    alert('Por favor de agregar un Cliente');
+                   
+                }
+                else {
+                    if (DocumentEmployeeID == 0) {
+                        alert('Por favor de agregar un Usuario');
 
+                    }
+                    else {
+                        SaveDocumentJS(DocumentID, DocumentCustomerID, DocumentEmployeeID, DocumentOption);
+                    }
+                }
+            }
+
+            debugger;
+
+
+
+
+        });
+
+        function SaveDocumentJS(DocumentID, DocumentCustomerID, DocumentEmployeeID, DocumentOption) {
+            var ListProducts = [];
+            var FlagError = 'NoError';
             var data = new FormData();
             data.append("DocumentID", DocumentID);
             data.append("DocumentCustomerID", DocumentCustomerID);
@@ -243,6 +283,7 @@
 
 
             if (DocumentOption == true) {
+
                 $("#Producttable tbody tr").each(function (index) {
 
 
@@ -252,63 +293,97 @@
                     var typecontainer = $($(this).children("td")[3]).children().val();
                     var productmag = $($(this).children("td")[4]).children().val();
 
+                    ValidateProducts(product, quantityProduct, typecontainer, productmag);
+
                     var Prod = new ProductRow(product, typecontainer, productmag, quantityProduct, capacity);
                     ListProducts.push(Prod);
 
 
                 });
-            }
-            var index = 0;
-            for (var product of ListProducts) {
 
-                data.append("ListProducts[" + index + "].ProductID", product.ProductID);
-                data.append("ListProducts[" + index + "].ContainerID", product.ContainerID);
-                data.append("ListProducts[" + index + "].ManagementID", product.ManagementID);
-                data.append("ListProducts[" + index + "].Quantity", product.Quantity);
-                data.append("ListProducts[" + index + "].Unit", product.Unit);
-                index++;
+                var index = 0;
+                for (var product of ListProducts) {
+
+                    data.append("ListProducts[" + index + "].ProductID", product.ProductID);
+                    data.append("ListProducts[" + index + "].ContainerID", product.ContainerID);
+                    data.append("ListProducts[" + index + "].ManagementID", product.ManagementID);
+                    data.append("ListProducts[" + index + "].Quantity", product.Quantity);
+                    data.append("ListProducts[" + index + "].Unit", product.Unit);
+                    index++;
+                }
             }
+          
 
             //data.append("ListProducts", ListProducts);
             debugger;
             var url = '@Url.Action("AddDocument", "Document")';
+            if (FlagError == 'NoError') {
+                $.ajax({
+                    url: url,
+                    data: data,
+                    //dataType: "JSON",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    assign: false,
+                    method: "post",
+                    success: function (r) {
+                        debugger;
+                        if (r == "true") {
+                            var urlR = '@Url.Action("Warehouse", "Warehouse")';
+                            alert("Se agrego el producto al inventario");
+                            window.location.href = urlR;
+                        }
+                        else {
+                            if (r == "NoProduct") {
+                                alert("El producto no existe favor de verificarlo");
+                            }
+                        }
 
-            $.ajax({
-                url: url,
-                data: data,
-                //dataType: "JSON",
-                cache: false,
-                contentType: false,
-                processData: false,
-                assign: false,
-                method: "post",
-                success: function (r) {
-                    debugger;
-                    if (r == "true") {
-                        var urlR = '@Url.Action("Warehouse", "Warehouse")';
-                        alert("Se agrego el producto al inventario");
-                        window.location.href = urlR;
+
+                    },
+                    error: function () {
+
+                        alert("Error intente mas tarde");
+                    }
+                });
+            }
+            else {
+               
+            }
+        }
+
+        function ValidateProducts(product, quantityProduct, typecontainer, productmag) {
+
+            if (product == 0) {
+                alert('Favor de agregar un Producto en la seccion de productos. (Verificar informacion)');
+                exit();
+            }
+            else {
+                if (quantityProduct == 0) {
+                    alert('Favor de agregar la cantidad del Producto en la seccion de productos. (Verificar informacion)');
+                    exit();
+                }
+                else {
+                    if (typecontainer == 0) {
+                        alert('Favor de agregar el contenedor para el producto en la seccion de productos. (Verificar informacion)');
+                        exit();
                     }
                     else {
-                        if (r == "NoProduct") {
-                            alert("El producto no existe favor de verificarlo");
+                        if (productmag == 0) {
+                            alert('Favor de agregar el tipo de manejo para el Producto en la seccion de productos. (Verificar informacion)');
+                            exit();
                         }
+                       
                     }
-
-
-                },
-                error: function () {
-
-                    alert("Error intente mas tarde");
                 }
-            });
-
-            debugger;
+            }
 
 
+          
 
+        }
 
-        });
 
         $('.DeleteProductsT').on("click", function () {
 
