@@ -8,13 +8,13 @@
 
 
 <section class="Document">
+    <div class="divHeader">
 
-    <div class="row">
-        <div class="col-md-5 offset-md-3">
-            <h2 class="text-center">Alta de Manifiesto</h2>
-        </div>
+        <h2 style="color: white;" class="text-center">Favor de completar el manifiesto</h2>
+
 
     </div>
+   
 
     <!--NUMBER OF THE DOCUMENT-->
     <div class="form-group row">
@@ -22,7 +22,7 @@
         <div class="col-sm-6 input-group">
 
             <div class="input-group-append">
-                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
             </div>
             <input disabled value="@Model.DocumentD.DocumentID" type="number" min="0" class="form-control" id="ManifiestoValC" placeholder="Agregar el numero del Manifiesto">
         </div>
@@ -33,7 +33,7 @@
         <div class="col-sm-6 input-group">
 
             <div class="input-group-append">
-                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <span class="input-group-text"><i class="fas fa-address-book"></i></span>
             </div>
             <input disabled value="@Model.DocumentD.Customer" class="form-control">
         </div>
@@ -45,15 +45,15 @@
         <div class="col-sm-6 input-group">
 
             <div class="input-group-append">
-                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
 
-            <input disabled value="@Model.DocumentD.Username" type="text"  class="form-control">
+            <input disabled value="@Model.DocumentD.Username" type="text" class="form-control">
         </div>
     </div>
 
 
-    <section class="DocumentFormOptional"  margin-top:10px;">
+    <section class="DocumentFormOptional" margin-top:10px;">
 
         <!--ADD PRODUCTS-->
         <div class="form-group row">
@@ -131,7 +131,7 @@
             </table>
         </div>
 
-      
+
 
     </section>
 

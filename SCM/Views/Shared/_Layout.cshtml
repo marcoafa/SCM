@@ -7,9 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SCM</title>
     <link href="~/css/Menu.css" rel="stylesheet" />
+    <link href="~/css/Contet.css" rel="stylesheet" />
     <environment include="Development">
+      
 
-  
         <link href="~/bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet" />
     </environment>
     <environment exclude="Development">
@@ -33,7 +34,7 @@
                     <a class="nav-link" asp-action="Home" asp-controller="Home">Inicio<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-action="Status" asp-controller="Home">Status</a>
+                    <a class="nav-link" asp-action="Status" asp-controller="Home">Gestion de Manifiestos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-action="History" asp-controller="Home">Historial</a>
@@ -86,8 +87,9 @@
 
     </main>
     <nav class="navbar fixed-bottom navbar-light bg-light">
-       
-        <p style="text-align:center;">&copy; 2019 - Sistema de Gestion de Manifiestos</p>
+   
+        <h4 style="text-align:center; width:100%">&copy; 2019 - Sistema de Gestion de Manifiestos</h4>
+  
     </nav>
 
     <environment include="Development">
