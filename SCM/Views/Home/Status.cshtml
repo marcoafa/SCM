@@ -44,19 +44,19 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
+                        <tr>
 
-                        <td>@item.DocumentID</td>
-                        <td>@item.Customer</td>
-                        <td>@item.Status</td>
-                        <td>@item.UserName</td>
-                        <td>@item.CreationDate.Date</td>
-                        <td>
-                            <button data-documentID="@item.DocumentID" type="button" class="btn btn-primary btn_big AddProduct" data-toggle="modal" data-target="#AddProduct">Finalizar Manifiesto</button>
-                            <button data-documentID="@item.DocumentID" type="button" class="btn btn-primary btn_big AddProduct" data-toggle="modal" data-target="">Editar Manifiesto</button>
+                            <td>@item.DocumentID</td>
+                            <td>@item.Customer</td>
+                            <td>@item.Status</td>
+                            <td>@item.UserName</td>
+                            <td>@item.CreationDate.Date</td>
+                            <td>
+                                <button data-documentID="@item.DocumentID" type="button" class="btn btn-primary btn_big CompleteDocumentbtn">Finalizar/Edit Manifiesto</button>
 
-                        </td>
-                    </tr>
+
+                            </td>
+                        </tr>
 
                     }
 
@@ -74,3 +74,20 @@
 
     </div>
 </section>
+
+  
+
+
+@section Scripts
+    {
+    <script>
+        $(".CompleteDocumentbtn").on('click', function () {
+            debugger;
+            let DocumentID = $(this).attr('data-documentID');
+            let url = '@Url.Action("CompleteDocument", "Status")?DocumentID=' + DocumentID;
+         
+            window.location.href = url;
+        });
+
+    </script>
+}

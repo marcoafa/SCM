@@ -17,6 +17,8 @@ namespace SCM.ViewModel
 
         public List<UsersVM> Users { get; set; }
 
+        public DocumentData DocumentD { get; set; }
+
         public DataDocumentVM()
         {
             Customers = new List<CustomerVM>();
@@ -24,6 +26,7 @@ namespace SCM.ViewModel
             Containers = new List<ContainersVM>();
             ManagementsTypes = new List<ManagementsTypesVM>();
             Users = new List<UsersVM>();
+            DocumentD = new DocumentData();
         }
     }
     public class CustomerVM
@@ -50,6 +53,12 @@ namespace SCM.ViewModel
     {
         public string UsersName { get; set; }
         public int UsersID { get; set; }
+    }
+    public class DocumentData
+    {
+        public int DocumentID { get; set; }
+        public string Username { get; set; }
+        public string Customer { get; set; }
     }
 
 }

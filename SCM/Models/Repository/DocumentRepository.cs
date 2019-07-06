@@ -72,7 +72,55 @@ namespace SCM.Models.Repository
                 return flag;
             }
         }
+        public string CompleteFullDocument(DocumentInfo FullDocument)
+        {
+            var flag = "true";
+            var Document = _context.Document
+                            .Where(x => x.DocumentId == FullDocument.DocumentID)
+                            .FirstOrDefault();
 
+
+
+
+            try
+            {
+                
+                flag = "DocumentError";
+                _context.SaveChanges();
+
+
+
+             
+                FullDocument.ListProducts.ForEach(x =>
+                {
+                    var Waste = new Waste()
+                    {
+                        ProductId = (short)x.ProductID,
+                        ContainerId = (short)x.ContainerID,
+                        ManagementId = (byte)x.ManagementID,
+                        Quantity = (short)x.Quantity,
+                        Unit = x.Unit,
+                        DocumentId = Document.DocumentId
+
+
+                    };
+
+                    _context.Add(Waste);
+
+
+                });
+                flag = "ProductError";
+                _context.SaveChanges();
+                
+
+                flag = "True";
+                return flag;
+            }
+            catch (Exception e)
+            {
+                return flag;
+            }
+        }
         public List<DocumentsVM> GetFullDocuments() {
 
             var DocumentsVM = new List<DocumentsVM>();
@@ -88,7 +136,18 @@ namespace SCM.Models.Repository
 
             return DocumentsVM;
         }
-
+        public DocumentData GetDataDocumentID(int DocumentID)
+        {
+            return _context.Document
+                .Where(x => x.DocumentId == DocumentID)
+                 .Select(x => new DocumentData()
+                 {
+                     DocumentID = DocumentID,
+                     Customer = x.Customer.CustomerName,
+                     Username = x.User.UserName
+                 }).FirstOrDefault();
+        }
+            
         public DataDocumentVM GetDatatoFillDocument()
         {
             var DocumentsVM = new DataDocumentVM();

@@ -18,79 +18,46 @@
 
     <!--NUMBER OF THE DOCUMENT-->
     <div class="form-group row">
-        <label class="control-label col-sm-2 offset-md-2" for="CustomerVal">No. Manifiesto:</label>
+        <label class="control-label col-sm-2 offset-md-2" for="CustomerValC">No. Manifiesto:</label>
         <div class="col-sm-6 input-group">
 
             <div class="input-group-append">
                 <span class="input-group-text"><i class="fa fa-calendar"></i></span>
             </div>
-            <input type="number" min="0" class="form-control" id="ManifiestoVal" placeholder="Agregar el numero del Manifiesto">
+            <input disabled value="@Model.DocumentD.DocumentID" type="number" min="0" class="form-control" id="ManifiestoValC" placeholder="Agregar el numero del Manifiesto">
         </div>
     </div>
     <!--CUSTOMER-->
     <div class="form-group row">
-        <label class="control-label col-sm-2 offset-md-2" for="CustomerVal">Cliente:</label>
+        <label class="control-label col-sm-2 offset-md-2" for="CustomerValC">Cliente:</label>
         <div class="col-sm-6 input-group">
 
             <div class="input-group-append">
                 <span class="input-group-text"><i class="fa fa-calendar"></i></span>
             </div>
-
-            <select class="form-control" id="CustomerVal">
-                <option value="0">Por favor selecciona un Cliente</option>
-                @{foreach (var item in Model.Customers)
-                    {
-                        <option value="@item.CustomerID">@item.CustomerName</option>
-                    }
-                }
-
-
-
-            </select>
+            <input disabled value="@Model.DocumentD.Customer" class="form-control">
         </div>
     </div>
 
     <!--EMPLOYEE-->
     <div class="form-group row">
-        <label class="control-label col-sm-2 offset-md-2" for="CustomerVal">Empleado:</label>
+        <label class="control-label col-sm-2 offset-md-2" for="CustomerValC">Empleado:</label>
         <div class="col-sm-6 input-group">
 
             <div class="input-group-append">
                 <span class="input-group-text"><i class="fa fa-calendar"></i></span>
             </div>
 
-            <select class="form-control" id="EmployeeVal">
-                <option value="0">Por favor selecciona un Empleado</option>
-                @{foreach (var item in Model.Users)
-                    {
-                        <option value="@item.UsersID">@item.UsersName</option>
-                    }
-                }
-            </select>
+            <input disabled value="@Model.DocumentD.Username" type="text"  class="form-control">
         </div>
     </div>
 
 
-
-    <!--OPTION TO GET FULL INFORMATION FOR THE DOCUMENT-->
-    <div class="form-group row">
-        <div class="col-md-6 offset-md-4">
-            <div class="form-check" style="padding:0;">
-
-                <label style="margin-top:7px; margin-right: 25px;" class="form-check-label" for="OpfullDocument">
-                    Selecciona el cuadro si requieres guardaer todo el manifiesto
-                </label>
-                <input style="width:2rem; height:2rem;" class="form-check-input" type="checkbox" id="OpfullDocument">
-            </div>
-        </div>
-    </div>
-
-
-    <section class="DocumentFormOptional" style="display:none; margin-top:10px;">
+    <section class="DocumentFormOptional"  margin-top:10px;">
 
         <!--ADD PRODUCTS-->
         <div class="form-group row">
-            <label for="EmployeeVal" class="col-sm-2 offset-md-2 col-form-label">Agregar Productos</label>
+            <label for="EmployeeValC" class="col-sm-2 offset-md-2 col-form-label">Agregar Productos</label>
 
             <div class="col-md-2">
                 <button type="button" class="btn btn-primary btn_big AddProduct">Agregar</button>
@@ -102,7 +69,7 @@
 
         <!--PRODUCTS WITH THEIR ATRIBUTES-->
         <div class="form-group row">
-            <table class="table table-striped table-dark col-md-8 offset-md-2" id="Producttable">
+            <table class="table table-striped table-dark col-md-8 offset-md-2" id="ProducttableC">
                 <thead>
                     <tr>
                         <th scope="col">Descripcion del Producto</th>
@@ -164,12 +131,7 @@
             </table>
         </div>
 
-        <!--BUTTON TO SAVE THE DOCUMENT-->
-        <div class="row">
-            <div class="col-md-2 offset-md-2">
-                <button class="btn btn-danger DeleteProductsT">Eliminar Productos</button>
-            </div>
-        </div>
+      
 
     </section>
 
@@ -177,7 +139,7 @@
     <!--BUTTON TO SAVE THE DOCUMENT-->
     <div class="form-group row">
         <div class="col-md-2 offset-md-8">
-            <button style="text-align:right" class="btn btn-primary SaveDocument">Guardar Manifiesto</button>
+            <button style="text-align:right" class="btn btn-primary SaveDocumentC">Guardar Manifiesto</button>
         </div>
     </div>
 </section>
@@ -189,134 +151,93 @@
     {
     <script>
 
-        class ProductRow {
-            constructor(ProductID, ContainerID, ManagementID, Quantity, Unit) {
-                this.ProductID = ProductID;
-                this.ContainerID = ContainerID;
-                this.ManagementID = ManagementID;
-                this.Quantity = Quantity;
-                this.Unit = Unit;
-            }
-        }
         /* Variables */
 
-        var row = $(".participantRow");
+        var CompleteDrow = $(".participantRow");
 
         /* Functions */
 
 
-        function addRow() {
-            row.clone(true, true).appendTo("#Producttable");
+        function addRowC() {
+            CompleteDrow.clone(true, true).appendTo("#ProducttableC");
         }
 
         $('.AddProduct').on("click", function () {
 
 
 
-            if ($("#Producttable tr").length < 17) {
-                addRow();
+            if ($("#ProducttableC tr").length < 17) {
+                addRowC();
 
             }
-            $(this).closest("tr").appendTo("#Producttable");
+            $(this).closest("tr").appendTo("#ProducttableC");
 
 
 
         });
-        $("#Producttable").on('click', '.remove', function () {
-
-            //if($("#participantTable tr").length === 3) {
-            //alert($("#participantTable tr").length);
-            // $(".remove").hide();
-            //} else if($("#participantTable tr").length - 1 ==3) {
-            // $(".remove").hide();
-            //  removeRow($(this));
-            //var i = Number(p)-1;
-            //} else {
+        $("#ProducttableC").on('click', '.remove', function () {
             removeRow($(this));
-            //var i = Number(p)-1;
-            // }
+           
         });
         function removeRow(button) {
             button.closest("tr").remove();
         }
-        $('.SaveDocument').on("click", function () {
+        $('.SaveDocumentC').on("click", function () {
 
-            var DocumentOption = $('#OpfullDocument').prop('checked');
+           
 
-            var DocumentID = $('#ManifiestoVal').val();
-            var DocumentCustomerID = $('#CustomerVal').val();
-            var DocumentEmployeeID = $('#EmployeeVal').val();
-
-            if (DocumentID == 0) {
-                alert('Por favor de agregar un Manifiesto');
-            }
-            else {
-                if (DocumentCustomerID == 0) {
-                    alert('Por favor de agregar un Cliente');
-                   
-                }
-                else {
-                    if (DocumentEmployeeID == 0) {
-                        alert('Por favor de agregar un Usuario');
-
-                    }
-                    else {
-                        SaveDocumentJS(DocumentID, DocumentCustomerID, DocumentEmployeeID, DocumentOption);
-                    }
-                }
-            }
-
-            debugger;
+            var DocumentID = $('#ManifiestoValC').val();
+          
+            SaveDocumentJSC(DocumentID);
+                 
 
 
 
 
         });
 
-        function SaveDocumentJS(DocumentID, DocumentCustomerID, DocumentEmployeeID, DocumentOption) {
+        function SaveDocumentJSC(DocumentID) {
             var ListProducts = [];
             var FlagError = 'NoError';
             var data = new FormData();
             data.append("DocumentID", DocumentID);
-            data.append("DocumentCustomerID", DocumentCustomerID);
-            data.append("DocumentEmployeeID", DocumentEmployeeID);
-
-
-            if (DocumentOption == true) {
-
-                $("#Producttable tbody tr").each(function (index) {
-
-
-                    var product = $($(this).children("td")[0]).children().val();
-                    var quantityProduct = $($(this).children("td")[1]).children().val();
-                    var capacity = $($(this).children("td")[2]).children().val();
-                    var typecontainer = $($(this).children("td")[3]).children().val();
-                    var productmag = $($(this).children("td")[4]).children().val();
-
-                    ValidateProducts(product, quantityProduct, typecontainer, productmag);
-
-                    var Prod = new ProductRow(product, typecontainer, productmag, quantityProduct, capacity);
-                    ListProducts.push(Prod);
-
-
-                });
-
-                var index = 0;
-                for (var product of ListProducts) {
-
-                    data.append("ListProducts[" + index + "].ProductID", product.ProductID);
-                    data.append("ListProducts[" + index + "].ContainerID", product.ContainerID);
-                    data.append("ListProducts[" + index + "].ManagementID", product.ManagementID);
-                    data.append("ListProducts[" + index + "].Quantity", product.Quantity);
-                    data.append("ListProducts[" + index + "].Unit", product.Unit);
-                    index++;
-                }
-            }
           
+
+            
+
+            $("#ProducttableC tbody tr").each(function (index) {
+
+
+                var product = $($(this).children("td")[0]).children().val();
+                var quantityProduct = $($(this).children("td")[1]).children().val();
+                var capacity = $($(this).children("td")[2]).children().val();
+                var typecontainer = $($(this).children("td")[3]).children().val();
+                var productmag = $($(this).children("td")[4]).children().val();
+
+                ValidateProducts(product, quantityProduct, typecontainer, productmag);
+
+                var Prod = new ProductRow(product, typecontainer, productmag, quantityProduct, capacity);
+                ListProducts.push(Prod);
+
+
+            });
+
+            var index = 0;
+            for (var product of ListProducts) {
+
+                data.append("ListProducts[" + index + "].ProductID", product.ProductID);
+                data.append("ListProducts[" + index + "].ContainerID", product.ContainerID);
+                data.append("ListProducts[" + index + "].ManagementID", product.ManagementID);
+                data.append("ListProducts[" + index + "].Quantity", product.Quantity);
+                data.append("ListProducts[" + index + "].Unit", product.Unit);
+                index++;
+            }
+            
+
 
             //data.append("ListProducts", ListProducts);
             debugger;
-            var url = '@Url.Action("AddDocument", "Document")';
+            var url = '@Url.Action("AddDocumentC", "Status")';
             if (FlagError == 'NoError') {
                 $.ajax({
                     url: url,
@@ -329,8 +250,9 @@
                     method: "post",
                     success: function (r) {
                         debugger;
+                        debugger;
                         if (r == "true") {
-                            let urlR = '@Url.Action("Document", "Home")';
+                            let urlR = '@Url.Action("Status", "Home")';
                           
                            
                             window.location.href = urlR;
@@ -348,7 +270,7 @@
                 });
             }
             else {
-               
+
             }
         }
 
@@ -373,13 +295,13 @@
                             alert('Favor de agregar el tipo de manejo para el Producto en la seccion de productos. (Verificar informacion)');
                             exit();
                         }
-                       
+
                     }
                 }
             }
 
 
-          
+
 
         }
 
@@ -396,18 +318,7 @@
 
 
 
-        $('#OpfullDocument').on('click', function () {
-
-
-
-            if ($(this).prop('checked') == true) {
-                $('.DocumentFormOptional').css('display', 'block')
-            }
-            else {
-                $('.DocumentFormOptional').css('display', 'none')
-            }
-
-        });
+        
 
 
         function MCreateTable(Product, ProductQuantity, Unit, Container , Management) {
