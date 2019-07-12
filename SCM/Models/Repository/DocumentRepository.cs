@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static SCM.ViewModel.EditDocumentVM;
 
 namespace SCM.Models.Repository
 {
@@ -189,6 +190,34 @@ namespace SCM.Models.Repository
                 }).ToList();
 
             return DocumentsVM;
+        }
+
+        public EditDocumentVM GetDataEditDocumentID(int DocumentID)
+        {
+
+            var DocumentsVM = new EditDocumentVM();
+            DocumentsVM.Data = GetDatatoFillDocument();
+            var Documentinfo = _context.Document.Where(x => x.DocumentId == DocumentID).FirstOrDefault();
+            DocumentsVM.DocumentD.DocumentID = Documentinfo.DocumentId;
+            DocumentsVM.DocumentD.Customer = Documentinfo.Customer.CustomerName;
+            DocumentsVM.DocumentD.Username = Documentinfo.User.UserName;
+
+            Documentinfo.Waste.ToList().ForEach(x => {
+                var DP = new DataProductsEdit()
+                {
+                    ProductName = x.Product.ProductName,
+                    ProductID = x.Product.ProductId,
+                    ContainerName = x.Container.ContainerDescription,
+                    ContainerID = x.Container.ContainerId,
+                    ManagementName = x.Management.ManagementName,
+                    ManagementID = (int)x.ManagementId,
+                    Quantity = (int)x.Quantity
+                };
+                DocumentsVM.Products.Add(DP);
+            });
+           
+            return DocumentsVM;
+      
         }
     }
 }

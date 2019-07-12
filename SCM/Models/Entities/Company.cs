@@ -16,6 +16,7 @@ namespace SCM.Models.Entities
         public string Phone { get; set; }
         public string Email { get; set; }
         public string ContacName { get; set; }
+        public string Target { get; set; }
 
         public ICollection<Document> Document { get; set; }
     }

@@ -17,7 +17,7 @@ namespace SCM.Models.Interfaces
         DocumentData GetDataDocumentID(int DocumentID);
         string CompleteFullDocument(DocumentInfo FullDocument);
         List<DocumentsVM> GetFullDocuments();
-       
+        EditDocumentVM GetDataEditDocumentID(int DocumentID);
 
     }
 }

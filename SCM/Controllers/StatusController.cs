@@ -25,7 +25,17 @@ namespace SCM.Controllers
            
             return View(DataForDocument);
         }
-        
+
+        public IActionResult EditDocument(int DocumentID)
+        {
+
+            var DataForDocument = _documentRepository.GetDatatoFillDocument();
+
+            DataForDocument.DocumentD = _documentRepository.GetDataDocumentID(DocumentID);
+
+            return View(DataForDocument);
+        }
+
         [HttpPost]
         public IActionResult AddDocument(DocumentInfo DocumentI)
         {

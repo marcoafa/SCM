@@ -69,9 +69,9 @@
                                     @if (@item.Status != "Finished")
                                     {
 
-                                        <button data-documentID="@item.DocumentID" type="button" class="btn btn-primary btn_big CompleteDocumentbtn">
-                                            <i class="fas fa-check-double"></i>
-                                        </button>
+                                    <button data-documentID="@item.DocumentID" type="button" class="btn btn-primary btn_big EditDocumentbtn">
+                                        <i class="fas fa-check-double"></i>
+                                    </button>
 
                                     }
 
@@ -109,6 +109,14 @@
             debugger;
             let DocumentID = $(this).attr('data-documentID');
             let url = '@Url.Action("CompleteDocument", "Status")?DocumentID=' + DocumentID;
+         
+            window.location.href = url;
+        });
+
+         $(".EditDocumentbtn").on('click', function () {
+            debugger;
+            let DocumentID = $(this).attr('data-documentID');
+            let url = '@Url.Action("EditDocument", "Status")?DocumentID=' + DocumentID;
          
             window.location.href = url;
         });

@@ -46,7 +46,36 @@ namespace SCM.Controllers
 
 
         }
-        
 
+        [HttpPost]
+        public IActionResult EditDocumentAction(DocumentInfo DocumentI)
+        {
+
+            try
+            {
+
+                //var sessionU = HttpContext.Session.GetString("UserS");
+
+                if (DocumentI.ListProducts.Count > 0)
+                {
+                    //SAVE WITH PRODUCTS
+                    _documentRepository.SaveFullDocument(DocumentI, 3);
+                }
+                else
+                {
+                    //SAVE WITHOUT PRODUCTS
+                    _documentRepository.SaveFullDocument(DocumentI, 2);
+                }
+
+
+                return Json("false");
+            }
+            catch (Exception e)
+            {
+                return Json("false");
+            }
+
+
+        }
     }
 }
