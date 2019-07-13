@@ -14,8 +14,10 @@ namespace SCM.Models.Interfaces
         //DataDocumentVM GetDataForFinishDocument(int DocumentID);
 
         string SaveFullDocument(DocumentInfo FullDocument, byte DocumentStatus);
-        DocumentData GetDataDocumentID(int DocumentID);
         string CompleteFullDocument(DocumentInfo FullDocument);
+        string EditFullDocument(DocumentInfo FullDocument);
+
+        DocumentData GetDataDocumentID(int DocumentID);
         List<DocumentsVM> GetFullDocuments();
         EditDocumentVM GetDataEditDocumentID(int DocumentID);
 

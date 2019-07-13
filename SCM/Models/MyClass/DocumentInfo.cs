@@ -11,6 +11,7 @@ namespace SCM.Models.MyClass
         public int DocumentCustomerID { get; set; }
         public int DocumentEmployeeID { get; set; }
         public List<ProductRow> ListProducts { get; set; }
+        public int OldDocumentID { get; set; }
         public DocumentInfo()
         {
             ListProducts = new List<ProductRow>();

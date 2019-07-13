@@ -47,25 +47,19 @@ namespace SCM.Controllers
 
         }
 
+        /// <summary>
+        /// METHOD TO EDIT THE DOCUMENT THAT THE USER SELECT
+        /// </summary>
+        /// <param name="DocumentI">CLASS THAT HAVE ALL THE NEW INFORMATION TO EDIT</param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult EditDocumentAction(DocumentInfo DocumentI)
         {
-
             try
             {
 
-                //var sessionU = HttpContext.Session.GetString("UserS");
-
-                if (DocumentI.ListProducts.Count > 0)
-                {
-                    //SAVE WITH PRODUCTS
-                    _documentRepository.SaveFullDocument(DocumentI, 3);
-                }
-                else
-                {
-                    //SAVE WITHOUT PRODUCTS
-                    _documentRepository.SaveFullDocument(DocumentI, 2);
-                }
+                _documentRepository.EditFullDocument(DocumentI);
+              
 
 
                 return Json("false");

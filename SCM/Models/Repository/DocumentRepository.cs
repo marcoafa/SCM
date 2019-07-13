@@ -122,6 +122,30 @@ namespace SCM.Models.Repository
                 return flag;
             }
         }
+        public string EditFullDocument(DocumentInfo FullDocument)
+        {
+            var flag = "true";
+
+            var OldDocument =_context.Document
+                .Where(x => x.DocumentId == FullDocument.OldDocumentID)
+                .FirstOrDefault();
+            try
+            {
+                flag = "errordelete";
+                _context.Remove(OldDocument);
+
+
+                flag = "errorupdate";
+                SaveFullDocument(FullDocument,3);
+
+                flag = "True";
+                return flag;
+            }
+            catch (Exception e)
+            {
+                return flag;
+            }
+        }
         public List<DocumentsVM> GetFullDocuments() {
 
             var DocumentsVM = new List<DocumentsVM>();
