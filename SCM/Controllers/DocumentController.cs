@@ -71,5 +71,14 @@ namespace SCM.Controllers
 
 
         }
+        [HttpPost]
+        public IActionResult ImportDocument()
+        {
+           var response = _documentRepository.ImportDocuments();
+           return Json(response);
+
+        }
+
+        
     }
 }

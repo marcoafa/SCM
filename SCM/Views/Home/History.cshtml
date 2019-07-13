@@ -1,139 +1,211 @@
-﻿
-@{
-    ViewData["Title"] = "History";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@using SCM.ViewModel;
+@model List<HistoryVM>;
+
+    @{
+        ViewData["Title"] = "History";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 
 
 
 
-<section class="History">
-    <div class="divHeader">
+    <section class="History">
+        <div class="divHeader">
 
-        <h2 style="color: white;" class="text-center">Historial de todos los manifiestos</h2>
+            <h2 style="color: white;" class="text-center">Historial de todos los manifiestos</h2>
 
 
-    </div>
-    <div class="row">
-        <!--INITIAL DATE-->
-        <label class="control-label col-sm-1 offset-md-1" for="InitialDateVal">Fecha I:</label>
-        <div class="col-sm-3 input-group">
-            <div class="input-group-append">
-                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-            </div>
-            <input type="date" value="@DateTime.Now.Date.AddDays(-7).ToString("dd-MMMM-yy")" class="form-control" id="InitialDateVal" placeholder="Seleccionar una Fecha">
         </div>
-
-        <!--FINAL DATE-->
-        <label class="control-label col-sm-1" for="FinalDateVal">Fecha F:</label>
-        <div class="col-sm-3 input-group">
-            <div class="input-group-append">
-                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-            </div>
-            <input type="date" value="@DateTime.Now.Date.ToString("dd-MMMM-yy");" class="form-control" id="FinalDateVal" placeholder="Seleccionar una Fecha">
-        </div>
-        <div class="col-sm-1 input-group">
-            <button type="button" class="btn btn-success btn_big FilterDocumentsS">
-                <i class="fas fa-angle-right"></i> Filtrar
-            </button>
-        </div>
-    </div>
-
-    <div class="row" style="margin-top:20px;">
-        <!--CUSTOMERS-->
-        <label class="control-label col-sm-1 offset-md-1" for="CustomersFVal">Cliente:</label>
-        <div class="col-sm-3 input-group">
-
-            <div class="input-group-append">
-                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+        <div class="row">
+            <!--INITIAL DATE-->
+            <label class="control-label col-sm-1 offset-md-1" for="InitialDateVal">Fecha I:</label>
+            <div class="col-sm-3 input-group">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+                <input type="date" value="@DateTime.Now.Date.AddDays(-7).ToString("dd-MMMM-yy")" class="form-control" id="InitialDateVal" placeholder="Seleccionar una Fecha">
             </div>
 
-            <select class="form-control" id="CustomersFVal">
-                <option value="0">All</option>
-
-            </select>
+            <!--FINAL DATE-->
+            <label class="control-label col-sm-1" for="FinalDateVal">Fecha F:</label>
+            <div class="col-sm-3 input-group">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+                <input type="date" value="@DateTime.Now.Date.ToString("dd-MMMM-yy");" class="form-control" id="FinalDateVal" placeholder="Seleccionar una Fecha">
+            </div>
+            <div class="col-sm-1 input-group">
+                <button type="button" class="btn btn-success btn_big FilterDocumentsS">
+                    <i class="fas fa-angle-right"></i> Filtrar
+                </button>
+            </div>
         </div>
 
-        <!--PRODUCTS-->
-        <label class="control-label col-sm-1" for="ProductFVal">Producto:</label>
-        <div class="col-sm-3 input-group">
+        <div class="row" style="margin-top:20px;">
+            <!--CUSTOMERS-->
+            <label class="control-label col-sm-1 offset-md-1" for="CustomersFVal">Cliente:</label>
+            <div class="col-sm-3 input-group">
 
-            <div class="input-group-append">
-                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+
+                <select class="form-control" id="CustomersFVal">
+                    <option value="0">All</option>
+
+                </select>
             </div>
 
-            <select class="form-control" id="ProductFVal">
-                <option value="0">All</option>
+            <!--PRODUCTS-->
+            <label class="control-label col-sm-1" for="ProductFVal">Producto:</label>
+            <div class="col-sm-3 input-group">
 
-            </select>
-        </div>
-        <div class="col-sm-1 input-group">
-            <button type="button" class="btn btn-success btn_big FilterDocumentsS">
-                <i class="fas fa-angle-right"></i> Filtrar
-            </button>
-        </div>
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
 
-    </div>
-    <div class="sales_actions row" style="margin-top:20px;">
-        <!--FILTER FOR THE STATUS OF THE DOCUMENT-->
+                <select class="form-control" id="ProductFVal">
+                    <option value="0">All</option>
 
-        <label class="control-label col-sm-1 offset-md-1" for="FindDocument">Manifiesto:</label>
-        <div class="col-sm-3 input-group">
-
-            <div class="input-group-append">
-                <span class="input-group-text"><i class="fas fa-battery-half"></i></span>
+                </select>
+            </div>
+            <div class="col-sm-1 input-group">
+                <button type="button" class="btn btn-success btn_big FilterDocumentsS">
+                    <i class="fas fa-angle-right"></i> Filtrar
+                </button>
             </div>
 
-            <input type="text" class="form-control" id="FindDocument" placeholder="Agrege el manifiesto">
+        </div>
+        <div class="sales_actions row" style="margin-top:20px;">
+            <!--FILTER FOR THE STATUS OF THE DOCUMENT-->
+
+            <label class="control-label col-sm-1 offset-md-1" for="FindDocument">Manifiesto:</label>
+            <div class="col-sm-3 input-group">
+
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-battery-half"></i></span>
+                </div>
+
+                <input type="text" class="form-control" id="FindDocument" placeholder="Agrege el manifiesto">
+
+
+            </div>
+            <div class="col-sm-2 input-group">
+                <button type="button" class="btn btn-success btn_big FilterDocumentsS">
+                    <i class="fas fa-angle-right"></i> Filtrar
+                </button>
+            </div>
+            <div class="col-sm-2 offset-md-1 input-group">
+                <button type="button" class="btn btn-success btn_big FilterDocumentsS">
+                    <i class="fas fa-angle-right"></i> Descargar a Excel
+                </button>
+            </div>
+
+        </div>
+        <div class="sales_table row" style="margin-top:20px;">
+            <div class="col-sm-8 offset-md-2">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+
+                            <th scope="col">Manifiesto</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Empleado</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Unidad</th>
+
+
+                            <th scope="col">Contenedor</th>
+                            <th scope="col">Tipo de Manejo</th>
+                            <th scope="col">Fecha</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="thead-light">
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+
+                            <td>@item.DocumentId</td>
+                            <td>@item.CustomerName</td>
+                            <td>@item.UserName</td>
+                            <td>@item.ProductName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Unit</td>
+                            <td>@item.ContainerName</td>
+                            <td>@item.ManagementName</td>
+                            <td>@item.CreationDate</td>
+
+
+
+                        </tr>
+
+                        }
+
+                    </tbody>
+                    <tfoot style="text-align: center;">
+                    <td colspan="9">Manifiesto creados hasta la fecha</td>
+                    </tfoot>
+                </table>
+
+            </div>
 
 
         </div>
-        <div class="col-sm-2 input-group">
-            <button type="button" class="btn btn-success btn_big FilterDocumentsS">
-                <i class="fas fa-angle-right"></i> Filtrar
-            </button>
-        </div>
-        <div class="col-sm-2 offset-md-1 input-group">
-            <button type="button" class="btn btn-success btn_big FilterDocumentsS">
-                <i class="fas fa-angle-right"></i> Descargar a Excel
-            </button>
-        </div>
 
-    </div>
-    <div class="sales_table row" style="margin-top:20px;">
-        <div class="col-sm-8 offset-md-2">
-            <table class="table table-bordered">
-                <thead class="thead-dark">
-                    <tr>
+        <div class="Actions row" style="margin-top:40px;">
+            <!--FILTER FOR THE STATUS OF THE DOCUMENT-->
 
-                        <th scope="col">Manifiesto</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Empleado</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Editar</th>
-                    </tr>
-                </thead>
-                <tbody class="thead-light"></tbody>
-                <tfoot style="text-align: center;">
-                <td colspan="6">Manifiesto creados hasta la fecha</td>
-                </tfoot>
-            </table>
+            <div class="col-sm-8 offset-md-2 input-group">
+                <button style="width: 100%; text-align:center;" type="button" class="btn btn-danger btn_big ImportDocument">
+                    <i class="fas fa-angle-right"></i> Importar Manifiestos
+                </button>
+            </div>
 
         </div>
+    </section>
 
 
-    </div>
-   
-    <div class="Actions row" style="margin-top:40px;">
-        <!--FILTER FOR THE STATUS OF THE DOCUMENT-->
+    @section Scripts
+        {
+        <script>
+        $(".ImportDocument").on("click", function (e) {
 
-        <div class="col-sm-8 offset-md-2 input-group">
-            <button style="width: 100%; text-align:center;" type="button" class="btn btn-danger btn_big ImportDocument">
-                <i class="fas fa-angle-right"></i> Importar Manifiestos
-            </button>
-        </div>
+                var url = '@Url.Action("ImportDocument", "Document")';
+                var urlR = '@Url.Action("History", "Home")';
+                $.ajax({
+                    url: url,
+                   
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    assign: false,
+                    method: "post",
+                    success: function (r) {
+                        debugger;
+                        if (r == 'false') {
+                            alert('El usuario o password no coinciden con ningun registro en la base de datos');
+                        }
+                        else {
+                            if (r == 'NoUser') {
+                                alert('El usuario o password no coinciden con ningun registro en la base de datos, Verificar si existe en la base de datos');
+                            }
+                            else {
+                                alert('El usuario o password no coinciden con ningun registro en la base de datos');
+                                window.location.href = urlR;
 
-    </div>
-</section>
+                            }
 
+                        }
+
+                    },
+                    error: function () {
+
+                        alert("Error intentalo mas tarde");
+                    }
+                });
+            });
+        </script>
+
+    }

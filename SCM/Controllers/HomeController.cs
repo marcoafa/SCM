@@ -112,7 +112,8 @@ namespace SCM.Controllers
             }
             else
             {
-                return View();
+                var ListHistories = _documentRepository.GetHistoryInformation();
+                return View(ListHistories);
             }
 
 

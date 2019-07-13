@@ -245,5 +245,61 @@ namespace SCM.Models.Repository
             return DocumentsVM;
       
         }
+
+        public string ImportDocuments()
+        {
+            string bandera = "true";
+            var Documents = _context.Document.Where(x => x.DocumentStatusId == 3).ToList();
+            try
+            {
+                Documents.ForEach(x =>
+                {
+                    var listWastes = new List<Waste>();
+                    listWastes = _context.Waste.Where(t => t.DocumentId == x.DocumentId).ToList();
+                    listWastes.ForEach(i => {
+                        var History = new History();
+                        History.CreationDate = DateTime.Now.Date;
+                        History.DocumentId = x.DocumentId;
+                        History.CustomerId = x.CustomerId;
+                        History.ContainerName = _context.Container.Where(u => u.ContainerId == i.ContainerId).FirstOrDefault().ContainerDescription;
+                        History.ManagementName = _context.ManagementProduct.Where(u => u.ManagementId == i.ManagementId).FirstOrDefault().ManagementName;
+                        History.ProductName = _context.Product.Where(u => u.ProductId == i.ProductId).FirstOrDefault().ProductName;
+                        History.Quantity = i.Quantity;
+                        History.Unit = i.Unit;
+                        History.UserName = _context.User.Where(u => u.UsersId == x.UserId).FirstOrDefault().UserName;
+                        _context.History.Add(History);
+                        _context.SaveChanges();
+                    });
+
+                });
+            }
+            catch (Exception e)
+            {
+                bandera = "false";
+                return bandera;
+            }
+            
+
+            return bandera;
+        }
+
+        public List<HistoryVM> GetHistoryInformation()
+        {
+            return _context.History
+               .Select(x => new HistoryVM()
+               {
+                   HistoryId = x.HistoryId,
+                   DocumentId = x.DocumentId,
+                   ProductName = x.ProductName,
+                   Quantity = x.Quantity,
+                   ManagementName = x.ManagementName,
+                   ContainerName = x.ContainerName,
+                   Unit = x.Unit,
+                   CreationDate = x.CreationDate,
+                   UserName = x.UserName,
+                   CustomerName = _context.Customer.Where(y => y.CustomerId == x.CustomerId).FirstOrDefault().CustomerName
+               }).ToList();
+   
+        }
     }
 }
