@@ -69,13 +69,13 @@
                                     @if (@item.Status != "Finished")
                                     {
 
-                                    <button data-documentID="@item.DocumentID" type="button" class="btn btn-primary btn_big EditDocumentbtn">
+                                    <button data-documentID="@item.DocumentID" type="button" class="btn btn-primary btn_big CompleteDocumentbtn">
                                         <i class="fas fa-check-double"></i>
                                     </button>
 
                                     }
 
-                                    <button data-documentID="@item.DocumentID" type="button" class="btn btn-danger btn_big CompleteDocumentbtn">
+                                    <button data-documentID="@item.DocumentID" type="button" class="btn btn-danger btn_big EditDocumentbtn">
                                         <i class="fas fa-edit"></i>
                                     </button>
 
@@ -89,7 +89,7 @@
 
                     </tbody>
                     <tfoot style="text-align: center;">
-                    <td colspan="6">Manifiesto de la ultima semana: @DateTime.Now.Date.AddDays(-7)</td>
+                    <td colspan="6">Manifiesto creados hasta la fecha</td>
                     </tfoot>
                 </table>
 

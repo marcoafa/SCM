@@ -209,6 +209,16 @@
 @section Scripts
     {
     <script>
+
+        class ProductRow {
+            constructor(ProductID, ContainerID, ManagementID, Quantity, Unit) {
+                this.ProductID = ProductID;
+                this.ContainerID = ContainerID;
+                this.ManagementID = ManagementID;
+                this.Quantity = Quantity;
+                this.Unit = Unit;
+            }
+        }
         /*  Variables */
 
         var CompleteDrow = $(".participantRow");
@@ -242,11 +252,17 @@
         }
         $('.EditDocumentBtnU').on("click", function () {
 
-
+            debugger;
 
             var DocumentID = $('#ManifiestoValE').val();
             var OldDocumentID = $('#ManifiestoValE').attr("data-old");
-            SaveDocumentJSE(DocumentID, OldDocumentID);
+           
+            var DocumentCustomerID = $('#CustomerValE').val();
+            var DocumentEmployeeID = $('#EmployeeValE').val();
+
+
+                   
+            SaveDocumentJSE(DocumentID, OldDocumentID, DocumentCustomerID, DocumentEmployeeID);
 
 
 
@@ -254,13 +270,14 @@
 
         });
 
-        function SaveDocumentJSE(DocumentID, OldDocumentID) {
+        function SaveDocumentJSE(DocumentID, OldDocumentID, DocumentCustomerID, DocumentEmployeeID) {
             var ListProducts = [];
             var FlagError = 'NoError';
             var data = new FormData();
             data.append("DocumentID", DocumentID);
             data.append("OldDocumentID", OldDocumentID);
-            
+            data.append("DocumentCustomerID", DocumentCustomerID);
+            data.append("DocumentEmployeeID", DocumentEmployeeID);
 
 
 
@@ -296,7 +313,7 @@
 
             //data.append("ListProducts", ListProducts);
             debugger;
-            var url = '@Url.Action("EditDocumentAction", "Status")';
+            var url = '@Url.Action("EditDocumentAction", "Document")';
             if (FlagError == 'NoError') {
                 $.ajax({
                     url: url,
@@ -365,13 +382,7 @@
         }
 
 
-        $('.DeleteProductsT').on("click", function () {
-
-            $('.ProductRows').empty();
-
-
-
-        });
+      
 
 
 

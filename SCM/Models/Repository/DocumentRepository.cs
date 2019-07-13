@@ -133,7 +133,7 @@ namespace SCM.Models.Repository
             {
                 flag = "errordelete";
                 _context.Remove(OldDocument);
-
+                _context.SaveChanges();
 
                 flag = "errorupdate";
                 SaveFullDocument(FullDocument,3);
@@ -223,17 +223,19 @@ namespace SCM.Models.Repository
             DocumentsVM.Data = GetDatatoFillDocument();
             var Documentinfo = _context.Document.Where(x => x.DocumentId == DocumentID).FirstOrDefault();
             DocumentsVM.DocumentD.DocumentID = Documentinfo.DocumentId;
-            DocumentsVM.DocumentD.Customer = Documentinfo.Customer.CustomerName;
-            DocumentsVM.DocumentD.Username = Documentinfo.User.UserName;
+            DocumentsVM.DocumentD.Customer = _context.Customer.Where(u => u.CustomerId == Documentinfo.CustomerId).FirstOrDefault().CustomerName;
+            DocumentsVM.DocumentD.Username = _context.User.Where(u => u.UsersId == Documentinfo.UserId).FirstOrDefault().UserName;
 
-            Documentinfo.Waste.ToList().ForEach(x => {
+            _context.Waste.Where(u => u.DocumentId == Documentinfo.DocumentId).ToList().ForEach(x => {
                 var DP = new DataProductsEdit()
                 {
-                    ProductName = x.Product.ProductName,
+                    ProductName = _context.Product.Where(u => u.ProductId == x.ProductId).FirstOrDefault().ProductName,
+                   
                     ProductID = x.Product.ProductId,
-                    ContainerName = x.Container.ContainerDescription,
+                    ContainerName = _context.Container.Where(u => u.ContainerId == x.ContainerId).FirstOrDefault().ContainerDescription,
                     ContainerID = x.Container.ContainerId,
-                    ManagementName = x.Management.ManagementName,
+                    ManagementName = _context.ManagementProduct.Where(u => u.ManagementId == x.ManagementId).FirstOrDefault().ManagementName,
+                   
                     ManagementID = (int)x.ManagementId,
                     Quantity = (int)x.Quantity
                 };
