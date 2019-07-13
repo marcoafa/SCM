@@ -96,9 +96,11 @@
                 </button>
             </div>
             <div class="col-sm-2 offset-md-1 input-group">
-                <button type="button" class="btn btn-success btn_big FilterDocumentsS">
-                    <i class="fas fa-angle-right"></i> Descargar a Excel
-                </button>
+                <form action="@Url.Action("ExportV2","Document")" method="get">
+                    <button type="submit" class="btn btn-success btn_big FilterDocumentsS">
+                        <i class="fas fa-angle-right"></i> Descargar a Excel
+                    </button>
+                </form>
             </div>
 
         </div>
@@ -206,6 +208,7 @@
                     }
                 });
             });
+
         </script>
 
     }

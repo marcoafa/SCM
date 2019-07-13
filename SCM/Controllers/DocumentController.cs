@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using SCM.Models.Interfaces;
 using SCM.Models.MyClass;
+using System.IO;
+using OfficeOpenXml;
+using SCM.ViewModel;
 
 namespace SCM.Controllers
 {
@@ -78,7 +81,28 @@ namespace SCM.Controllers
            return Json(response);
 
         }
+        // ESTE METODO ES EL IMPORTANTE SOLO HAS LA CONSULTA y se mete en LIST
+        [HttpGet("exportv2")]
+        public async Task<IActionResult> ExportV2()
+        {
+            // query data from database  
+            await Task.Yield();
+            var ListofHistories = _documentRepository.GetHistoryInformation();
+           
+            var stream = new MemoryStream();
 
-        
+            using (var package = new ExcelPackage(stream))
+            {
+                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
+                workSheet.Cells.LoadFromCollection(ListofHistories, true);
+                package.Save();
+            }
+            stream.Position = 0;
+            string excelName = $"Manifiestos-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+
+            //return File(stream, "application/octet-stream", excelName);  
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+        }
+
     }
 }
