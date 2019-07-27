@@ -4,5 +4,129 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Configurations</h2>
+<section class="Configuration">
+    <div class="divHeader">
+
+        <h2 style="color: white;" class="text-center">Agregue el catalogo que necesite</h2>
+
+
+    </div>
+
+
+    <!--ADD NEW USER-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="CustomerVal">Agregar Nuevo Usuario</label>
+        <div class="col-sm-4 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+            </div>
+            <input type="text" class="form-control" id="ManifiestoVal" placeholder="Agregar un Nuevo Usuario">
+        </div>
+        <div class="col-sm-1 input-group">
+            <button data-menu="1" type="button" class="btn btn-success btn_big CatalogMenu">
+                <i class="fas fa-angle-right"></i> Add
+            </button>
+        </div>
+    </div>
+
+</section>
+
+
+@section Scripts
+    {
+    <script>
+
+        function ConfirmationAlert() {
+            var txt;
+            if (confirm("Press a button!")) {
+                
+            } else {
+                return;
+            }
+        
+        }
+
+        $(".CatalogMenu").on("click", function (e) {
+
+            var MenuCatalog = $(this).attr("data-menu");
+            var url = '';
+            var data = new FormData();
+           
+            switch (MenuCatalog) {
+                case 1:
+                    // code block
+                    ConfirmationAlert();
+                    data.append("NewUser", DocumentID);
+                  
+                    url ='@Url.Action("AddNewUser", "Configurations")';
+                    break;
+                case 2:
+                    // code block
+                    ConfirmationAlert();
+                    break;
+                case 3:
+                    // code block
+                    ConfirmationAlert();
+                    break;
+                case 4:
+                    // code block
+                    ConfirmationAlert();
+                    break;
+                case 5:
+                    // code block
+                    ConfirmationAlert();
+                    break;
+                default:
+                  
+                // code block
+            }
+
+                debugger;
+            AddCatalog();
+
+        });
+
+        function AddCatalog(url,data) {
+         
+            var urlR = '@Url.Action("Configurations", "Home")';
+
+              
+            $.ajax({
+                url: url,
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                assign: false,
+                method: "post",
+                success: function (r) {
+                    debugger;
+                    if (r.bandera == 'false') {
+                        alert(r.message);
+                    }
+                    else {
+                      
+                        alert(r.message);     
+                        window.location.href = urlR;
+
+                        
+
+                    }
+
+                },
+                error: function () {
+
+                    alert("Error intentalo mas tarde o comuniquese con su proveedor");
+                }
+            });
+
+        }
+                       
+
+    </script>
+
+}
+
+
 

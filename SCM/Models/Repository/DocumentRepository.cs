@@ -283,10 +283,10 @@ namespace SCM.Models.Repository
             return bandera;
         }
 
-        public List<HistoryVM> GetHistoryInformation()
+        public List<HistoryDataVM> GetHistoryInformation()
         {
             return _context.History
-               .Select(x => new HistoryVM()
+               .Select(x => new HistoryDataVM()
                {
                    HistoryId = x.HistoryId,
                    DocumentId = x.DocumentId,
@@ -300,6 +300,107 @@ namespace SCM.Models.Repository
                    CustomerName = _context.Customer.Where(y => y.CustomerId == x.CustomerId).FirstOrDefault().CustomerName
                }).ToList();
    
+        }
+
+        public List<HistoryDataVM> GetHistoryInformation(int DocumentID)
+        {
+            return _context.History
+               .Where(u => u.DocumentId == DocumentID)
+              .Select(x => new HistoryDataVM()
+              {
+                  HistoryId = x.HistoryId,
+                  DocumentId = x.DocumentId,
+                  ProductName = x.ProductName,
+                  Quantity = x.Quantity,
+                  ManagementName = x.ManagementName,
+                  ContainerName = x.ContainerName,
+                  Unit = x.Unit,
+                  CreationDate = x.CreationDate,
+                  UserName = x.UserName,
+                  CustomerName = _context.Customer.Where(y => y.CustomerId == x.CustomerId).FirstOrDefault().CustomerName
+              }).ToList();
+        }
+
+        public List<HistoryDataVM> GetHistoryInformation(string Customer, string Product)
+        {
+
+            if (Product == "All" && Customer == "All")
+            {
+                return _context.History
+                .Select(x => new HistoryDataVM()
+                {
+                    HistoryId = x.HistoryId,
+                    DocumentId = x.DocumentId,
+                    ProductName = x.ProductName,
+                    Quantity = x.Quantity,
+                    ManagementName = x.ManagementName,
+                    ContainerName = x.ContainerName,
+                    Unit = x.Unit,
+                    CreationDate = x.CreationDate,
+                    UserName = x.UserName,
+                    CustomerName = _context.Customer.Where(y => y.CustomerId == x.CustomerId).FirstOrDefault().CustomerName
+                }).ToList();
+            }
+            else
+            {
+                if (Product == "All")
+                {
+                    return _context.History
+                    .Where(u =>  u.ProductName == Product)
+                       .Select(x => new HistoryDataVM()
+                       {
+                           HistoryId = x.HistoryId,
+                           DocumentId = x.DocumentId,
+                           ProductName = x.ProductName,
+                           Quantity = x.Quantity,
+                           ManagementName = x.ManagementName,
+                           ContainerName = x.ContainerName,
+                           Unit = x.Unit,
+                           CreationDate = x.CreationDate,
+                           UserName = x.UserName,
+                           CustomerName = _context.Customer.Where(y => y.CustomerId == x.CustomerId).FirstOrDefault().CustomerName
+                       }).ToList();
+                }
+                else
+                {
+                    return _context.History
+                      .Where(u => u.Customer.CustomerName == Customer && u.ProductName == Product)
+                         .Select(x => new HistoryDataVM()
+                         {
+                             HistoryId = x.HistoryId,
+                             DocumentId = x.DocumentId,
+                             ProductName = x.ProductName,
+                             Quantity = x.Quantity,
+                             ManagementName = x.ManagementName,
+                             ContainerName = x.ContainerName,
+                             Unit = x.Unit,
+                             CreationDate = x.CreationDate,
+                             UserName = x.UserName,
+                             CustomerName = _context.Customer.Where(y => y.CustomerId == x.CustomerId).FirstOrDefault().CustomerName
+                     }).ToList();
+                }
+                  
+            }
+            
+        }
+
+        public List<HistoryDataVM> GetHistoryInformation(DateTime InitialDate, DateTime FinalDate)
+        {
+            return _context.History
+               .Where(u => u.CreationDate >= InitialDate && u.CreationDate <= FinalDate)
+               .Select(x => new HistoryDataVM()
+               {
+                   HistoryId = x.HistoryId,
+                   DocumentId = x.DocumentId,
+                   ProductName = x.ProductName,
+                   Quantity = x.Quantity,
+                   ManagementName = x.ManagementName,
+                   ContainerName = x.ContainerName,
+                   Unit = x.Unit,
+                   CreationDate = x.CreationDate,
+                   UserName = x.UserName,
+                   CustomerName = _context.Customer.Where(y => y.CustomerId == x.CustomerId).FirstOrDefault().CustomerName
+               }).ToList();
         }
     }
 }

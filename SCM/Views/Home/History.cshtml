@@ -1,5 +1,5 @@
 ﻿@using SCM.ViewModel;
-@model List<HistoryVM>;
+@model HistoryVM;
 
     @{
         ViewData["Title"] = "History";
@@ -35,7 +35,7 @@
                 <input type="date" value="@DateTime.Now.Date.ToString("dd-MMMM-yy");" class="form-control" id="FinalDateVal" placeholder="Seleccionar una Fecha">
             </div>
             <div class="col-sm-1 input-group">
-                <button type="button" class="btn btn-success btn_big FilterDocumentsS">
+                <button type="button" class="btn btn-success btn_big FilterbyDates">
                     <i class="fas fa-angle-right"></i> Filtrar
                 </button>
             </div>
@@ -50,8 +50,14 @@
                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
 
+            
                 <select class="form-control" id="CustomersFVal">
                     <option value="0">All</option>
+                    @{foreach (var item in Model.Data.Customers)
+                        {
+                            <option value="@item.CustomerID">@item.CustomerName</option>
+                        }
+                    }
 
                 </select>
             </div>
@@ -66,13 +72,19 @@
 
                 <select class="form-control" id="ProductFVal">
                     <option value="0">All</option>
+                    @{foreach (var item in Model.Data.Products)
+                        {
+                            <option value="@item.ProductID">@item.ProductName</option>
+                        }
+                    }
 
                 </select>
             </div>
             <div class="col-sm-1 input-group">
-                <button type="button" class="btn btn-success btn_big FilterDocumentsS">
+                <button type="button" class="btn btn-success btn_big FilterbyCustomer">
                     <i class="fas fa-angle-right"></i> Filtrar
                 </button>
+
             </div>
 
         </div>
@@ -86,12 +98,12 @@
                     <span class="input-group-text"><i class="fas fa-battery-half"></i></span>
                 </div>
 
-                <input type="text" class="form-control" id="FindDocument" placeholder="Agrege el manifiesto">
+                <input type="number" class="form-control" id="FindDocument" placeholder="Agrege el manifiesto">
 
 
             </div>
             <div class="col-sm-2 input-group">
-                <button type="button" class="btn btn-success btn_big FilterDocumentsS">
+                <button type="button" class="btn btn-success btn_big FilterbyDocument">
                     <i class="fas fa-angle-right"></i> Filtrar
                 </button>
             </div>
@@ -125,7 +137,7 @@
                         </tr>
                     </thead>
                     <tbody class="thead-light">
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.ListHistory)
                         {
                         <tr>
 
@@ -172,6 +184,49 @@
     @section Scripts
         {
         <script>
+            $(".FilterbyCustomer").on("click", function (e) {
+               
+                var DocumentCustomerID = $('#CustomersFVal').val();
+                var DocumentProduct = $('#ProductFVal').val();
+
+               
+                debugger;
+              
+                let url = '@Url.Action("History", "Home")?Customer=' + DocumentCustomerID + '&Product=' + DocumentProduct;
+         
+                window.location.href = url;
+              
+            });
+            $(".FilterbyDocument").on("click", function (e) {
+               
+                var DocumentID = $('#FindDocument').val();
+               
+
+               
+                debugger;
+              
+                let url = '@Url.Action("History", "Home")?DocumentID=' + DocumentCustomerID;
+         
+                window.location.href = url;
+              
+            });
+
+            $(".FilterbyDates").on("click", function (e) {
+               
+                var InitialDate = $('#InitialDateVal').val();
+                var FinalDate = $('#FinalDateVal').val();
+               
+
+               
+                debugger;
+              
+                 let url = '@Url.Action("History", "Home")?InitialDate=' + InitialDate + '&FinalDate=' + FinalDate;
+         
+                window.location.href = url;
+         
+              
+              
+            });
         $(".ImportDocument").on("click", function (e) {
 
                 var url = '@Url.Action("ImportDocument", "Document")';

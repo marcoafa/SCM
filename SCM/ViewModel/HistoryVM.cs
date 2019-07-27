@@ -7,6 +7,15 @@ namespace SCM.ViewModel
 {
     public class HistoryVM
     {
+        public List<HistoryDataVM> ListHistory { get; set; }
+        public DataDocumentVM Data { get; set; }
+        public HistoryVM()
+        {
+            ListHistory = new List<HistoryDataVM>();
+        }
+    }
+    public class HistoryDataVM
+    {
         public int HistoryId { get; set; }
         public int? DocumentId { get; set; }
         public string ProductName { get; set; }

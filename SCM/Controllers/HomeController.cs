@@ -63,6 +63,23 @@ namespace SCM.Controllers
 
 
         }
+        public IActionResult EditConfigurations()
+        {
+            var sessionU = HttpContext.Session.GetString("UserS");
+            var sessionA = HttpContext.Session.GetString("Access");
+            //GET THE TYPE OF USER && sessionA == "Administrator"
+
+            if (sessionU != "User")
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+
+        }
         public IActionResult Document()
         {
             var sessionU = HttpContext.Session.GetString("UserS");
@@ -112,12 +129,74 @@ namespace SCM.Controllers
             }
             else
             {
-                var ListHistories = _documentRepository.GetHistoryInformation();
-                return View(ListHistories);
+                var History = new HistoryVM();
+                History.ListHistory = _documentRepository.GetHistoryInformation();
+                History.Data = _documentRepository.GetDatatoFillDocument();
+                return View(History);
             }
 
 
         }
+        //public IActionResult History(DateTime InitialDate, DateTime FinalDate)
+        //{
+        //    var sessionU = HttpContext.Session.GetString("UserS");
+        //    var sessionA = HttpContext.Session.GetString("Access");
+
+        //    //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && sessionA == "Administrator"
+        //    if (sessionU == "User")
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    else
+        //    {
+        //        var History = new HistoryVM();
+        //        History.ListHistory = _documentRepository.GetHistoryInformation();
+        //        History.Data = _documentRepository.GetDatatoFillDocument(InitialDate, FinalDate);
+        //        return View(History);
+        //    }
+
+
+        //}
+        //public IActionResult History(int DocumentID)
+        //{
+        //    var sessionU = HttpContext.Session.GetString("UserS");
+        //    var sessionA = HttpContext.Session.GetString("Access");
+
+        //    //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && sessionA == "Administrator"
+        //    if (sessionU == "User")
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    else
+        //    {
+        //        var History = new HistoryVM();
+        //        History.ListHistory = _documentRepository.GetHistoryInformation(DocumentID);
+        //        History.Data = _documentRepository.GetDatatoFillDocument();
+        //        return View(History);
+        //    }
+
+
+        //}
+        //public IActionResult History(string Customer, string Product)
+        //{
+        //    var sessionU = HttpContext.Session.GetString("UserS");
+        //    var sessionA = HttpContext.Session.GetString("Access");
+
+        //    //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && sessionA == "Administrator"
+        //    if (sessionU == "User")
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    else
+        //    {
+        //        var History = new HistoryVM();
+        //        History.ListHistory = _documentRepository.GetHistoryInformation();
+        //        History.Data = _documentRepository.GetDatatoFillDocument(Customer, Product);
+        //        return View(History);
+        //    }
+
+
+        //}
         [HttpPost]
         public IActionResult ValidateUser(UserLogin info)
         {
