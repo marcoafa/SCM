@@ -14,6 +14,11 @@ namespace SCM.Models.Repository
 
         }
 
+        public User GetUserName(string Username)
+        {
+            return _context.User.Where(x => x.UserName == Username).FirstOrDefault();
+        }
+
         public string GetUserType(string Username)
         {
             return _context.User.Where(x => x.UserName == Username).Select(u => u.UserType.UserType1).FirstOrDefault();

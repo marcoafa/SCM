@@ -15,13 +15,33 @@
 
     <!--ADD NEW USER-->
     <div class="form-group row">
-        <label class="control-label col-sm-2 offset-md-2" for="CustomerVal">Agregar Nuevo Usuario</label>
+        <label class="control-label col-sm-2 offset-md-2" for="NewUsername">Agregar Nuevo Usuario</label>
         <div class="col-sm-4 input-group">
 
             <div class="input-group-append">
                 <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
             </div>
-            <input type="text" class="form-control" id="ManifiestoVal" placeholder="Agregar un Nuevo Usuario">
+            <input type="text" class="form-control" id="NewName" placeholder="Nombre del Usuario">
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-4 offset-md-4 input-group">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+            </div>
+            <input  type="text" class="form-control" id="NewUsername" placeholder="ID del usuario para ingresar">
+        </div>
+      
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-4 offset-md-4 input-group">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+            </div>
+            <input type="password" class="form-control" id="NewPassword" placeholder="Agregar Contrasena">
         </div>
         <div class="col-sm-1 input-group">
             <button data-menu="1" type="button" class="btn btn-success btn_big CatalogMenu">
@@ -30,6 +50,26 @@
         </div>
     </div>
 
+    <!--ADD NEW CONTAINER-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="NewContainer">Agregar Nuevo Contenedor</label>
+        <div class="col-sm-4 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+            </div>
+            <input type="text" class="form-control" id="NewContainer" placeholder="Nombre del Contenedor">
+        </div>
+        <div class="col-sm-1 input-group">
+            <button data-menu="2" type="button" class="btn btn-success btn_big CatalogMenu">
+                <i class="fas fa-angle-right"></i> Add
+            </button>
+        </div>
+
+    </div>
+
+
+
 </section>
 
 
@@ -37,9 +77,9 @@
     {
     <script>
 
-        function ConfirmationAlert() {
+        function ConfirmationAlert(msj) {
             var txt;
-            if (confirm("Press a button!")) {
+            if (confirm("Deseas agregar un nuevo " + msj + "?")) {
                 
             } else {
                 return;
@@ -48,50 +88,92 @@
         }
 
         $(".CatalogMenu").on("click", function (e) {
-
+           
             var MenuCatalog = $(this).attr("data-menu");
             var url = '';
+            var msj = '';
             var data = new FormData();
            
             switch (MenuCatalog) {
-                case 1:
+                case '1':
+                    // code block
+                    msj = 'Usuario';
+                    var NewName = $('#NewName').val();
+                    var NewUsername = $('#NewUsername').val();
+                    var NewPassword = $('#NewPassword').val();
+
+                    if (NewName.length < 2) {
+                        alert('Favor de capturar el nombre');
+                    }
+                    else {
+                        if (NewUsername.length < 2) {
+                            alert('Favor de capturar el Username para que el usuario ingrese al sistema');
+                        }
+                        else {
+                            if (NewPassword.length < 6) {
+                                alert('El password debe de tener mas de 6 caracteres');
+                            }
+                            else {
+                                ConfirmationAlert(msj);
+                                data.append("Username", NewName);
+                                data.append("UserID", NewUsername);
+                                data.append("Password", NewPassword);
+
+                                url = '@Url.Action("AddNewUser", "Configuration")';
+                                AddCatalog(url, data);
+                            }
+                        }
+                    }
+
+
+                    break;
+                case '2':
+                    // code block
+                    msj = 'Contenedor';
+                    var NewContainer = $('#NewContainer').val();
+
+
+                    if (NewContainer.length < 2) {
+                        alert('Favor de capturar el Contenedor');
+                    }
+                    else {
+                        ConfirmationAlert(msj);
+                        data.append("Container", NewContainer);
+
+
+                        url = '@Url.Action("AddNewContainer", "Configuration")';
+                        AddCatalog(url, data);
+                    }
+
+
+                    break;
+                case '3':
                     // code block
                     ConfirmationAlert();
-                    data.append("NewUser", DocumentID);
-                  
-                    url ='@Url.Action("AddNewUser", "Configurations")';
                     break;
-                case 2:
+                case '4':
                     // code block
                     ConfirmationAlert();
                     break;
-                case 3:
-                    // code block
-                    ConfirmationAlert();
-                    break;
-                case 4:
-                    // code block
-                    ConfirmationAlert();
-                    break;
-                case 5:
+                case '5':
                     // code block
                     ConfirmationAlert();
                     break;
                 default:
-                  
+                    break;
                 // code block
             }
 
                 debugger;
-            AddCatalog();
+           
 
         });
 
-        function AddCatalog(url,data) {
-         
+        function AddCatalog(url, data) {
+            debugger;
             var urlR = '@Url.Action("Configurations", "Home")';
 
-              
+            debugger;
             $.ajax({
                 url: url,
                 data: data,

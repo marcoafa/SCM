@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace SCM.Models.Interfaces
 {
-    public interface IUserRepository: IRepository<User>
+    public interface IContainerRepository  : IRepository<Container>
     {
-
-        string GetUserType(string Username);
-        User GetUserName(string Username);
+        Container GetContainer(string Container);
     }
 }
