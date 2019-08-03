@@ -23,6 +23,11 @@
             </div>
             <input type="text" class="form-control" id="NewName" placeholder="Nombre del Usuario">
         </div>
+        <div class="col-sm-1 input-group">
+            <button data-menu="1" type="button" class="btn btn-success btn_big CatalogMenu">
+                <i class="fas fa-angle-right"></i> Add
+            </button>
+        </div>
 
     </div>
 
@@ -31,9 +36,9 @@
             <div class="input-group-append">
                 <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
             </div>
-            <input  type="text" class="form-control" id="NewUsername" placeholder="ID del usuario para ingresar">
+            <input type="text" class="form-control" id="NewUsername" placeholder="ID del usuario para ingresar">
         </div>
-      
+
     </div>
 
     <div class="form-group row">
@@ -43,11 +48,7 @@
             </div>
             <input type="password" class="form-control" id="NewPassword" placeholder="Agregar Contrasena">
         </div>
-        <div class="col-sm-1 input-group">
-            <button data-menu="1" type="button" class="btn btn-success btn_big CatalogMenu">
-                <i class="fas fa-angle-right"></i> Add
-            </button>
-        </div>
+       
     </div>
 
     <!--ADD NEW CONTAINER-->
@@ -67,6 +68,66 @@
         </div>
 
     </div>
+    <!--ADD NEW CUSTOMER-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="NewCustomerName">Agregar Nuevo Cliente</label>
+        <div class="col-sm-4 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+            </div>
+            <input type="text" class="form-control" id="NewCustomerName" placeholder="Nombre de la Empresa o cliente">
+        </div>
+        <div class="col-sm-1 input-group">
+            <button data-menu="3" type="button" class="btn btn-success btn_big CatalogMenu">
+                <i class="fas fa-angle-right"></i> Add
+            </button>
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-4 offset-md-4 input-group">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+            </div>
+            <input type="text" class="form-control" id="NewCustomerAdress" placeholder="Nombre de la direccion del cliente">
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-4 offset-md-4 input-group">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+            </div>
+            <input type="text" class="form-control" id="NewCustomerPhone" placeholder="Agregar telefono">
+        </div>
+        
+
+    </div>
+   
+
+    <!--ADD NEW PRODUCT-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="NewProduct">Agregar Nuevo Producto</label>
+        <div class="col-sm-4 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+            </div>
+            <input type="text" class="form-control" id="NewProduct" placeholder="Nombre del Producto">
+        </div>
+        <div class="col-sm-1 input-group">
+            <button data-menu="4" type="button" class="btn btn-success btn_big CatalogMenu">
+                <i class="fas fa-angle-right"></i> Add
+            </button>
+        </div>
+
+    </div>
+
+
+
 
 
 
@@ -148,12 +209,52 @@
 
                     break;
                 case '3':
-                    // code block
-                    ConfirmationAlert();
+                     // code block
+                    msj = 'Cliente';
+                    var NewCustomerName = $('#NewCustomerName').val();
+                    var NewCustomerAdress = $('#NewCustomerAdress').val();
+                    var NewCustomerPhone = $('#NewCustomerPhone').val();
+
+                    if (NewCustomerName.length < 2) {
+                        alert('Favor de capturar el nombre de la empresa o cliente');
+                    }
+                    else {
+                        if (NewCustomerAdress.length < 2) {
+                            alert('Favor de capturar la direccion del cliente');
+                        }
+                        else {
+                            if (NewCustomerPhone.length < 6) {
+                                alert('Favor de agregar el numero telefonico completo');
+                            }
+                            else {
+                                ConfirmationAlert(msj);
+                                data.append("CustomerName", NewCustomerName);
+                                data.append("CustomerAdress", NewCustomerAdress);
+                                data.append("CustomerPhone", NewCustomerPhone);
+
+                                url = '@Url.Action("AddNewCustomer", "Configuration")';
+                                AddCatalog(url, data);
+                            }
+                        }
+                    }
                     break;
                 case '4':
-                    // code block
-                    ConfirmationAlert();
+                      // code block
+                    msj = 'Producto';
+                    var NewProduct = $('#NewProduct').val();
+
+
+                    if (NewProduct.length < 2) {
+                        alert('Favor de capturar el Nombre del Producto');
+                    }
+                    else {
+                        ConfirmationAlert(msj);
+                        data.append("ProductName", NewProduct);
+
+
+                        url = '@Url.Action("AddNewProduct", "Configuration")';
+                        AddCatalog(url, data);
+                    }
                     break;
                 case '5':
                     // code block

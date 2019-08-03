@@ -43,7 +43,10 @@ namespace SCM
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IDocumentRepository, DocumentRepository>();
-          
+            services.AddTransient<IContainerRepository, ContainerRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<ICustomerRepository, CustomerRepository>();
+            
 
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
