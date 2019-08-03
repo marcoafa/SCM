@@ -217,18 +217,9 @@
 
         });
         $("#Producttable").on('click', '.remove', function () {
-
-            //if($("#participantTable tr").length === 3) {
-            //alert($("#participantTable tr").length);
-            // $(".remove").hide();
-            //} else if($("#participantTable tr").length - 1 ==3) {
-            // $(".remove").hide();
-            //  removeRow($(this));
-            //var i = Number(p)-1;
-            //} else {
+        
             removeRow($(this));
-            //var i = Number(p)-1;
-            // }
+           
         });
         function removeRow(button) {
             button.closest("tr").remove();
@@ -324,6 +315,7 @@
                     success: function (r) {
                         debugger;
                         if (r == "true") {
+                            alert("El manifiesto se agrego con exito");
                             let urlR = '@Url.Action("Document", "Home")';
                           
                            
@@ -425,53 +417,7 @@
         }
 
 
-        $("#BtnLogin").on("click", function (e) {
-            // e.preventDefault();
-            // e.stopPropagation();
-            debugger;
-            var UsertInput = $("#UserInput").val();
-            var PasswordInput = $("#PasswordInput").val();
-
-            var data = new FormData();
-            data.append("UserInput", UsertInput);
-            data.append("PasswordInput", PasswordInput);
-            debugger;
-            var url = '@Url.Action("ValidateUser", "Home")';
-            var urlR = '@Url.Action("Home", "Home")';
-            $.ajax({
-                url: url,
-                data: data,
-
-                //dataType: "JSON",
-                cache: false,
-                contentType: false,
-                processData: false,
-                assign: false,
-                method: "post",
-                success: function (r) {
-                    debugger;
-                    if (r == 'false') {
-                        alert('El usuario o password no coinciden con ningun registro en la base de datos');
-                    }
-                    else {
-                        if (r == 'NoUser') {
-                            alert('El usuario o password no coinciden con ningun registro en la base de datos, Verificar si existe en la base de datos');
-                        }
-                        else {
-
-                            window.location.href = urlR;
-
-                        }
-
-                    }
-
-                },
-                error: function () {
-
-                    alert("Error intentalo mas tarde");
-                }
-            });
-        });
+      
     </script>
 
 }

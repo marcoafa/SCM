@@ -59,5 +59,27 @@ namespace SCM.Controllers
 
 
         }
+        [HttpPost]
+        public IActionResult AddDocumentC(DocumentInfo DocumentI)
+        {
+            var flag = "false";
+            try
+            {
+
+
+                //SAVE WITH PRODUCTS
+                flag =_documentRepository.CompleteFullDocument(DocumentI);
+
+
+
+                return Json(flag);
+            }
+            catch (Exception e)
+            {
+                return Json(flag);
+            }
+
+
+        }
     }
 }

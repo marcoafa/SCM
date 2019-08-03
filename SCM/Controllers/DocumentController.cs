@@ -40,7 +40,7 @@ namespace SCM.Controllers
                 }
                 
 
-                return Json("false");
+                return Json("true");
             }
             catch (Exception e)
             {
@@ -65,7 +65,7 @@ namespace SCM.Controllers
               
 
 
-                return Json("false");
+                return Json("true");
             }
             catch (Exception e)
             {

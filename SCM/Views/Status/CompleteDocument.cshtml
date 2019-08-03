@@ -83,7 +83,7 @@
                 <tr class="participantRow">
 
                     <td>
-                        <select class="form-control" id="ProductVal">
+                        <select class="form-control" id="ProductValC">
                             <option value="0">Por favor selecciona un Producto</option>
 
                             @{foreach (var item in Model.Products)
@@ -94,14 +94,14 @@
                         </select>
                     </td>
                     <td>
-                        <input type="number" min="0" class="form-control" id="ProductQuantityVal" placeholder="Agregar la cantidad del Producto">
+                        <input type="number" min="0" class="form-control" id="ProductQuantityValC" placeholder="Agregar la cantidad del Producto">
                     </td>
 
                     <td>
-                        <input type="text" class="form-control" id="UnitVal" placeholder="Agregar la capacidad para el Contenedor">
+                        <input type="text" class="form-control" id="UnitValC" placeholder="Agregar la capacidad para el Contenedor">
                     </td>
                     <td>
-                        <select class="form-control" id="ContainerVal">
+                        <select class="form-control" id="ContainerValC">
                             <option value="0">Por favor selecciona un Contenedor</option>
 
                             @{foreach (var item in Model.Containers)
@@ -112,7 +112,7 @@
                         </select>
                     </td>
                     <td>
-                        <select class="form-control" id="ManagementVal">
+                        <select class="form-control" id="ManagementValC">
                             <option value="0">Por favor selecciona el manejo para el material</option>
 
                             @{foreach (var item in Model.ManagementsTypes)
@@ -153,7 +153,15 @@
 @section Scripts
     {
     <script>
-
+        class ProductRow {
+            constructor(ProductID, ContainerID, ManagementID, Quantity, Unit) {
+                this.ProductID = ProductID;
+                this.ContainerID = ContainerID;
+                this.ManagementID = ManagementID;
+                this.Quantity = Quantity;
+                this.Unit = Unit;
+            }
+        }
         /* Variables */
 
         var CompleteDrow = $(".participantRow");
@@ -252,9 +260,11 @@
                     assign: false,
                     method: "post",
                     success: function (r) {
-                        debugger;
+                       
                         debugger;
                         if (r == "true") {
+                            alert("Se completo el manifiesto con exito!");
+
                             let urlR = '@Url.Action("Status", "Home")';
                           
                            
@@ -272,9 +282,7 @@
                     }
                 });
             }
-            else {
-
-            }
+          
         }
 
         function ValidateProducts(product, quantityProduct, typecontainer, productmag) {
@@ -345,53 +353,7 @@
         }
 
 
-        $("#BtnLogin").on("click", function (e) {
-            // e.preventDefault();
-            // e.stopPropagation();
-            debugger;
-            var UsertInput = $("#UserInput").val();
-            var PasswordInput = $("#PasswordInput").val();
-
-            var data = new FormData();
-            data.append("UserInput", UsertInput);
-            data.append("PasswordInput", PasswordInput);
-            debugger;
-            var url = '@Url.Action("ValidateUser", "Home")';
-            var urlR = '@Url.Action("Home", "Home")';
-            $.ajax({
-                url: url,
-                data: data,
-
-                //dataType: "JSON",
-                cache: false,
-                contentType: false,
-                processData: false,
-                assign: false,
-                method: "post",
-                success: function (r) {
-                    debugger;
-                    if (r == 'false') {
-                        alert('El usuario o password no coinciden con ningun registro en la base de datos');
-                    }
-                    else {
-                        if (r == 'NoUser') {
-                            alert('El usuario o password no coinciden con ningun registro en la base de datos, Verificar si existe en la base de datos');
-                        }
-                        else {
-
-                            window.location.href = urlR;
-
-                        }
-
-                    }
-
-                },
-                error: function () {
-
-                    alert("Error intentalo mas tarde");
-                }
-            });
-        });
+    
     </script>
 
 }

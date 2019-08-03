@@ -81,16 +81,9 @@ namespace SCM.Models.Repository
                             .FirstOrDefault();
 
 
-
-
+           
             try
             {
-                
-                flag = "DocumentError";
-                _context.SaveChanges();
-
-
-
              
                 FullDocument.ListProducts.ForEach(x =>
                 {
@@ -110,11 +103,13 @@ namespace SCM.Models.Repository
 
 
                 });
+                Document.DocumentStatusId = 3;
+              
                 flag = "ProductError";
                 _context.SaveChanges();
                 
 
-                flag = "True";
+                flag = "true";
                 return flag;
             }
             catch (Exception e)
@@ -270,8 +265,13 @@ namespace SCM.Models.Repository
                         _context.History.Add(History);
                         _context.SaveChanges();
                     });
-
+                    bandera = "Error al Guardar los registros";
                 });
+
+                bandera = "Error al Eliminar los manifiestos!";
+               RemoveAll(Documents);
+               Save();
+                bandera = "true";
             }
             catch (Exception e)
             {
@@ -401,6 +401,14 @@ namespace SCM.Models.Repository
                    UserName = x.UserName,
                    CustomerName = _context.Customer.Where(y => y.CustomerId == x.CustomerId).FirstOrDefault().CustomerName
                }).ToList();
+        }
+
+        public void RemoveAll(List<Document> Documents)
+        {
+            Documents.ForEach(x => 
+            _context.Remove(x)
+            );
+
         }
     }
 }

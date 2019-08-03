@@ -241,18 +241,13 @@
                     method: "post",
                     success: function (r) {
                         debugger;
-                        if (r == 'false') {
-                            alert('El usuario o password no coinciden con ningun registro en la base de datos');
+                        if (r == 'true') {
+                            alert('Se Importaron todos los manifiestos que se completaron anteriormente!');
+                            window.location.href = urlR;
                         }
                         else {
-                            if (r == 'NoUser') {
-                                alert('El usuario o password no coinciden con ningun registro en la base de datos, Verificar si existe en la base de datos');
-                            }
-                            else {
-                                alert('El usuario o password no coinciden con ningun registro en la base de datos');
-                                window.location.href = urlR;
-
-                            }
+                           
+                                alert('Hubo un '+r+', si el error continua contacte a su proveedor');  
 
                         }
 

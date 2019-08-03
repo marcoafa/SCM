@@ -25,6 +25,7 @@ namespace SCM.Models.Interfaces
         List<HistoryDataVM> GetHistoryInformation(string Customer, string Product);
         List<HistoryDataVM> GetHistoryInformation(DateTime InitialDate, DateTime FinalDate);
         string ImportDocuments();
+        void RemoveAll(List<Document> Documents);
 
     }
 }
