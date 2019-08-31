@@ -22,7 +22,7 @@ namespace SCM.Models.Interfaces
         EditDocumentVM GetDataEditDocumentID(int DocumentID);
         List<HistoryDataVM> GetHistoryInformation();
         List<HistoryDataVM> GetHistoryInformation(int DocumentID);
-        List<HistoryDataVM> GetHistoryInformation(string Customer, string Product);
+        List<HistoryDataVM> GetHistoryInformation(int Customer, int Product);
         List<HistoryDataVM> GetHistoryInformation(DateTime InitialDate, DateTime FinalDate);
         string ImportDocuments();
         void RemoveAll(List<Document> Documents);

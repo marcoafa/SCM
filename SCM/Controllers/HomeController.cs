@@ -117,11 +117,11 @@ namespace SCM.Controllers
             }
 
         }
-        public IActionResult History()
+        public IActionResult History(int? type = 0, DateTime? InitialDate = null, DateTime? FinalDate = null, int DocumentID = 0,int CustomerName = 0, int ProductName = 0)
         {
             var sessionU = HttpContext.Session.GetString("UserS");
             var sessionA = HttpContext.Session.GetString("Access");
-
+            var History = new HistoryVM();
             //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && sessionA == "Administrator"
             if (sessionU == "User")
             {
@@ -129,74 +129,98 @@ namespace SCM.Controllers
             }
             else
             {
-                var History = new HistoryVM();
-                History.ListHistory = _documentRepository.GetHistoryInformation();
-                History.Data = _documentRepository.GetDatatoFillDocument();
+                switch (type) {
+                    case 0:
+                        History.ListHistory = _documentRepository.GetHistoryInformation();
+                        History.Data = _documentRepository.GetDatatoFillDocument();
+
+                        break;
+                    case 1:
+                        //FILTER BY DATES
+                        History = HistorybyDates(InitialDate, FinalDate);
+                        break;
+                    case 2:
+                        //FILTER BY DOCUMENT
+                        History = HistorybyDocument((int)DocumentID);
+                        break;
+                    case 3:
+                        //FILTER BY CUSTOMER
+                        History = HistoryCustomer(CustomerName, ProductName);
+                        break;
+                    case 4:
+                        //FILTER BY PRODUCT
+                        History = HistoryCustomer(CustomerName, ProductName);
+                        break;
+                    default:
+                        break;
+                }
                 return View(History);
+
+
             }
 
 
         }
-        //public IActionResult History(DateTime InitialDate, DateTime FinalDate)
-        //{
-        //    var sessionU = HttpContext.Session.GetString("UserS");
-        //    var sessionA = HttpContext.Session.GetString("Access");
+        public HistoryVM HistorybyDates(DateTime? InitialDate, DateTime? FinalDate)
+        {
+            var sessionU = HttpContext.Session.GetString("UserS");
+            var sessionA = HttpContext.Session.GetString("Access");
 
-        //    //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && sessionA == "Administrator"
-        //    if (sessionU == "User")
-        //    {
-        //        return RedirectToAction("Index", "Home");
-        //    }
-        //    else
-        //    {
-        //        var History = new HistoryVM();
-        //        History.ListHistory = _documentRepository.GetHistoryInformation();
-        //        History.Data = _documentRepository.GetDatatoFillDocument(InitialDate, FinalDate);
-        //        return View(History);
-        //    }
-
-
-        //}
-        //public IActionResult History(int DocumentID)
-        //{
-        //    var sessionU = HttpContext.Session.GetString("UserS");
-        //    var sessionA = HttpContext.Session.GetString("Access");
-
-        //    //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && sessionA == "Administrator"
-        //    if (sessionU == "User")
-        //    {
-        //        return RedirectToAction("Index", "Home");
-        //    }
-        //    else
-        //    {
-        //        var History = new HistoryVM();
-        //        History.ListHistory = _documentRepository.GetHistoryInformation(DocumentID);
-        //        History.Data = _documentRepository.GetDatatoFillDocument();
-        //        return View(History);
-        //    }
+            //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && sessionA == "Administrator"
+            if (sessionU == "User")
+            {
+                return null;
+            }
+            else
+            {
+                var History = new HistoryVM();
+                History.ListHistory = _documentRepository.GetHistoryInformation((DateTime)InitialDate, (DateTime)FinalDate);
+                History.Data = _documentRepository.GetDatatoFillDocument();
+                return History;
+            }
 
 
-        //}
-        //public IActionResult History(string Customer, string Product)
-        //{
-        //    var sessionU = HttpContext.Session.GetString("UserS");
-        //    var sessionA = HttpContext.Session.GetString("Access");
+        }
+        public HistoryVM HistorybyDocument(int DocumentID)
+        {
+            var sessionU = HttpContext.Session.GetString("UserS");
+            var sessionA = HttpContext.Session.GetString("Access");
 
-        //    //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && sessionA == "Administrator"
-        //    if (sessionU == "User")
-        //    {
-        //        return RedirectToAction("Index", "Home");
-        //    }
-        //    else
-        //    {
-        //        var History = new HistoryVM();
-        //        History.ListHistory = _documentRepository.GetHistoryInformation();
-        //        History.Data = _documentRepository.GetDatatoFillDocument(Customer, Product);
-        //        return View(History);
-        //    }
+            //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && sessionA == "Administrator"
+            if (sessionU == "User")
+            {
+                return null;
+            }
+            else
+            {
+                var History = new HistoryVM();
+                History.ListHistory = _documentRepository.GetHistoryInformation(DocumentID);
+                History.Data = _documentRepository.GetDatatoFillDocument();
+                return History;
+            }
 
 
-        //}
+        }
+        public HistoryVM HistoryCustomer(int CustomerName, int ProductName)
+        {
+            var sessionU = HttpContext.Session.GetString("UserS");
+            var sessionA = HttpContext.Session.GetString("Access");
+
+            //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && sessionA == "Administrator"
+            if (sessionU == "User")
+            {
+                return null;
+            }
+            else
+            {
+                var History = new HistoryVM();
+                History.ListHistory = _documentRepository.GetHistoryInformation(CustomerName, ProductName);
+                History.Data = _documentRepository.GetDatatoFillDocument();
+                return History;
+            }
+
+
+        }
         [HttpPost]
         public IActionResult ValidateUser(UserLogin info)
         {

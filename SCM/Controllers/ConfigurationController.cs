@@ -38,6 +38,8 @@ namespace SCM.Controllers
                     var user = new User();
                     user.Name = DocumentI.Username;
                     user.UserName = DocumentI.UserID;
+                    user.UserTypeId = 3;
+                    user.Password = DocumentI.Password;
 
                     //SAVE 
                     _userRepository.Create(user);

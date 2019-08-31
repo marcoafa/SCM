@@ -1,21 +1,24 @@
 ﻿@using SCM.ViewModel;
 @model HistoryVM;
 
-    @{
-        ViewData["Title"] = "History";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
+@{
+    ViewData["Title"] = "History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 
 
 
-    <section class="History">
-        <div class="divHeader">
+<section class="History">
+    <div class="divHeader">
 
-            <h2 style="color: white;" class="text-center">Historial de todos los manifiestos</h2>
+        <h2 style="color: white;" class="text-center">Historial de todos los manifiestos</h2>
 
 
-        </div>
+    </div>
+    <form action="@Url.Action("History","Home")" method="post">
+
+
         <div class="row">
             <!--INITIAL DATE-->
             <label class="control-label col-sm-1 offset-md-1" for="InitialDateVal">Fecha I:</label>
@@ -23,7 +26,7 @@
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
-                <input type="date" value="@DateTime.Now.Date.AddDays(-7).ToString("dd-MMMM-yy")" class="form-control" id="InitialDateVal" placeholder="Seleccionar una Fecha">
+                <input type="date" name="InitialDate" value="@DateTime.Now.Date.AddDays(-7).ToString("dd-MMMM-yy")" class="form-control" id="InitialDateVal" placeholder="Seleccionar una Fecha">
             </div>
 
             <!--FINAL DATE-->
@@ -32,15 +35,20 @@
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
-                <input type="date" value="@DateTime.Now.Date.ToString("dd-MMMM-yy");" class="form-control" id="FinalDateVal" placeholder="Seleccionar una Fecha">
+                <input type="date" name="FinalDate" value="@DateTime.Now.Date.ToString("dd-MMMM-yy");" class="form-control" id="FinalDateVal" placeholder="Seleccionar una Fecha">
             </div>
+            <!--INITIAL DATE-->
+
+            <input style="display:none;" type="number" name="type" value="1" class="form-control" />
+
             <div class="col-sm-1 input-group">
-                <button type="button" class="btn btn-success btn_big FilterbyDates">
+                <button type="submit" class="btn btn-success btn_big FilterbyDates">
                     <i class="fas fa-angle-right"></i> Filtrar
                 </button>
             </div>
         </div>
-
+    </form>
+    <form action="@Url.Action("History","Home")" method="post">
         <div class="row" style="margin-top:20px;">
             <!--CUSTOMERS-->
             <label class="control-label col-sm-1 offset-md-1" for="CustomersFVal">Cliente:</label>
@@ -50,8 +58,8 @@
                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
 
-            
-                <select class="form-control" id="CustomersFVal">
+
+                <select name="CustomerName" class="form-control" id="CustomersFVal">
                     <option value="0">All</option>
                     @{foreach (var item in Model.Data.Customers)
                         {
@@ -70,7 +78,7 @@
                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
 
-                <select class="form-control" id="ProductFVal">
+                <select name="ProductName" class="form-control" id="ProductFVal">
                     <option value="0">All</option>
                     @{foreach (var item in Model.Data.Products)
                         {
@@ -80,17 +88,24 @@
 
                 </select>
             </div>
+            <!--INITIAL DATE-->
+
+            <input style="display:none;" type="number" name="type" value="3" class="form-control" />
+
             <div class="col-sm-1 input-group">
-                <button type="button" class="btn btn-success btn_big FilterbyCustomer">
+                <button type="submit" class="btn btn-success btn_big FilterbyCustomer">
                     <i class="fas fa-angle-right"></i> Filtrar
                 </button>
 
             </div>
 
         </div>
-        <div class="sales_actions row" style="margin-top:20px;">
-            <!--FILTER FOR THE STATUS OF THE DOCUMENT-->
+    </form>
 
+
+    <form action="@Url.Action("History","Home")" method="post">
+        <!--FILTER FOR THE STATUS OF THE DOCUMENT-->
+        <div class="sales_actions row" style="margin-top:20px;">
             <label class="control-label col-sm-1 offset-md-1" for="FindDocument">Manifiesto:</label>
             <div class="col-sm-3 input-group">
 
@@ -98,47 +113,58 @@
                     <span class="input-group-text"><i class="fas fa-battery-half"></i></span>
                 </div>
 
-                <input type="number" class="form-control" id="FindDocument" placeholder="Agrege el manifiesto">
+                <input name="DocumentID" min="0" type="number" class="form-control" id="FindDocument" placeholder="Agrege el manifiesto">
 
 
             </div>
+            <!--INITIAL DATE-->
+
+            <input style="display:none;" type="number" name="type" value="2" class="form-control" />
+
             <div class="col-sm-2 input-group">
-                <button type="button" class="btn btn-success btn_big FilterbyDocument">
+                <button type="submit" class="btn btn-success btn_big FilterbyDocument">
                     <i class="fas fa-angle-right"></i> Filtrar
                 </button>
             </div>
-            <div class="col-sm-2 offset-md-1 input-group">
-                <form action="@Url.Action("ExportV2","Document")" method="get">
-                    <button type="submit" class="btn btn-success btn_big FilterDocumentsS">
-                        <i class="fas fa-angle-right"></i> Descargar a Excel
-                    </button>
-                </form>
-            </div>
 
         </div>
-        <div class="sales_table row" style="margin-top:20px;">
-            <div class="col-sm-10 offset-md-1">
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
-
-                            <th scope="col">Manifiesto</th>
-                            <th scope="col">Cliente</th>
-                            <th scope="col">Empleado</th>
-                            <th scope="col">Producto</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Unidad</th>
+    </form>
+    <div>
+        <div class="col-sm-2 offset-md-7 input-group">
+            <form action="@Url.Action("ExportV2","Document")" method="get">
+                <button type="submit" class="btn btn-success btn_big FilterDocumentsS">
+                    <i class="fas fa-angle-right"></i> Descargar a Excel
+                </button>
+            </form>
+        </div>
+    </div>
 
 
-                            <th scope="col">Contenedor</th>
-                            <th scope="col">Tipo de Manejo</th>
-                            <th scope="col">Fecha</th>
 
-                        </tr>
-                    </thead>
-                    <tbody class="thead-light">
-                        @foreach (var item in Model.ListHistory)
-                        {
+
+    <div class="sales_table row" style="margin-top:20px;">
+        <div class="col-sm-10 offset-md-1">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+
+                        <th scope="col">Manifiesto</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Empleado</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Unidad</th>
+
+
+                        <th scope="col">Contenedor</th>
+                        <th scope="col">Tipo de Manejo</th>
+                        <th scope="col">Fecha</th>
+
+                    </tr>
+                </thead>
+                <tbody class="thead-light">
+                    @foreach (var item in Model.ListHistory)
+                    {
                         <tr>
 
                             <td>@item.DocumentId</td>
@@ -155,77 +181,78 @@
 
                         </tr>
 
-                        }
+                    }
 
-                    </tbody>
-                    <tfoot style="text-align: center;">
-                    <td colspan="9">Manifiesto creados hasta la fecha</td>
-                    </tfoot>
-                </table>
-
-            </div>
-
+                </tbody>
+                <tfoot style="text-align: center;">
+                <td colspan="9">Manifiesto creados hasta la fecha</td>
+                </tfoot>
+            </table>
 
         </div>
 
-        <div class="Actions row" style="margin-top:40px;">
-            <!--FILTER FOR THE STATUS OF THE DOCUMENT-->
 
-            <div class="col-sm-8 offset-md-2 input-group">
-                <button style="width: 100%; text-align:center;" type="button" class="btn btn-danger btn_big ImportDocument">
-                    <i class="fas fa-angle-right"></i> Importar Manifiestos
-                </button>
-            </div>
-
-        </div>
-    </section>
+    </div>
 
 
-    @section Scripts
-        {
-        <script>
+</section>
+<div class="Actions row" style="margin-top:20px;">
+    <!--FILTER FOR THE STATUS OF THE DOCUMENT-->
+
+    <div class="col-sm-8 offset-md-2 input-group">
+        <button style="width: 100%; text-align:center;" type="button" class="btn btn-danger btn_big ImportDocument">
+            <i class="fas fa-angle-right"></i> Importar Manifiestos
+        </button>
+    </div>
+
+</div>
+
+
+@section Scripts
+    {
+    <script>
             $(".FilterbyCustomer").on("click", function (e) {
-               
+
                 var DocumentCustomerID = $('#CustomersFVal').val();
                 var DocumentProduct = $('#ProductFVal').val();
 
-               
+
                 debugger;
-              
+
                 let url = '@Url.Action("History", "Home")?Customer=' + DocumentCustomerID + '&Product=' + DocumentProduct;
-         
+
                 window.location.href = url;
-              
+
             });
             $(".FilterbyDocument").on("click", function (e) {
-               
-                var DocumentID = $('#FindDocument').val();
-               
 
-               
+                var DocumentID = $('#FindDocument').val();
+
+
+
                 debugger;
-              
+
                 let url = '@Url.Action("History", "Home")?DocumentID=' + DocumentCustomerID;
-         
+
                 window.location.href = url;
-              
+
             });
 
             $(".FilterbyDates").on("click", function (e) {
-               
-                var InitialDate = $('#InitialDateVal').val();
-                var FinalDate = $('#FinalDateVal').val();
-               
 
-               
+                var InitialDate = dateFormat($('#InitialDateVal').val(), "mm/dd/yyyy HH:MM:ss");
+                var FinalDate = dateFormat($('#FinalDateVal').val(), "mm/dd/yyyy HH:MM:ss");
+
+
+
                 debugger;
-              
-                 let url = '@Url.Action("History", "Home")?InitialDate=' + InitialDate + '&FinalDate=' + FinalDate;
-         
+
+                let url = '@Url.Action("History", "Home")?type=1&InitialDate=' + InitialDate + '&FinalDate=' + FinalDate + '&DocumentID=1&CustomerName=""&ProductName=""';
+
                 window.location.href = url;
-         
-              
-              
+
+
+
             });
         $(".ImportDocument").on("click", function (e) {
 
@@ -233,7 +260,7 @@
                 var urlR = '@Url.Action("History", "Home")';
                 $.ajax({
                     url: url,
-                   
+
                     cache: false,
                     contentType: false,
                     processData: false,
@@ -246,8 +273,8 @@
                             window.location.href = urlR;
                         }
                         else {
-                           
-                                alert('Hubo un '+r+', si el error continua contacte a su proveedor');  
+
+                                alert('Hubo un '+r+', si el error continua contacte a su proveedor');
 
                         }
 
@@ -259,6 +286,6 @@
                 });
             });
 
-        </script>
+    </script>
 
-    }
+}

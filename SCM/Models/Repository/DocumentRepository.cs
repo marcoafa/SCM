@@ -321,10 +321,10 @@ namespace SCM.Models.Repository
               }).ToList();
         }
 
-        public List<HistoryDataVM> GetHistoryInformation(string Customer, string Product)
+        public List<HistoryDataVM> GetHistoryInformation(int Customer, int Product)
         {
 
-            if (Product == "All" && Customer == "All")
+            if (Product == 0 && Customer == 0)
             {
                 return _context.History
                 .Select(x => new HistoryDataVM()
@@ -343,10 +343,10 @@ namespace SCM.Models.Repository
             }
             else
             {
-                if (Product == "All")
+                if (Product != 0 && Customer == 0)
                 {
                     return _context.History
-                    .Where(u =>  u.ProductName == Product)
+                    .Where(u =>  u.ProductName == _context.Product.Where(y => y.ProductId == (short)Product).FirstOrDefault().ProductName)
                        .Select(x => new HistoryDataVM()
                        {
                            HistoryId = x.HistoryId,
@@ -363,21 +363,43 @@ namespace SCM.Models.Repository
                 }
                 else
                 {
-                    return _context.History
-                      .Where(u => u.Customer.CustomerName == Customer && u.ProductName == Product)
-                         .Select(x => new HistoryDataVM()
-                         {
-                             HistoryId = x.HistoryId,
-                             DocumentId = x.DocumentId,
-                             ProductName = x.ProductName,
-                             Quantity = x.Quantity,
-                             ManagementName = x.ManagementName,
-                             ContainerName = x.ContainerName,
-                             Unit = x.Unit,
-                             CreationDate = x.CreationDate,
-                             UserName = x.UserName,
-                             CustomerName = _context.Customer.Where(y => y.CustomerId == x.CustomerId).FirstOrDefault().CustomerName
-                     }).ToList();
+                    if (Customer != 0 && Product == 0)
+                    {
+                        return _context.History
+                        .Where(u => u.Customer.CustomerId == Customer)
+                           .Select(x => new HistoryDataVM()
+                           {
+                               HistoryId = x.HistoryId,
+                               DocumentId = x.DocumentId,
+                               ProductName = x.ProductName,
+                               Quantity = x.Quantity,
+                               ManagementName = x.ManagementName,
+                               ContainerName = x.ContainerName,
+                               Unit = x.Unit,
+                               CreationDate = x.CreationDate,
+                               UserName = x.UserName,
+                               CustomerName = _context.Customer.Where(y => y.CustomerId == x.CustomerId).FirstOrDefault().CustomerName
+                           }).ToList();
+                    }
+                    else
+                    {
+                        return _context.History
+                     .Where(u => u.Customer.CustomerId == Customer && u.ProductName == _context.Product.Where(y => y.ProductId == (short)Product).FirstOrDefault().ProductName)
+                        .Select(x => new HistoryDataVM()
+                        {
+                            HistoryId = x.HistoryId,
+                            DocumentId = x.DocumentId,
+                            ProductName = x.ProductName,
+                            Quantity = x.Quantity,
+                            ManagementName = x.ManagementName,
+                            ContainerName = x.ContainerName,
+                            Unit = x.Unit,
+                            CreationDate = x.CreationDate,
+                            UserName = x.UserName,
+                            CustomerName = _context.Customer.Where(y => y.CustomerId == x.CustomerId).FirstOrDefault().CustomerName
+                        }).ToList();
+                    }
+                   
                 }
                   
             }
