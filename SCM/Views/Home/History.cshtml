@@ -129,6 +129,7 @@
 
         </div>
     </form>
+
     <div>
         <div class="col-sm-2 offset-md-7 input-group">
             <form action="@Url.Action("ExportV2","Document")" method="get">
@@ -159,27 +160,34 @@
                         <th scope="col">Contenedor</th>
                         <th scope="col">Tipo de Manejo</th>
                         <th scope="col">Fecha</th>
-
+                        <th scope="col">Editar</th>
                     </tr>
                 </thead>
                 <tbody class="thead-light">
                     @foreach (var item in Model.ListHistory)
                     {
-                        <tr>
+                    <tr>
 
-                            <td>@item.DocumentId</td>
-                            <td>@item.CustomerName</td>
-                            <td>@item.UserName</td>
-                            <td>@item.ProductName</td>
-                            <td>@item.Quantity</td>
-                            <td>@item.Unit</td>
-                            <td>@item.ContainerName</td>
-                            <td>@item.ManagementName</td>
-                            <td>@item.CreationDate.Value.ToString("dd-MMMM-yy")</td>
+                        <td>@item.DocumentId</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.UserName</td>
+                        <td>@item.ProductName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Unit</td>
+                        <td>@item.ContainerName</td>
+                        <td>@item.ManagementName</td>
+                        <td>@item.CreationDate.Value.ToString("dd-MMMM-yy")</td>
+                        <td>
+                           
+
+                            <button data-documentID="@item.DocumentId" type="button" class="btn btn-danger btn_big EditDocumentHistorybtn">
+                                <i class="fas fa-edit"></i>
+                            </button>
+
+                        </td>
 
 
-
-                        </tr>
+                    </tr>
 
                     }
 
@@ -211,49 +219,7 @@
 @section Scripts
     {
     <script>
-            $(".FilterbyCustomer").on("click", function (e) {
-
-                var DocumentCustomerID = $('#CustomersFVal').val();
-                var DocumentProduct = $('#ProductFVal').val();
-
-
-                debugger;
-
-                let url = '@Url.Action("History", "Home")?Customer=' + DocumentCustomerID + '&Product=' + DocumentProduct;
-
-                window.location.href = url;
-
-            });
-            $(".FilterbyDocument").on("click", function (e) {
-
-                var DocumentID = $('#FindDocument').val();
-
-
-
-                debugger;
-
-                let url = '@Url.Action("History", "Home")?DocumentID=' + DocumentCustomerID;
-
-                window.location.href = url;
-
-            });
-
-            $(".FilterbyDates").on("click", function (e) {
-
-                var InitialDate = dateFormat($('#InitialDateVal').val(), "mm/dd/yyyy HH:MM:ss");
-                var FinalDate = dateFormat($('#FinalDateVal').val(), "mm/dd/yyyy HH:MM:ss");
-
-
-
-                debugger;
-
-                let url = '@Url.Action("History", "Home")?type=1&InitialDate=' + InitialDate + '&FinalDate=' + FinalDate + '&DocumentID=1&CustomerName=""&ProductName=""';
-
-                window.location.href = url;
-
-
-
-            });
+          
         $(".ImportDocument").on("click", function (e) {
 
                 var url = '@Url.Action("ImportDocument", "Document")';
@@ -286,6 +252,14 @@
                 });
             });
 
+        
+         $(".EditDocumentHistorybtn").on('click', function () {
+            debugger;
+            let DocumentID = $(this).attr('data-documentID');
+            let url = '@Url.Action("EditHistory", "Home")?DocumentID=' + DocumentID;
+         
+            window.location.href = url;
+        });
     </script>
 
 }

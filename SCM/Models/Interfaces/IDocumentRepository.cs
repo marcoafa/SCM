@@ -19,7 +19,12 @@ namespace SCM.Models.Interfaces
 
         DocumentData GetDataDocumentID(int DocumentID);
         List<DocumentsVM> GetFullDocuments();
+        List<DocumentsVM> GetStatusInformation(int DocumentID);
+        List<DocumentsVM> GetStatusInformation(int Customer, int Product);
+        List<DocumentsVM> GetStatusInformation(DateTime InitialDate, DateTime FinalDate);
+        
         EditDocumentVM GetDataEditDocumentID(int DocumentID);
+        EditDocumentVM GetHistoryDataEditDocumentID(int DocumentID);
         List<HistoryDataVM> GetHistoryInformation();
         List<HistoryDataVM> GetHistoryInformation(int DocumentID);
         List<HistoryDataVM> GetHistoryInformation(int Customer, int Product);

@@ -46,6 +46,7 @@ namespace SCM
             services.AddTransient<IContainerRepository, ContainerRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
+            //services.AddTransient<IHostingEnvironment>();
             
 
             services.AddDistributedMemoryCache();

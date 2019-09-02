@@ -97,24 +97,108 @@ namespace SCM.Controllers
             }
 
         }
-        public IActionResult Status()
+        public IActionResult Status(int? type = 0, DateTime? InitialDate = null, DateTime? FinalDate = null, int DocumentID = 0, int CustomerName = 0, int ProductName = 0)
         {
-            var ListDocuments = new List<DocumentsVM>();
+            var StatusDocuments = new StatusVM();
             var sessionU = HttpContext.Session.GetString("UserS");
             var sessionA = HttpContext.Session.GetString("Access");
 
-            ListDocuments = _documentRepository.GetFullDocuments();
 
-            
-            if (sessionU != "User")
+            if (sessionU == "User")
             {
-                return View(ListDocuments);
+                return RedirectToAction("Index", "Home");
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                switch (type)
+                {
+                    case 0:
+                        StatusDocuments.ListDocuments = _documentRepository.GetFullDocuments();
+                        StatusDocuments.Data = _documentRepository.GetDatatoFillDocument();
 
+                        break;
+                    case 1:
+                        //FILTER BY DATES
+                        StatusDocuments = StatusbyDates(InitialDate, FinalDate);
+                        break;
+                    case 2:
+                        //FILTER BY DOCUMENT
+                        StatusDocuments = StatusbyDocument((int)DocumentID);
+                        break;
+                    case 3:
+                        //FILTER BY CUSTOMER
+                        StatusDocuments = StatusCustomer(CustomerName, ProductName);
+                        break;
+                    case 4:
+                        //FILTER BY PRODUCT
+                        StatusDocuments = StatusCustomer(CustomerName, ProductName);
+                        break;
+                    default:
+                        break;
+                }
+                return View(StatusDocuments);
+               
             }
+
+        }
+        public StatusVM StatusbyDates(DateTime? InitialDate, DateTime? FinalDate)
+        {
+            var sessionU = HttpContext.Session.GetString("UserS");
+            var sessionA = HttpContext.Session.GetString("Access");
+
+            //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && sessionA == "Administrator"
+            if (sessionU == "User")
+            {
+                return null;
+            }
+            else
+            {
+                var DcoumentData = new StatusVM();
+                DcoumentData.ListDocuments = _documentRepository.GetStatusInformation((DateTime)InitialDate, (DateTime)FinalDate);
+                DcoumentData.Data = _documentRepository.GetDatatoFillDocument();
+                return DcoumentData;
+            }
+
+
+        }
+        public StatusVM StatusbyDocument(int DocumentID)
+        {
+            var sessionU = HttpContext.Session.GetString("UserS");
+            var sessionA = HttpContext.Session.GetString("Access");
+
+            //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && sessionA == "Administrator"
+            if (sessionU == "User")
+            {
+                return null;
+            }
+            else
+            {
+                var DcoumentData = new StatusVM();
+                DcoumentData.ListDocuments = _documentRepository.GetStatusInformation(DocumentID);
+                DcoumentData.Data = _documentRepository.GetDatatoFillDocument();
+                return DcoumentData;
+            }
+
+
+        }
+        public StatusVM StatusCustomer(int CustomerName, int ProductName)
+        {
+            var sessionU = HttpContext.Session.GetString("UserS");
+            var sessionA = HttpContext.Session.GetString("Access");
+
+            //GET THE TYPE OF USERC:\Users\MarcoAF\source\repos\SCM\SCM\Controllers\ && sessionA == "Administrator"
+            if (sessionU == "User")
+            {
+                return null;
+            }
+            else
+            {
+                var DcoumentData = new StatusVM();
+                DcoumentData.ListDocuments = _documentRepository.GetStatusInformation(CustomerName, ProductName);
+                DcoumentData.Data = _documentRepository.GetDatatoFillDocument();
+                return DcoumentData;
+            }
+
 
         }
         public IActionResult History(int? type = 0, DateTime? InitialDate = null, DateTime? FinalDate = null, int DocumentID = 0,int CustomerName = 0, int ProductName = 0)
@@ -220,6 +304,16 @@ namespace SCM.Controllers
             }
 
 
+        }
+        //EDIT HISTORY VIEW
+        public IActionResult EditHistory(int DocumentID)
+        {
+
+            var DataForDocument = _documentRepository.GetHistoryDataEditDocumentID(DocumentID);
+
+            //DataForDocument.DocumentD = _documentRepository.GetDataDocumentID(DocumentID);
+
+            return View(DataForDocument);
         }
         [HttpPost]
         public IActionResult ValidateUser(UserLogin info)

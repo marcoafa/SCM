@@ -1,5 +1,5 @@
 ﻿@using SCM.ViewModel;
-@model List<DocumentsVM>;
+@model StatusVM;
 @{
     ViewData["Title"] = "Status";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,87 +16,190 @@
 
     </div>
 
-    <div class="sales_actions row">
-        <!--FILTER FOR THE STATUS OF THE DOCUMENT-->
+    <form action="@Url.Action("Status","Home")" method="post">
 
-        <label class="control-label col-sm-2 offset-md-2" for="StateFilterVal">Estado del manifiesto:</label>
-        <div class="col-sm-4 input-group">
 
-            <div class="input-group-append">
-                <span class="input-group-text"><i class="fas fa-battery-half"></i></span>
+        <div class="row">
+            <!--INITIAL DATE-->
+            <label class="control-label col-sm-1 offset-md-1" for="InitialDateVal">Fecha I:</label>
+            <div class="col-sm-3 input-group">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+                <input type="date" name="InitialDate" value="@DateTime.Now.Date.AddDays(-7).ToString("dd-MMMM-yy")" class="form-control" id="InitialDateStVal" placeholder="Seleccionar una Fecha">
             </div>
 
-            <select class="form-control" id="StateFilterVal">
-                <option>Pendientes por capturar</option>
-                <option>Finalizadas</option>
+            <!--FINAL DATE-->
+            <label class="control-label col-sm-1" for="FinalDateVal">Fecha F:</label>
+            <div class="col-sm-3 input-group">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+                <input type="date" name="FinalDate" value="@DateTime.Now.Date.ToString("dd-MMMM-yy");" class="form-control" id="FinalDateStVal" placeholder="Seleccionar una Fecha">
+            </div>
+            <!--INITIAL DATE-->
 
-            </select>
+            <input style="display:none;" type="number" name="type" value="1" class="form-control" />
 
+            <div class="col-sm-1 input-group">
+                <button type="submit" class="btn btn-success btn_big FilterbyDates">
+                    <i class="fas fa-angle-right"></i> Filtrar
+                </button>
+            </div>
+        </div>
+    </form>
+    <form action="@Url.Action("Status","Home")" method="post">
+        <div class="row" style="margin-top:20px;">
+            <!--CUSTOMERS-->
+            <label class="control-label col-sm-1 offset-md-1" for="CustomersFVal">Cliente:</label>
+            <div class="col-sm-3 input-group">
+
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+
+
+                <select name="CustomerName" class="form-control" id="CustomersStFVal">
+                    <option value="0">All</option>
+                    @{foreach (var item in Model.Data.Customers)
+                        {
+                            <option value="@item.CustomerID">@item.CustomerName</option>
+                        }
+                    }
+
+                </select>
+            </div>
+
+            <!--PRODUCTS-->
+            <label class="control-label col-sm-1" for="ProductFVal">Producto:</label>
+            <div class="col-sm-3 input-group">
+
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+
+                <select name="ProductName" class="form-control" id="ProductFStVal">
+                    <option value="0">All</option>
+                    @{foreach (var item in Model.Data.Products)
+                        {
+                            <option value="@item.ProductID">@item.ProductName</option>
+                        }
+                    }
+
+                </select>
+            </div>
+            <!--INITIAL DATE-->
+
+            <input style="display:none;" type="number" name="type" value="3" class="form-control" />
+
+            <div class="col-sm-1 input-group">
+                <button type="submit" class="btn btn-success btn_big FilterbyCustomer">
+                    <i class="fas fa-angle-right"></i> Filtrar
+                </button>
+
+            </div>
 
         </div>
-        <div class="col-sm-2 input-group">
-            <button type="button" class="btn btn-success btn_big FilterDocumentsS">
-                <i class="fas fa-angle-right"></i> Filtrar
-            </button>
+    </form>
+
+
+    <form action="@Url.Action("Status","Home")" method="post">
+        <!--FILTER FOR THE STATUS OF THE DOCUMENT-->
+        <div class="sales_actions row" style="margin-top:20px;">
+            <label class="control-label col-sm-1 offset-md-1" for="FindDocument">Manifiesto:</label>
+            <div class="col-sm-3 input-group">
+
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-battery-half"></i></span>
+                </div>
+
+                <input name="DocumentID" min="0" type="number" class="form-control" id="FindDocumentST" placeholder="Agrege el manifiesto">
+
+
+            </div>
+            <!--INITIAL DATE-->
+
+            <input style="display:none;" type="number" name="type" value="2" class="form-control" />
+
+            <div class="col-sm-2 input-group">
+                <button type="submit" class="btn btn-success btn_big FilterbyDocument">
+                    <i class="fas fa-angle-right"></i> Filtrar
+                </button>
+            </div>
+
         </div>
-          
-        </div>
-        <div class="sales_table row" style="margin-top:20px;">
-            <div class="col-sm-8 offset-md-2">
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
+    </form>
+
+  
+    <div class="sales_table row" style="margin-top:20px;">
+        <div class="col-sm-10 offset-md-1">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+
+                        <th scope="col">Manifiesto</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Empleado</th>
+                        <th scope="col">Fecha</th>
+
+                        <th scope="col">Descargar</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody class="thead-light">
+                    @foreach (var item in Model.ListDocuments)
+                    {
                         <tr>
 
-                            <th scope="col">Manifiesto</th>
-                            <th scope="col">Cliente</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">Empleado</th>
-                            <th scope="col">Fecha</th>
-                            <th scope="col">Editar</th>
-                        </tr>
-                    </thead>
-                    <tbody class="thead-light">
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-
-                                <td>@item.DocumentID</td>
-                                <td>@item.Customer</td>
-                                <td>@item.Status</td>
-                                <td>@item.UserName</td>
-                                <td>@item.CreationDate.Date</td>
-                                <td>
-                                    @if (@item.Status != "Finalizado")
-                                    {
+                            <td>@item.DocumentID</td>
+                            <td>@item.Customer</td>
+                            <td>@item.Status</td>
+                            <td>@item.UserName</td>
+                            <td>@item.CreationDate.Date</td>
+                            <td>
+                                @if (@item.Status != "Finalizado")
+                                {
+                                    <form action="@Url.Action("ExportV3", "Document")" method="post">
+                                        <input name="DocumentID" value=" @item.DocumentID" style="display:none;">
+                                        <button type="submit" class="btn btn-success btn_big">
+                                            Manifiesto
+                                        </button>
+                                    </form>
+                                }
+                            </td>
+                            <td>
+                                @if (@item.Status != "Finalizado")
+                                {
 
                                     <button data-documentID="@item.DocumentID" type="button" class="btn btn-primary btn_big CompleteDocumentbtn">
                                         <i class="fas fa-check-double"></i>
                                     </button>
 
-                                    }
+                                }
 
-                                    <button data-documentID="@item.DocumentID" type="button" class="btn btn-danger btn_big EditDocumentbtn">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
+                                <button data-documentID="@item.DocumentID" type="button" class="btn btn-danger btn_big EditDocumentbtn">
+                                    <i class="fas fa-edit"></i>
+                                </button>
 
-                                </td>
-                            </tr>
+                            </td>
+                        </tr>
 
-                        }
-
-
+                    }
 
 
-                    </tbody>
-                    <tfoot style="text-align: center;">
-                    <td colspan="6">Manifiesto creados hasta la fecha</td>
-                    </tfoot>
-                </table>
 
-            </div>
 
+                </tbody>
+                <tfoot style="text-align: center;">
+                <td colspan="7">Manifiesto creados hasta la fecha</td>
+                </tfoot>
+            </table>
 
         </div>
+
+
+    </div>
 </section>
 
   

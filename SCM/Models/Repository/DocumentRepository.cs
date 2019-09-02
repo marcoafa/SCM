@@ -156,6 +156,105 @@ namespace SCM.Models.Repository
 
             return DocumentsVM;
         }
+        public List<DocumentsVM> GetStatusInformation(int DocumentID)
+        {
+            var DocumentsVM = new List<DocumentsVM>();
+
+            DocumentsVM = _context.Document
+                  .Where(u => u.DocumentId == DocumentID)
+                .Select(x => new DocumentsVM()
+                {
+                    DocumentID = x.DocumentId,
+                    Status = x.DocumentStatus.Status,
+                    CreationDate = (DateTime)x.CreationDate,
+                    Customer = x.Customer.CustomerName,
+                    UserName = x.User.UserName
+                }).ToList();
+
+            return DocumentsVM;
+        }
+
+        public List<DocumentsVM> GetStatusInformation(int Customer, int Product)
+        {
+
+            if (Product == 0 && Customer == 0)
+            {
+                return _context.Document
+               .Select(x => new DocumentsVM()
+               {
+                   DocumentID = x.DocumentId,
+                   Status = x.DocumentStatus.Status,
+                   CreationDate = (DateTime)x.CreationDate,
+                   Customer = x.Customer.CustomerName,
+                   UserName = x.User.UserName
+               }).ToList();
+            }
+            else
+            {
+                if (Product != 0 && Customer == 0)
+                {
+                    return _context.Document
+                         .Where(u => u.WasteId == _context.Waste.Where(y => y.ProductId == (short)Product).FirstOrDefault().WasteId)
+                          .Select(x => new DocumentsVM()
+                          {
+                              DocumentID = x.DocumentId,
+                              Status = x.DocumentStatus.Status,
+                              CreationDate = (DateTime)x.CreationDate,
+                              Customer = x.Customer.CustomerName,
+                              UserName = x.User.UserName
+                          }).ToList();
+                   
+                }
+                else
+                {
+                    if (Customer != 0 && Product == 0)
+                    {
+                        return _context.Document
+                        .Where(u => u.CustomerId == Customer)
+                         .Select(x => new DocumentsVM()
+                         {
+                             DocumentID = x.DocumentId,
+                             Status = x.DocumentStatus.Status,
+                             CreationDate = (DateTime)x.CreationDate,
+                             Customer = x.Customer.CustomerName,
+                             UserName = x.User.UserName
+                         }).ToList();
+                      
+                    }
+                    else
+                    {
+                        return _context.Document
+                          .Where(u => u.CustomerId == Customer && u.WasteId == _context.Waste.Where(y => y.ProductId == (short)Product).FirstOrDefault().WasteId)
+                          .Select(x => new DocumentsVM()
+                          {
+                              DocumentID = x.DocumentId,
+                              Status = x.DocumentStatus.Status,
+                              CreationDate = (DateTime)x.CreationDate,
+                              Customer = x.Customer.CustomerName,
+                              UserName = x.User.UserName
+                          }).ToList();
+                    }
+
+                }
+
+            }
+
+        }
+
+        public List<DocumentsVM> GetStatusInformation(DateTime InitialDate, DateTime FinalDate)
+        {
+            return _context.Document
+                    .Where(u => u.CreationDate >= InitialDate && u.CreationDate <= FinalDate)
+                        .Select(x => new DocumentsVM()
+                        {
+                            DocumentID = x.DocumentId,
+                            Status = x.DocumentStatus.Status,
+                            CreationDate = (DateTime)x.CreationDate,
+                            Customer = x.Customer.CustomerName,
+                            UserName = x.User.UserName
+                        }).ToList();
+        }
+
         public DocumentData GetDataDocumentID(int DocumentID)
         {
             return _context.Document
@@ -211,6 +310,35 @@ namespace SCM.Models.Repository
             return DocumentsVM;
         }
 
+        public EditDocumentVM GetHistoryDataEditDocumentID(int DocumentID)
+        {
+
+            var DocumentsVM = new EditDocumentVM();
+            DocumentsVM.Data = GetDatatoFillDocument();
+            var Documentinfo = _context.History.Where(x => x.DocumentId == DocumentID).FirstOrDefault();
+            DocumentsVM.DocumentD.DocumentID = Documentinfo.DocumentId.Value;
+            DocumentsVM.DocumentD.Customer = _context.Customer.Where(u => u.CustomerId == Documentinfo.CustomerId).FirstOrDefault().CustomerName;
+            DocumentsVM.DocumentD.Username = Documentinfo.UserName;
+
+            _context.History.Where(x => x.DocumentId == DocumentID).ToList().ForEach(x => {
+                var DP = new DataProductsEdit()
+                {
+                    ProductName = x.ProductName,
+                   
+                    ProductID = _context.Product.Where(u => u.ProductName == x.ProductName).FirstOrDefault().ProductId,
+                    ContainerName = x.ContainerName,
+                    ContainerID = _context.Container.Where(u => u.ContainerDescription == x.ContainerName).FirstOrDefault().ContainerId,
+                    ManagementName = x.ManagementName,
+                    Unit = x.Unit,
+                    ManagementID = _context.ManagementProduct.Where(u => u.ManagementName == x.ManagementName).FirstOrDefault().ManagementId,
+                    Quantity = (int)x.Quantity
+                };
+                DocumentsVM.Products.Add(DP);
+            });
+           
+            return DocumentsVM;
+      
+        }
         public EditDocumentVM GetDataEditDocumentID(int DocumentID)
         {
 
@@ -225,22 +353,21 @@ namespace SCM.Models.Repository
                 var DP = new DataProductsEdit()
                 {
                     ProductName = _context.Product.Where(u => u.ProductId == x.ProductId).FirstOrDefault().ProductName,
-                   
+
                     ProductID = x.Product.ProductId,
                     ContainerName = _context.Container.Where(u => u.ContainerId == x.ContainerId).FirstOrDefault().ContainerDescription,
                     ContainerID = x.Container.ContainerId,
                     ManagementName = _context.ManagementProduct.Where(u => u.ManagementId == x.ManagementId).FirstOrDefault().ManagementName,
-                   
+                    Unit = x.Unit,
                     ManagementID = (int)x.ManagementId,
                     Quantity = (int)x.Quantity
                 };
                 DocumentsVM.Products.Add(DP);
             });
-           
-            return DocumentsVM;
-      
-        }
 
+            return DocumentsVM;
+
+        }
         public string ImportDocuments()
         {
             string bandera = "true";
