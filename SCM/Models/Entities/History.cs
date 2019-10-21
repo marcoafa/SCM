@@ -15,6 +15,8 @@ namespace SCM.Models.Entities
         public string Unit { get; set; }
         public DateTime? CreationDate { get; set; }
         public string UserName { get; set; }
+        public DateTime? ReceptionDate { get; set; }
+        public string LicensePlate { get; set; }
 
         public Customer Customer { get; set; }
     }

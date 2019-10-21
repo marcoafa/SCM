@@ -17,6 +17,8 @@ namespace SCM.Models.Entities
         public short? UserId { get; set; }
         public byte CompanyId { get; set; }
         public DateTime? CreationDate { get; set; }
+        public DateTime? ReceptionDate { get; set; }
+        public string LicensePlate { get; set; }
 
         public Company Company { get; set; }
         public Customer Customer { get; set; }

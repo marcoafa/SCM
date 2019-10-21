@@ -26,7 +26,7 @@
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
-                <input type="date" name="InitialDate" value="@DateTime.Now.Date.AddDays(-7).ToString("dd-MMMM-yy")" class="form-control" id="InitialDateVal" placeholder="Seleccionar una Fecha">
+                <input type="date" name="InitialDate" value="@DateTime.Now.Date.AddDays(-7).ToString("yyyy-MM-dd")" class="form-control" id="InitialDateVal" placeholder="Seleccionar una Fecha">
             </div>
 
             <!--FINAL DATE-->
@@ -35,7 +35,7 @@
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
-                <input type="date" name="FinalDate" value="@DateTime.Now.Date.ToString("dd-MMMM-yy");" class="form-control" id="FinalDateVal" placeholder="Seleccionar una Fecha">
+                <input type="date" name="FinalDate" value="@DateTime.Now.Date.ToString("yyyy-MM-dd");" class="form-control" id="FinalDateVal" placeholder="Seleccionar una Fecha">
             </div>
             <!--INITIAL DATE-->
 

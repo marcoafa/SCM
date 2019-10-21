@@ -10,6 +10,7 @@ using System.IO;
 using OfficeOpenXml;
 using SCM.ViewModel;
 using Microsoft.AspNetCore.Hosting;
+using System.Globalization;
 
 namespace SCM.Controllers
 {
@@ -89,7 +90,7 @@ namespace SCM.Controllers
             try
             {
 
-                _documentRepository.EditFullDocument(DocumentI);
+                _documentRepository.EditFullHistory(DocumentI);
 
 
 
@@ -155,13 +156,13 @@ namespace SCM.Controllers
                 {
                     var workSheet = package.Workbook.Worksheets[2]; // Aqui obtienes la hoja
                     // Aqui fumo (-_-) , para llenar hardcodee los valores estan justo donde los pusiste 
-                    // asi que ahi tu las llenas con interfaces y tus fumaditas
-                    workSheet.Cells["C3"].Value = "                                             PLUMA NACIONAL S.A DE C.V.";
-                    workSheet.Cells["C4"].Value = "              AV. DE LOS CABOS 13382 PARQUE INDUSTRIAL PACIFICO  CP. 22646 TIJUANA B.C.";
-                    workSheet.Cells["C5"].Value = "                                        FABRICACION DE PLUMAS";
-                    workSheet.Cells["F4"].Value = "                                                (664) 211- 6200";
-                    workSheet.Cells["C25"].Value = "                                                                                 AN-13-011		";
-                    workSheet.Cells["C27"].Value = "                                                                          14-AGOSTO-2019		";
+                    var DataForDocument = _documentRepository.GetDataEditDocumentID(DocumentID);
+                    workSheet.Cells["C3"].Value = "                                             " + DataForDocument.DocumentD.ClientName + "";
+                    workSheet.Cells["C4"].Value = "              " + DataForDocument.DocumentD.ClientAddress + "";
+                    workSheet.Cells["C5"].Value = "                                        " + DataForDocument.DocumentD.ClientBussines + "";
+                    workSheet.Cells["F4"].Value = "                                                " + DataForDocument.DocumentD.ClientPhone + "";
+                    workSheet.Cells["C25"].Value = "                                                                                 " + DataForDocument.DocumentD.LicensePlate + "		";
+                    workSheet.Cells["C27"].Value = "                                                                          " + DataForDocument.DocumentD.ReceptionDate.Value.ToString("dd MMMM yyyy", CultureInfo.CreateSpecificCulture("es-MX")) + "		";
                     workSheet.Cells["C31"].Value = "                                                                                                                  SALES DE PLUMA NACIONAL  TOMAS CAMINO HACIA VIA RAPIDA, TE SALES EN EL PUENTE DE LA BUENA VISTA Y LLEGAS A LA 20 DE NOVIEMBRE.";
                     workSheet.Cells["C32"].Value = "                                                                    MATERIALES ARJAMEX, S.A. DE C.V. 		";
                     workSheet.Cells["C33"].Value = "                                                   CALLE 22 DE NOVIEMBRE 105, COL. 20 DE NOVIEMBRE		";
@@ -171,7 +172,7 @@ namespace SCM.Controllers
 
                  
 
-                    var DataForDocument = _documentRepository.GetDataEditDocumentID(DocumentID);
+                    
 
                     
                     

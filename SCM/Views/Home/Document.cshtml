@@ -14,11 +14,11 @@
 
 
     </div>
-   
+
 
     <!--NUMBER OF THE DOCUMENT-->
     <div class="form-group row">
-        <label class="control-label col-sm-2 offset-md-2" for="CustomerVal">No. Manifiesto:</label>
+        <label class="control-label col-sm-2 offset-md-2" for="ManifiestoVal">No. Manifiesto:</label>
         <div class="col-sm-6 input-group">
 
             <div class="input-group-append">
@@ -70,7 +70,50 @@
         </div>
     </div>
 
+    <!--DIVISOR LINE-->
+    <div class="form-group row">
+        <div class="col-sm-8 offset-md-2 input-group">
+            <span style="display:block; width:100%; border:2px solid #007bff;">
 
+            </span>
+           
+        </div>
+    </div>
+    <!--NUMBER OF THE LICENSE PLATE-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="LicensePlateVal">No. Placas:</label>
+        <div class="col-sm-6 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-truck-moving"></i></span>
+            </div>
+            <input type="text" class="form-control" id="LicensePlateVal" placeholder="Agregar el numero de las placas del vehiculo">
+        </div>
+    </div>
+
+    <!--FECHA DE RECOLECCION-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="NewDateRe">Fecha de Recoleccion</label>
+        <div class="col-sm-3 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+            </div>
+            <input type="date" class="form-control" id="NewDateRe">
+        </div>
+    </div>
+
+    <!--FECHA DE RECEPCION-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="NewDateRo">Fecha de Recepcion</label>
+        <div class="col-sm-3 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+            </div>
+            <input disabled type="date" class="form-control" id="NewDateRo">
+        </div>
+    </div>
 
     <!--OPTION TO GET FULL INFORMATION FOR THE DOCUMENT-->
     <div class="form-group row">
@@ -231,7 +274,10 @@
             var DocumentID = $('#ManifiestoVal').val();
             var DocumentCustomerID = $('#CustomerVal').val();
             var DocumentEmployeeID = $('#EmployeeVal').val();
-
+            var DocumentPlate = $('#LicensePlateVal').val();
+            var DocumentDateRe = $('#NewDateRe').val();
+           
+            debugger;
             if (DocumentID == 0) {
                 alert('Por favor de agregar un Manifiesto');
             }
@@ -246,29 +292,48 @@
 
                     }
                     else {
-                        SaveDocumentJS(DocumentID, DocumentCustomerID, DocumentEmployeeID, DocumentOption);
+                        if (DocumentPlate.length < 4) {
+                            alert('Por favor de agregar las placas del vehiculo');
+
+                        }
+                        else {
+                            debugger;
+                            if (DocumentDateRe == '') {
+                                alert('Por favor de agregar la fecha de Recoleccion');
+
+                            }
+                            else {
+                                SaveDocumentJS(DocumentID, DocumentCustomerID, DocumentEmployeeID, DocumentOption, DocumentPlate, DocumentDateRe);
+                            }
+                           
+                        }
+                       
                     }
                 }
             }
 
-            debugger;
+           
 
 
 
 
         });
 
-        function SaveDocumentJS(DocumentID, DocumentCustomerID, DocumentEmployeeID, DocumentOption) {
+        function SaveDocumentJS(DocumentID, DocumentCustomerID, DocumentEmployeeID, DocumentOption, DocumentPlate, DocumentDateRe) {
             var ListProducts = [];
             var FlagError = 'NoError';
             var data = new FormData();
             data.append("DocumentID", DocumentID);
             data.append("DocumentCustomerID", DocumentCustomerID);
             data.append("DocumentEmployeeID", DocumentEmployeeID);
-
+            data.append("DocumentPlate", DocumentPlate);
+            data.append("DocumentDateRe", DocumentDateRe);
+            var DocumentDateRo = $('#NewDateRo').val();
 
             if (DocumentOption == true) {
 
+
+                data.append("DocumentDateRo", DocumentDateRo);
                 $("#Producttable tbody tr").each(function (index) {
 
 
@@ -297,44 +362,52 @@
                     index++;
                 }
             }
-          
-
-            //data.append("ListProducts", ListProducts);
-            debugger;
-            var url = '@Url.Action("AddDocument", "Document")';
-            if (FlagError == 'NoError') {
-                $.ajax({
-                    url: url,
-                    data: data,
-                    //dataType: "JSON",
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    assign: false,
-                    method: "post",
-                    success: function (r) {
-                        debugger;
-                        if (r == "true") {
-                            alert("El manifiesto se agrego con exito");
-                            let urlR = '@Url.Action("Document", "Home")';
-                          
-                           
-                            window.location.href = urlR;
-                        }
-                        else {
-                            alert("Hubo en error favor de verificar la informacion o inentarlo de nuevo");
-                        }
 
 
-                    },
-                    error: function () {
 
-                        alert("Error intente mas tarde");
-                    }
-                });
+            if (DocumentDateRo == '') {
+                alert('Por favor de agregar la fecha de Recepcion al manifiesto');
+
             }
             else {
-               
+                //data.append("ListProducts", ListProducts);
+                debugger;
+                var url = '@Url.Action("AddDocument", "Document")';
+                if (FlagError == 'NoError') {
+                    $.ajax({
+                        url: url,
+                        data: data,
+                        //dataType: "JSON",
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        assign: false,
+                        method: "post",
+                        success: function (r) {
+                            debugger;
+                            if (r == "true") {
+                                alert("El manifiesto se agrego con exito");
+                                let urlR = '@Url.Action("Document", "Home")';
+
+
+                                window.location.href = urlR;
+                            }
+                            else {
+                                alert("Hubo en error favor de verificar la informacion o inentarlo de nuevo");
+                            }
+
+
+                        },
+                        error: function () {
+
+                            alert("Error intente mas tarde");
+                        }
+                    });
+                }
+                else {
+
+                }
+
             }
         }
 
@@ -388,9 +461,12 @@
 
             if ($(this).prop('checked') == true) {
                 $('.DocumentFormOptional').css('display', 'block')
+                $("#NewDateRo").prop('disabled', false);
             }
             else {
                 $('.DocumentFormOptional').css('display', 'none')
+                $("#NewDateRo").prop('disabled', true);
+                $("#NewDateRo").val('');
             }
 
         });

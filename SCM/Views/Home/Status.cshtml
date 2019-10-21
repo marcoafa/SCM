@@ -26,7 +26,7 @@
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
-                <input type="date" name="InitialDate" value="@DateTime.Now.Date.AddDays(-7).ToString("dd-MMMM-yy")" class="form-control" id="InitialDateStVal" placeholder="Seleccionar una Fecha">
+                <input type="date" name="InitialDate" value="@DateTime.Now.Date.AddDays(-7).ToString("yyyy-MM-dd")" class="form-control" id="InitialDateStVal" placeholder="Seleccionar una Fecha">
             </div>
 
             <!--FINAL DATE-->
@@ -35,7 +35,7 @@
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
-                <input type="date" name="FinalDate" value="@DateTime.Now.Date.ToString("dd-MMMM-yy");" class="form-control" id="FinalDateStVal" placeholder="Seleccionar una Fecha">
+                <input type="date" name="FinalDate" value="@DateTime.Now.Date.ToString("yyyy-MM-dd")" class="form-control" id="FinalDateStVal" placeholder="Seleccionar una Fecha">
             </div>
             <!--INITIAL DATE-->
 
@@ -138,12 +138,12 @@
                     <tr>
 
                         <th scope="col">Manifiesto</th>
-                        <th scope="col">Cliente</th>
+                        <th scope="col">Empresa</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Empleado</th>
-                        <th scope="col">Fecha</th>
+                        <th scope="col">Fecha de Recoleccion</th>
 
-                        <th scope="col">Descargar</th>
+                        <th scope="col">Descargar M</th>
                         <th scope="col">Opciones</th>
                     </tr>
                 </thead>
@@ -156,17 +156,19 @@
                             <td>@item.Customer</td>
                             <td>@item.Status</td>
                             <td>@item.UserName</td>
-                            <td>@item.CreationDate.Date</td>
+                            <td>@item.CreationDate.Date.ToString("dddd, dd MMMM yyyy")</td>
                             <td>
-                                @if (@item.Status != "Finalizado")
+                                @if (@item.Status == "Finalizado")
                                 {
+
                                     <form action="@Url.Action("ExportV3", "Document")" method="post">
                                         <input name="DocumentID" value=" @item.DocumentID" style="display:none;">
                                         <button type="submit" class="btn btn-success btn_big">
-                                            Manifiesto
+                                            <i class="fas fa-download"></i> Descargar
                                         </button>
                                     </form>
                                 }
+
                             </td>
                             <td>
                                 @if (@item.Status != "Finalizado")

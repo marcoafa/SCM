@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SCM.Models.Interfaces;
 using SCM.Models.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace SCM.Controllers
 {
@@ -14,14 +15,16 @@ namespace SCM.Controllers
         private readonly IContainerRepository _containerRepository;
         private readonly IProductRepository _productRepository;
         private readonly ICustomerRepository _customerRepository;
-        
+        private readonly ICompanyRepository _companyRepository;
         //private readonly Icu _containerRepository;
-        public ConfigurationController(IUserRepository userRepository, IContainerRepository containerRepository, IProductRepository productRepository, ICustomerRepository customerRepository)
+        public ConfigurationController(IUserRepository userRepository, IContainerRepository containerRepository, IProductRepository productRepository, ICustomerRepository customerRepository, ICompanyRepository companyRepository)
         {
             _userRepository = userRepository;
             _containerRepository = containerRepository;
             _productRepository = productRepository;
             _customerRepository = customerRepository;
+            _companyRepository = companyRepository;
+
         }
         
         [HttpPost]
@@ -190,7 +193,81 @@ namespace SCM.Controllers
 
 
         }
+        //EDIT CLIENT
+      
+        public IActionResult EditClient(string CompanyName = "All")
+        {
+            var message = "";
+            var sessionU = HttpContext.Session.GetString("UserS");
 
+            //GET THE TYPE OF USER
+            if (sessionU == "User")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                if (CompanyName == "All")
+                {
+                    var company = _companyRepository.GetAllList();
+                    return View(company);
+                }
+                else
+                {
+                    var company = _companyRepository.GetCompany(CompanyName);
+                    return View(company);
+                }
+
+
+
+            }
+
+
+        }
+        //EDIT CLIENT ACTION
+        [HttpPost]
+        public IActionResult EditClientAction(Catalogs DocumentI)
+        {
+            var message = "";
+            var bandera = "true";
+            try
+            {
+                //CHECK USER
+                var checkuser = _userRepository.GetUserName(DocumentI.UserID);
+                if (checkuser == null)
+                {
+                    var user = new User();
+                    user.Name = DocumentI.Username;
+                    user.UserName = DocumentI.UserID;
+                    user.UserTypeId = 3;
+                    user.Password = DocumentI.Password;
+
+                    //SAVE 
+                    _userRepository.Create(user);
+                    message = "El usuario se registro con exito!";
+                }
+                else
+                {
+                    message = "El usuario ya existe en la Base de Datos Favor de Verificarlo";
+                    bandera = "false";
+                }
+
+
+
+
+
+
+                return Json(new { bandera, message });
+            }
+            catch (Exception e)
+            {
+                message = "Hubo un error favor de intentarlo mas tarde o comunicare con su proveedor";
+                bandera = "false";
+                return Json(new { bandera, message });
+            }
+
+
+        }
         public class Catalogs
         {
             public string Username { get; set; }

@@ -19,25 +19,25 @@
 
     <!--NUMBER OF THE DOCUMENT-->
     <div class="form-group row">
-        <label class="control-label col-sm-2 offset-md-2" for="ManifiestoValE">No. Manifiesto:</label>
+        <label class="control-label col-sm-2 offset-md-2" for="ManifiestoValH">No. Manifiesto:</label>
         <div class="col-sm-6 input-group">
 
             <div class="input-group-append">
                 <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
             </div>
-            <input data-old="@Model.DocumentD.DocumentID" type="number" min="0" class="form-control" value="@Model.DocumentD.DocumentID" id="ManifiestoValE" placeholder="Agregar el numero del Manifiesto">
+            <input data-old="@Model.DocumentD.DocumentID" type="number" min="0" class="form-control" value="@Model.DocumentD.DocumentID" id="ManifiestoValH" placeholder="Agregar el numero del Manifiesto">
         </div>
     </div>
     <!--CUSTOMER-->
     <div class="form-group row">
-        <label class="control-label col-sm-2 offset-md-2" for="CustomerValE">Cliente:</label>
+        <label class="control-label col-sm-2 offset-md-2" for="CustomerValH">Cliente:</label>
         <div class="col-sm-6 input-group">
 
             <div class="input-group-append">
                 <span class="input-group-text"><i class="fas fa-address-book"></i></span>
             </div>
 
-            <select class="form-control" id="CustomerValE">
+            <select class="form-control" id="CustomerValH">
 
                 @{foreach (var item in Model.Data.Customers)
                     {
@@ -61,14 +61,14 @@
 
     <!--EMPLOYEE-->
     <div class="form-group row">
-        <label class="control-label col-sm-2 offset-md-2" for="EmployeeValE">Empleado:</label>
+        <label class="control-label col-sm-2 offset-md-2" for="EmployeeValH">Empleado:</label>
         <div class="col-sm-6 input-group">
 
             <div class="input-group-append">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
 
-            <select class="form-control" id="EmployeeValE">
+            <select class="form-control" id="EmployeeValH">
 
                 @{foreach (var item in Model.Data.Users)
                     {
@@ -86,7 +86,57 @@
             </select>
         </div>
     </div>
+    <!--DIVISOR LINE-->
+    <div class="form-group row">
+        <div class="col-sm-8 offset-md-2 input-group">
+            <span style="display:block; width:100%; border:2px solid #007bff;">
 
+            </span>
+
+        </div>
+    </div>
+
+    <!--NUMBER OF THE LICENSE PLATE-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="LicensePlateValH">No. Placas:</label>
+        <div class="col-sm-6 input-group">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-truck-moving"></i></span>
+            </div>
+            <input id="LicensePlateValH" type="text" class="form-control" value="@Model.DocumentD.LicensePlate">
+        </div>
+    </div>
+
+    <!--FECHA DE RECOLECCION-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="NewDateReH">Fecha de Recoleccion</label>
+        <div class="col-sm-3 input-group">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+            </div>
+            <input id="NewDateReH" type="date" value="@Model.DocumentD.CreationDate.Value.Date.ToString("yyyy-MM-dd")" class="form-control">
+        </div>
+    </div>
+
+    <!--FECHA DE RECEPCION-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="NewDateRoH">Fecha de Recepcion</label>
+        <div class="col-sm-3 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+            </div>
+            @if (@Model.DocumentD.ReceptionDate == null)
+            {
+                <input id="NewDateRoH" type="date" class="form-control">
+            }
+            else
+            {
+                <input id="NewDateRoH" type="date" value="@Model.DocumentD.ReceptionDate.Value.Date.ToString("yyyy-MM-dd")" class="form-control">
+            }
+
+        </div>
+    </div>
 
 
     <section class="DocumentFormOptional" style="margin-top:10px;">
@@ -96,7 +146,7 @@
             <label class="col-sm-2 offset-md-2 col-form-label">Agregar Productos</label>
 
             <div class="col-md-2">
-                <button type="button" class="btn btn-primary btn_big AddProduct">Agregar</button>
+                <button type="button" class="btn btn-primary btn_big AddProductH">Agregar</button>
 
             </div>
         </div>
@@ -105,7 +155,7 @@
 
         <!--PRODUCTS WITH THEIR ATRIBUTES-->
         <div class="form-group row">
-            <table class="table table-striped table-dark col-md-10 offset-md-1" id="ProducttableE">
+            <table class="table table-striped table-dark col-md-10 offset-md-1" id="ProducttableH">
                 <thead>
                     <tr>
                         <th scope="col">Descripcion del Producto</th>
@@ -118,9 +168,9 @@
 
                 @{foreach (var item in Model.Products)
                     {
-                        <tr class="participantRow">
+                        <tr class="participantRowH">
                             <td>
-                                <select class="form-control" id="ProductValE">
+                                <select class="form-control" id="ProductValH">
                                     @{foreach (var product in Model.Data.Products)
                                         {
                                             if (product.ProductID == item.ProductID)
@@ -137,14 +187,14 @@
                                 </select>
                             </td>
                             <td>
-                                <input value="@item.Quantity" type="number" min="0" class="form-control" id="ProductQuantityValE" placeholder="Agregar la cantidad del Producto">
+                                <input value="@item.Quantity" type="number" min="0" class="form-control" id="ProductQuantityValH" placeholder="Agregar la cantidad del Producto">
                             </td>
 
                             <td>
-                                <input value="@item.Unit" type="text" class="form-control" id="UnitValE" placeholder="Agregar la capacidad para el Contenedor">
+                                <input value="@item.Unit" type="text" class="form-control" id="UnitValH" placeholder="Agregar la capacidad para el Contenedor">
                             </td>
                             <td>
-                                <select class="form-control" id="ContainerValE">
+                                <select class="form-control" id="ContainerValH">
                                     @{foreach (var container in Model.Data.Containers)
                                         {
                                             if (container.ContainerID == item.ContainerID)
@@ -163,7 +213,7 @@
                                 </select>
                             </td>
                             <td>
-                                <select class="form-control" id="ManagementValE">
+                                <select class="form-control" id="ManagementValH">
 
 
                                     @{foreach (var management in Model.Data.ManagementsTypes)
@@ -201,11 +251,11 @@
     <!--BUTTON TO SAVE THE DOCUMENT-->
     <div class="form-group row">
         <div class="col-md-2 offset-md-2">
-            <a class="btn btn-primary" asp-action="Status" asp-controller="Home">Back</a>
+            <a class="btn btn-primary" asp-action="History" asp-controller="Home">Back</a>
         </div>
 
         <div class="col-md-2 offset-md-5">
-            <button style="text-align:right" class="btn btn-primary EditDocumentBtnU">Editar Manifiesto</button>
+            <button style="text-align:right" class="btn btn-primary EditDocumentBtnH">Editar Manifiesto</button>
         </div>
     </div>
 </section>
@@ -227,48 +277,50 @@
         }
         /*  Variables */
 
-        var CompleteDrow = $(".participantRow");
+        var CompleteDrow = $(".participantRowH");
 
         /* Functions */
 
 
         function addRowC() {
-            CompleteDrow.clone(true, true).appendTo("#ProducttableE");
+            CompleteDrow.clone(true, true).appendTo("#ProducttableH");
         }
 
-        $('.AddProduct').on("click", function () {
+        $('.AddProductH').on("click", function () {
 
 
 
-            if ($("#ProducttableE tr").length < 17) {
+            if ($("#ProducttableH tr").length < 17) {
                 addRowC();
 
             }
-            $(this).closest("tr").appendTo("#ProducttableE");
+            $(this).closest("tr").appendTo("#ProducttableH");
 
 
 
         });
-        $("#ProducttableE").on('click', '.remove', function () {
+        $("#ProducttableH").on('click', '.remove', function () {
             removeRow($(this));
 
         });
         function removeRow(button) {
             button.closest("tr").remove();
         }
-        $('.EditDocumentBtnU').on("click", function () {
+        $('.EditDocumentBtnH').on("click", function () {
 
             debugger;
 
-            var DocumentID = $('#ManifiestoValE').val();
-            var OldDocumentID = $('#ManifiestoValE').attr("data-old");
+            var DocumentID = $('#ManifiestoValH').val();
+            var OldDocumentID = $('#ManifiestoValH').attr("data-old");
 
-            var DocumentCustomerID = $('#CustomerValE').val();
-            var DocumentEmployeeID = $('#EmployeeValE').val();
+            var DocumentCustomerID = $('#CustomerValH').val();
+            var DocumentEmployeeID = $('#EmployeeValH').val();
+            var DocumentPlate = $('#LicensePlateValH').val();
+            var DocumentDateRe = $('#NewDateReH').val();
+            var DocumentDateRo = $('#NewDateRoH').val();
 
 
-
-            SaveDocumentJSE(DocumentID, OldDocumentID, DocumentCustomerID, DocumentEmployeeID);
+            SaveDocumentJSH(DocumentID, OldDocumentID, DocumentCustomerID, DocumentEmployeeID, DocumentPlate, DocumentDateRe, DocumentDateRo);
 
 
 
@@ -276,7 +328,8 @@
 
         });
 
-        function SaveDocumentJSE(DocumentID, OldDocumentID, DocumentCustomerID, DocumentEmployeeID) {
+        function SaveDocumentJSH(DocumentID, OldDocumentID, DocumentCustomerID, DocumentEmployeeID, DocumentPlate, DocumentDateRe, DocumentDateRo) {
+
             var ListProducts = [];
             var FlagError = 'NoError';
             var data = new FormData();
@@ -284,10 +337,12 @@
             data.append("OldDocumentID", OldDocumentID);
             data.append("DocumentCustomerID", DocumentCustomerID);
             data.append("DocumentEmployeeID", DocumentEmployeeID);
+            data.append("DocumentPlate", DocumentPlate);
+            data.append("DocumentDateRe", DocumentDateRe);
+            data.append("DocumentDateRo", DocumentDateRo);
+            
 
-
-
-            $("#ProducttableE tbody tr").each(function (index) {
+            $("#ProducttableH tbody tr").each(function (index) {
 
 
                 var product = $($(this).children("td")[0]).children().val();
@@ -319,7 +374,7 @@
 
             //data.append("ListProducts", ListProducts);
             debugger;
-            var url = '@Url.Action("EditDocumentAction", "Document")';
+            var url = '@Url.Action("EditHistoryAction", "Document")';
             if (FlagError == 'NoError') {
                 $.ajax({
                     url: url,
@@ -333,8 +388,8 @@
                     success: function (r) {
 
                         if (r == "true") {
-                            alert("El manifiesto se edito con exito");
-                            let urlR = '@Url.Action("Status", "Home")';
+                            alert("El historial del manifiesto se edito con exito");
+                            let urlR = '@Url.Action("History", "Home")';
 
 
                             window.location.href = urlR;
@@ -411,7 +466,7 @@
 
 
             debugger;
-            $(".ProductRows").append(table);
+            $(".participantRowH").append(table);
 
 
 

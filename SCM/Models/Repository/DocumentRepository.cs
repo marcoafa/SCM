@@ -26,7 +26,9 @@ namespace SCM.Models.Repository
                 CustomerId = (short)FullDocument.DocumentCustomerID,
                 DocumentStatusId = DocumentStatus,
                 CompanyId = 1,
-                CreationDate = DateTime.Now,
+                CreationDate = FullDocument.DocumentDateRe,
+                ReceptionDate = FullDocument.DocumentDateRo,
+                LicensePlate = FullDocument.DocumentPlate,
                 UserId = (short)FullDocument.DocumentEmployeeID
 
             };
@@ -104,7 +106,8 @@ namespace SCM.Models.Repository
 
                 });
                 Document.DocumentStatusId = 3;
-              
+                Document.ReceptionDate = FullDocument.DocumentDateRo;
+
                 flag = "ProductError";
                 _context.SaveChanges();
                 
@@ -141,6 +144,61 @@ namespace SCM.Models.Repository
                 return flag;
             }
         }
+        public string EditFullHistory(DocumentInfo FullDocument)
+        {
+            var flag = "true";
+
+            var OldDocuments = _context.History
+                .Where(x => x.DocumentId == FullDocument.OldDocumentID)
+                .ToList();
+
+            flag = "errordelete";
+            OldDocuments.ForEach(x =>
+            {
+
+                _context.Remove(x);
+                _context.SaveChanges();
+            }
+            );
+           
+            try
+            {
+                FullDocument.ListProducts.ForEach(x =>
+                {
+                  
+                   
+                    var History = new History();
+                    //History.CreationDate = DateTime.Now.Date;
+                    History.DocumentId = FullDocument.DocumentID;
+                    History.CustomerId = (short?)FullDocument.DocumentCustomerID;
+                    History.ContainerName = _context.Container.Where(u => u.ContainerId == x.ContainerID).FirstOrDefault().ContainerDescription;
+                    History.ManagementName = _context.ManagementProduct.Where(u => u.ManagementId == x.ManagementID).FirstOrDefault().ManagementName;
+                    History.ProductName = _context.Product.Where(u => u.ProductId == x.ProductID).FirstOrDefault().ProductName;
+                    History.Quantity = (short?)x.Quantity;
+                    History.Unit = x.Unit;
+                    History.LicensePlate = FullDocument.DocumentPlate;
+                    History.CreationDate = FullDocument.DocumentDateRe;
+                    History.ReceptionDate = FullDocument.DocumentDateRo;
+                    History.UserName = _context.User.Where(u => u.UsersId == FullDocument.DocumentEmployeeID).FirstOrDefault().UserName;
+                    flag = "errorupdate";
+                    _context.History.Add(History);
+                    _context.SaveChanges();
+                   
+                   
+                });
+               
+
+
+                flag = "True";
+                return flag;
+
+               
+            }
+            catch (Exception e)
+            {
+                return flag;
+            }
+        }
         public List<DocumentsVM> GetFullDocuments() {
 
             var DocumentsVM = new List<DocumentsVM>();
@@ -152,6 +210,7 @@ namespace SCM.Models.Repository
                     CreationDate = (DateTime)x.CreationDate,
                     Customer = x.Customer.CustomerName,
                     UserName = x.User.UserName
+                    
                 }).ToList();
 
             return DocumentsVM;
@@ -263,7 +322,10 @@ namespace SCM.Models.Repository
                  {
                      DocumentID = DocumentID,
                      Customer = x.Customer.CustomerName,
-                     Username = x.User.UserName
+                     Username = x.User.UserName,
+                     CreationDate = x.CreationDate.Value,
+                     ReceptionDate = x.ReceptionDate.Value,
+                     LicensePlate = x.LicensePlate
                  }).FirstOrDefault();
         }
             
@@ -319,6 +381,9 @@ namespace SCM.Models.Repository
             DocumentsVM.DocumentD.DocumentID = Documentinfo.DocumentId.Value;
             DocumentsVM.DocumentD.Customer = _context.Customer.Where(u => u.CustomerId == Documentinfo.CustomerId).FirstOrDefault().CustomerName;
             DocumentsVM.DocumentD.Username = Documentinfo.UserName;
+            DocumentsVM.DocumentD.LicensePlate = Documentinfo.LicensePlate;
+            DocumentsVM.DocumentD.ReceptionDate = Documentinfo.ReceptionDate;
+            DocumentsVM.DocumentD.CreationDate = Documentinfo.CreationDate;
 
             _context.History.Where(x => x.DocumentId == DocumentID).ToList().ForEach(x => {
                 var DP = new DataProductsEdit()
@@ -348,6 +413,17 @@ namespace SCM.Models.Repository
             DocumentsVM.DocumentD.DocumentID = Documentinfo.DocumentId;
             DocumentsVM.DocumentD.Customer = _context.Customer.Where(u => u.CustomerId == Documentinfo.CustomerId).FirstOrDefault().CustomerName;
             DocumentsVM.DocumentD.Username = _context.User.Where(u => u.UsersId == Documentinfo.UserId).FirstOrDefault().UserName;
+            DocumentsVM.DocumentD.LicensePlate = Documentinfo.LicensePlate;
+            DocumentsVM.DocumentD.CreationDate = Documentinfo.CreationDate;
+            DocumentsVM.DocumentD.ReceptionDate = Documentinfo.ReceptionDate;
+
+            //CLIENT INFO
+            DocumentsVM.DocumentD.ClientName = _context.Customer.Where(x => x.CustomerId == Documentinfo.CustomerId).FirstOrDefault().CustomerName;
+            DocumentsVM.DocumentD.ClientAddress = _context.Customer.Where(x => x.CustomerId == Documentinfo.CustomerId).FirstOrDefault().CustomerAdress;
+            DocumentsVM.DocumentD.ClientPhone = _context.Customer.Where(x => x.CustomerId == Documentinfo.CustomerId).FirstOrDefault().Phone;
+            DocumentsVM.DocumentD.ClientBussines = _context.Customer.Where(x => x.CustomerId == Documentinfo.CustomerId).FirstOrDefault().Business;
+            
+            //DocumentsVM.DocumentD.Username = _context.User.Where(u => u.UsersId == Documentinfo.UserId).FirstOrDefault().UserName;
 
             _context.Waste.Where(u => u.DocumentId == Documentinfo.DocumentId).ToList().ForEach(x => {
                 var DP = new DataProductsEdit()
@@ -380,7 +456,7 @@ namespace SCM.Models.Repository
                     listWastes = _context.Waste.Where(t => t.DocumentId == x.DocumentId).ToList();
                     listWastes.ForEach(i => {
                         var History = new History();
-                        History.CreationDate = DateTime.Now.Date;
+                        History.CreationDate = x.CreationDate;
                         History.DocumentId = x.DocumentId;
                         History.CustomerId = x.CustomerId;
                         History.ContainerName = _context.Container.Where(u => u.ContainerId == i.ContainerId).FirstOrDefault().ContainerDescription;
@@ -388,6 +464,9 @@ namespace SCM.Models.Repository
                         History.ProductName = _context.Product.Where(u => u.ProductId == i.ProductId).FirstOrDefault().ProductName;
                         History.Quantity = i.Quantity;
                         History.Unit = i.Unit;
+                        History.LicensePlate = x.LicensePlate == null ? null : x.LicensePlate;
+                        History.ReceptionDate = x.LicensePlate == null ? null :x.ReceptionDate;
+                        
                         History.UserName = _context.User.Where(u => u.UsersId == x.UserId).FirstOrDefault().UserName;
                         _context.History.Add(History);
                         _context.SaveChanges();

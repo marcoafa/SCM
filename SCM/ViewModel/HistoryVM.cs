@@ -24,6 +24,8 @@ namespace SCM.ViewModel
         public string ContainerName { get; set; }
         public string Unit { get; set; }
         public DateTime? CreationDate { get; set; }
+        public DateTime? ReceptionDate { get; set; }
+        public string LicensePlate { get; set; }
         public string UserName { get; set; }
         public string CustomerName { get; set; }
     }

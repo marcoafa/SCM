@@ -85,6 +85,57 @@
         </div>
     </div>
 
+    <!--DIVISOR LINE-->
+    <div class="form-group row">
+        <div class="col-sm-8 offset-md-2 input-group">
+            <span style="display:block; width:100%; border:2px solid #007bff;">
+
+            </span>
+
+        </div>
+    </div>
+
+    <!--NUMBER OF THE LICENSE PLATE-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="LicensePlateValE">No. Placas:</label>
+        <div class="col-sm-6 input-group">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-truck-moving"></i></span>
+            </div>
+            <input id="LicensePlateValE" type="text" class="form-control" value="@Model.DocumentD.LicensePlate">
+        </div>
+    </div>
+
+    <!--FECHA DE RECOLECCION-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="NewDateReE">Fecha de Recoleccion</label>
+        <div class="col-sm-3 input-group">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+            </div>
+            <input id="NewDateReE" type="date" value="@Model.DocumentD.CreationDate.Value.Date.ToString("yyyy-MM-dd")" class="form-control" >
+        </div>
+    </div>
+
+    <!--FECHA DE RECEPCION-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="NewDateRoE">Fecha de Recepcion</label>
+        <div class="col-sm-3 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+            </div>
+            @if (@Model.DocumentD.ReceptionDate == null)
+            {
+                <input id="NewDateRoE" type="date" class="form-control">
+            }
+            else
+            {
+                <input id="NewDateRoE" type="date" value="@Model.DocumentD.ReceptionDate.Value.Date.ToString("yyyy-MM-dd")" class="form-control">
+            }
+
+        </div>
+    </div>
 
 
     <section class="DocumentFormOptional" style="margin-top:10px;">
@@ -201,7 +252,7 @@
         <div class="col-md-2 offset-md-2">
             <a class="btn btn-primary" asp-action="Status" asp-controller="Home">Back</a>
         </div>
-        
+
         <div class="col-md-2 offset-md-5">
             <button style="text-align:right" class="btn btn-primary EditDocumentBtnU">Editar Manifiesto</button>
         </div>
@@ -263,10 +314,11 @@
            
             var DocumentCustomerID = $('#CustomerValE').val();
             var DocumentEmployeeID = $('#EmployeeValE').val();
-
-
+            var DocumentPlate = $('#LicensePlateValE').val();
+            var DocumentDateRe = $('#NewDateReE').val();
+            var DocumentDateRo = $('#NewDateRoE').val();
                    
-            SaveDocumentJSE(DocumentID, OldDocumentID, DocumentCustomerID, DocumentEmployeeID);
+            SaveDocumentJSE(DocumentID, OldDocumentID, DocumentCustomerID, DocumentEmployeeID, DocumentPlate, DocumentDateRe, DocumentDateRo);
 
 
 
@@ -274,7 +326,7 @@
 
         });
 
-        function SaveDocumentJSE(DocumentID, OldDocumentID, DocumentCustomerID, DocumentEmployeeID) {
+        function SaveDocumentJSE(DocumentID, OldDocumentID, DocumentCustomerID, DocumentEmployeeID, DocumentPlate, DocumentDateRe, DocumentDateRo) {
             var ListProducts = [];
             var FlagError = 'NoError';
             var data = new FormData();
@@ -282,8 +334,9 @@
             data.append("OldDocumentID", OldDocumentID);
             data.append("DocumentCustomerID", DocumentCustomerID);
             data.append("DocumentEmployeeID", DocumentEmployeeID);
-
-
+            data.append("DocumentPlate", DocumentPlate);
+            data.append("DocumentDateRe", DocumentDateRe);
+            data.append("DocumentDateRo", DocumentDateRo);
 
             $("#ProducttableE tbody tr").each(function (index) {
 

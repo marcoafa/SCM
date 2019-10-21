@@ -59,6 +59,14 @@ namespace SCM.ViewModel
         public int DocumentID { get; set; }
         public string Username { get; set; }
         public string Customer { get; set; }
+        public string LicensePlate { get; set; }
+        public DateTime? CreationDate { get; set; }
+        public DateTime? ReceptionDate { get; set; }
+
+        public string ClientName { get; set; }
+        public string ClientPhone { get; set; }
+        public string ClientAddress { get; set; }
+        public string ClientBussines { get; set; }
     }
 
 }

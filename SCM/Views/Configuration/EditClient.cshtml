@@ -1,0 +1,121 @@
+﻿@using SCM.Models.Entities;
+@model List<Company>;
+@{
+    ViewData["Title"] = "EditClient";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="Document">
+    <div class="divHeader">
+
+        <h2 style="color: white;" class="text-center">Editar Empresa</h2>
+
+
+    </div>
+    <!--GET DATA COMPANY-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="NewUsername">Seleccionar Empresa:</label>
+        <div class="col-sm-6 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+            </div>
+            <select class="form-control" id="CustomerVal">
+                <option value="0">Por favor selecciona un Cliente</option>
+                @{foreach (var item in Model)
+                    {
+                        <option value="@item.CompanyId">@item.CompanyName</option>
+                    }
+                }
+
+
+
+            </select>
+        </div>
+        <div class="col-sm-1 input-group">
+            <button type="button" class="btn btn-success btn_big FindCompany">
+                <i class="fas fa-angle-right"></i> Buscar
+            </button>
+        </div>
+
+    </div>
+
+    <!--DATOS DE LA EMPRESA-->
+
+    @if (Model.Count == 1)
+    {
+
+        <!--COMPANY NAME-->
+        <div class="form-group row">
+            <label class="control-label col-sm-2 offset-md-2" for="CompanyVal">Nombre de la Empresa:</label>
+            <div class="col-sm-6 input-group">
+
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+                </div>
+                <input id="CompanyVal" type="text" value="@Model.FirstOrDefault().CompanyName" class="form-control">
+            </div>
+        </div>
+
+        <!--ADRESS-->
+        <div class="form-group row">
+            <label class="control-label col-sm-2 offset-md-2" for="AdressVal">Direccion:</label>
+            <div class="col-sm-6 input-group">
+
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+                </div>
+                <input id="AdressVal" type="text" value="@Model.FirstOrDefault().Adress" class="form-control">
+            </div>
+        </div>
+
+        <!--PHONE-->
+        <div class="form-group row">
+            <label class="control-label col-sm-2 offset-md-2" for="PhoneVal">Telefono:</label>
+            <div class="col-sm-6 input-group">
+
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+                </div>
+                <input id="PhoneVal" type="text" value="@Model.FirstOrDefault().Phone" class="form-control">
+            </div>
+        </div>
+
+        <!--EMAIL-->
+        <div class="form-group row">
+            <label class="control-label col-sm-2 offset-md-2" for="PhoneVal">Telefono:</label>
+            <div class="col-sm-6 input-group">
+
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+                </div>
+                <input id="PhoneVal" type="email" value="@Model.FirstOrDefault().Email" class="form-control">
+            </div>
+        </div>
+
+        <!--TARGET-->
+        <div class="form-group row">
+            <label class="control-label col-sm-2 offset-md-2" for="TargetVal">Giro:</label>
+            <div class="col-sm-6 input-group">
+
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+                </div>
+                <input id="TargetVal" type="text" value="@Model.FirstOrDefault().Target" class="form-control">
+            </div>
+        </div>
+
+        <!--BUTTON TO EDIT THE COMPANY-->
+        <div class="form-group row">
+            <div class="col-md-2 offset-md-8">
+                <button style="text-align:right" class="btn btn-primary EditCompany">Editar</button>
+            </div>
+        </div>
+
+    }
+
+
+</section>
+
+

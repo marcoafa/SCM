@@ -14,7 +14,7 @@
 
 
     </div>
-   
+
 
     <!--NUMBER OF THE DOCUMENT-->
     <div class="form-group row">
@@ -52,7 +52,41 @@
         </div>
     </div>
 
+    <!--NUMBER OF THE LICENSE PLATE-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="LicensePlateValC">No. Placas:</label>
+        <div class="col-sm-6 input-group">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-truck-moving"></i></span>
+            </div>
+            <input disabled id="LicensePlateValC" type="text" class="form-control" value="@Model.DocumentD.LicensePlate">
+        </div>
+    </div>
 
+    <!--FECHA DE RECOLECCION-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="NewDateReC">Fecha de Recoleccion</label>
+        <div class="col-sm-3 input-group">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+            </div>
+            <input disabled id="NewDateReC" type="date" value="@Model.DocumentD.CreationDate.Value.Date.ToString("yyyy-MM-dd")" class="form-control">
+        </div>
+    </div>
+
+    <!--FECHA DE RECEPCION-->
+    <div class="form-group row">
+        <label class="control-label col-sm-2 offset-md-2" for="NewDateRoC">Fecha de Recepcion</label>
+        <div class="col-sm-3 input-group">
+
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+            </div>
+           
+                <input id="NewDateRoC" type="date" class="form-control">
+         
+        </div>
+    </div>
     <section class="DocumentFormOptional" margin-top:10px;">
 
         <!--ADD PRODUCTS-->
@@ -198,8 +232,8 @@
            
 
             var DocumentID = $('#ManifiestoValC').val();
-          
-            SaveDocumentJSC(DocumentID);
+            var DocumentDateRo = $('#NewDateRoC').val();
+            SaveDocumentJSC(DocumentID, DocumentDateRo);
                  
 
 
@@ -207,82 +241,89 @@
 
         });
 
-        function SaveDocumentJSC(DocumentID) {
+        function SaveDocumentJSC(DocumentID, DocumentDateRo) {
             var ListProducts = [];
             var FlagError = 'NoError';
             var data = new FormData();
             data.append("DocumentID", DocumentID);
+            data.append("DocumentDateRo", DocumentDateRo);
           
+            if (DocumentDateRo == '') {
+                alert('Por favor de agregar la fecha de Recoleccion');
 
-            
-
-            $("#ProducttableC tbody tr").each(function (index) {
-
-
-                var product = $($(this).children("td")[0]).children().val();
-                var quantityProduct = $($(this).children("td")[1]).children().val();
-                var capacity = $($(this).children("td")[2]).children().val();
-                var typecontainer = $($(this).children("td")[3]).children().val();
-                var productmag = $($(this).children("td")[4]).children().val();
-
-                ValidateProducts(product, quantityProduct, typecontainer, productmag);
-
-                var Prod = new ProductRow(product, typecontainer, productmag, quantityProduct, capacity);
-                ListProducts.push(Prod);
-
-
-            });
-
-            var index = 0;
-            for (var product of ListProducts) {
-
-                data.append("ListProducts[" + index + "].ProductID", product.ProductID);
-                data.append("ListProducts[" + index + "].ContainerID", product.ContainerID);
-                data.append("ListProducts[" + index + "].ManagementID", product.ManagementID);
-                data.append("ListProducts[" + index + "].Quantity", product.Quantity);
-                data.append("ListProducts[" + index + "].Unit", product.Unit);
-                index++;
             }
-            
+            else {
 
 
-            //data.append("ListProducts", ListProducts);
-            debugger;
-            var url = '@Url.Action("AddDocumentC", "Status")';
-            if (FlagError == 'NoError') {
-                $.ajax({
-                    url: url,
-                    data: data,
-                    //dataType: "JSON",
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    assign: false,
-                    method: "post",
-                    success: function (r) {
-                       
-                        debugger;
-                        if (r == "true") {
-                            alert("Se completo el manifiesto con exito!");
-
-                            let urlR = '@Url.Action("Status", "Home")';
-                          
-                           
-                            window.location.href = urlR;
-                        }
-                        else {
-                            alert("Hubo en error favor de verificar la informacion o inentarlo de nuevo");
-                        }
 
 
-                    },
-                    error: function () {
+                $("#ProducttableC tbody tr").each(function (index) {
 
-                        alert("Error intente mas tarde");
-                    }
+
+                    var product = $($(this).children("td")[0]).children().val();
+                    var quantityProduct = $($(this).children("td")[1]).children().val();
+                    var capacity = $($(this).children("td")[2]).children().val();
+                    var typecontainer = $($(this).children("td")[3]).children().val();
+                    var productmag = $($(this).children("td")[4]).children().val();
+
+                    ValidateProducts(product, quantityProduct, typecontainer, productmag);
+
+                    var Prod = new ProductRow(product, typecontainer, productmag, quantityProduct, capacity);
+                    ListProducts.push(Prod);
+
+
                 });
+
+                var index = 0;
+                for (var product of ListProducts) {
+
+                    data.append("ListProducts[" + index + "].ProductID", product.ProductID);
+                    data.append("ListProducts[" + index + "].ContainerID", product.ContainerID);
+                    data.append("ListProducts[" + index + "].ManagementID", product.ManagementID);
+                    data.append("ListProducts[" + index + "].Quantity", product.Quantity);
+                    data.append("ListProducts[" + index + "].Unit", product.Unit);
+                    index++;
+                }
+
+
+
+                //data.append("ListProducts", ListProducts);
+                debugger;
+                var url = '@Url.Action("AddDocumentC", "Status")';
+                if (FlagError == 'NoError') {
+                    $.ajax({
+                        url: url,
+                        data: data,
+                        //dataType: "JSON",
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        assign: false,
+                        method: "post",
+                        success: function (r) {
+
+                            debugger;
+                            if (r == "true") {
+                                alert("Se completo el manifiesto con exito!");
+
+                                let urlR = '@Url.Action("Status", "Home")';
+
+
+                                window.location.href = urlR;
+                            }
+                            else {
+                                alert("Hubo en error favor de verificar la informacion o inentarlo de nuevo");
+                            }
+
+
+                        },
+                        error: function () {
+
+                            alert("Error intente mas tarde");
+                        }
+                    });
+                }
             }
-          
         }
 
         function ValidateProducts(product, quantityProduct, typecontainer, productmag) {

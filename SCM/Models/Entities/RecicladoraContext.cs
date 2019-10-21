@@ -53,6 +53,8 @@ namespace SCM.Models.Entities
                 entity.Property(e => e.Email).HasMaxLength(50);
 
                 entity.Property(e => e.Phone).HasMaxLength(50);
+
+                entity.Property(e => e.Target).HasMaxLength(100);
             });
 
             modelBuilder.Entity<Container>(entity =>
@@ -86,6 +88,10 @@ namespace SCM.Models.Entities
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
 
                 entity.Property(e => e.DocumentStatusId).HasColumnName("DocumentStatusID");
+
+                entity.Property(e => e.LicensePlate).HasMaxLength(50);
+
+                entity.Property(e => e.ReceptionDate).HasColumnType("datetime");
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
@@ -136,9 +142,13 @@ namespace SCM.Models.Entities
 
                 entity.Property(e => e.DocumentId).HasColumnName("DocumentID");
 
+                entity.Property(e => e.LicensePlate).HasMaxLength(50);
+
                 entity.Property(e => e.ManagementName).HasMaxLength(250);
 
                 entity.Property(e => e.ProductName).HasMaxLength(200);
+
+                entity.Property(e => e.ReceptionDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Unit).HasMaxLength(50);
 
